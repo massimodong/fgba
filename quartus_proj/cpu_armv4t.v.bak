@@ -1,0 +1,4 @@
+module cpu_armv4t(
+	input clk
+);
+endmodule

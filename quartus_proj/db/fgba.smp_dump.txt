@@ -1,0 +1,7 @@
+
+State Machine - |fgba|cpu_armv4t:cpu|cpu_state
+Name cpu_state.s_ex cpu_state.s_id cpu_state.s_if cpu_state.s_init 
+cpu_state.s_init 0 0 0 0 
+cpu_state.s_if 0 0 1 1 
+cpu_state.s_id 0 1 0 1 
+cpu_state.s_ex 1 0 0 1 

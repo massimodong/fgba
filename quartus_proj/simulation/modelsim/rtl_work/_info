@@ -1,0 +1,252 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/simulation/modelsim
+vadmode1_shifter
+Z1 !s110 1542980416
+!i10b 1
+!s100 GEc90:;I22HkiBBz@:[?W0
+IVfT2o4VkOjOY4Eg2UMFX02
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1542959011
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/admode1_shifter.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/admode1_shifter.v
+L0 1
+Z3 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z4 !s108 1542980416.000000
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/admode1_shifter.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/admode1_shifter.v|
+!i113 1
+Z5 o-vlog01compat -work work
+Z6 !s92 -vlog01compat -work work +incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj
+Z7 tCvgOpt 0
+vadmode2_shifter
+R1
+!i10b 1
+!s100 dX14Ni9ZBR?>4oo;GGS0b1
+IEXT9Hh^@T5Uk?]NePV^J03
+R2
+R0
+w1542968135
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/admode2_shifter.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/admode2_shifter.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/admode2_shifter.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/admode2_shifter.v|
+!i113 1
+R5
+R6
+R7
+valu
+R1
+!i10b 1
+!s100 <OQ8XP[ZLen^HOb9m:P;n0
+IAmn>:HCWKhQGO3n1l_J]o2
+R2
+R0
+w1542886940
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/alu.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/alu.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/alu.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/alu.v|
+!i113 1
+R5
+R6
+R7
+vcond_check
+R1
+!i10b 1
+!s100 A;ZaX1NbbHHk@9fGM1K@V0
+IVE98F_KU2hY^XkFPcKzOC1
+R2
+R0
+w1542966590
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/cond_check.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/cond_check.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/cond_check.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/cond_check.v|
+!i113 1
+R5
+R6
+R7
+vcpu_armv4t
+R1
+!i10b 1
+!s100 =Ql3zg^i6;BlLo6@EFO^U2
+IA_X`JB=iMD5K:mlD60i>61
+R2
+R0
+w1542980331
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/cpu_armv4t.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/cpu_armv4t.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/cpu_armv4t.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/cpu_armv4t.v|
+!i113 1
+R5
+R6
+R7
+vfgba
+R1
+!i10b 1
+!s100 IRAWfYPSU0=EmYG6izVEf2
+I@7:SXV@HXB9RX:o_^2_J60
+R2
+R0
+w1542953991
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/fgba.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/fgba.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/fgba.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/fgba.v|
+!i113 1
+R5
+R6
+R7
+vfgba_vlg_tst
+Z8 !s110 1542980417
+!i10b 1
+!s100 :[4QzJILh3z;BKnII_dOM0
+In6<cKLMj?1Pgo6GoKSb661
+R2
+R0
+w1542967330
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/simulation/modelsim/fgba.vt
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/simulation/modelsim/fgba.vt
+L0 28
+R3
+r1
+!s85 0
+31
+Z9 !s108 1542980417.000000
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/simulation/modelsim/fgba.vt|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/simulation/modelsim|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/simulation/modelsim/fgba.vt|
+!i113 1
+R5
+!s92 -vlog01compat -work work +incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/simulation/modelsim
+R7
+vgraphic
+R1
+!i10b 1
+!s100 ^_HXbBM16?U68D_ld]JAR3
+IM9UlNhL2=DeP5`[[j@RRU1
+R2
+R0
+w1542958892
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/graphic.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/graphic.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/graphic.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/graphic.v|
+!i113 1
+R5
+R6
+R7
+vmemory
+R8
+!i10b 1
+!s100 cHaTEb`Y4Ofa<8RS5LmTf1
+I`94?MQT6P26VF[Z>mbYXc0
+R2
+R0
+w1542963241
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/memory.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/memory.v
+L0 1
+R3
+r1
+!s85 0
+31
+R9
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/memory.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/memory.v|
+!i113 1
+R5
+R6
+R7
+vvgac
+R1
+!i10b 1
+!s100 lf1c;fzY_i6b;T4j1Wz@;2
+Ie=VKYln6^`E94DQ2dED1W1
+R2
+R0
+w1542953990
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/vgac.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/vgac.v
+L0 6
+R3
+r1
+!s85 0
+31
+R4
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/vgac.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/vgac.v|
+!i113 1
+R5
+R6
+R7
+vvram
+R1
+!i10b 1
+!s100 on[GEUK:7heReMR<ef?Cf0
+I>n6M1bIF>Pfh?QX]6K?g72
+R2
+R0
+w1542893423
+8/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/vram.v
+F/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/vram.v
+L0 39
+R3
+r1
+!s85 0
+31
+R4
+!s107 /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/vram.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+/home/massimo/W/nju/verilog/gba/fgba/quartus_proj|/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/vram.v|
+!i113 1
+R5
+R6
+R7

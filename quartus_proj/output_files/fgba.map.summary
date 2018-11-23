@@ -1,0 +1,17 @@
+Analysis & Synthesis Status : Successful - Fri Nov 23 21:40:08 2018
+Quartus Prime Version : 17.1.0 Build 590 10/25/2017 SJ Lite Edition
+Revision Name : fgba
+Top-level Entity Name : fgba
+Family : Cyclone V
+Logic utilization (in ALMs) : N/A
+Total registers : 9084
+Total pins : 31
+Total virtual pins : 0
+Total block memory bits : 737,280
+Total DSP Blocks : 0
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 0
+Total DLLs : 0

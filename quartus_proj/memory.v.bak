@@ -1,0 +1,11 @@
+module memory(
+	input clk,
+	inout [31:0]addr,
+	inout [31:0]data,
+	input read,
+	input write
+);
+
+assign data = read ? out : 32'bz;
+
+endmodule
