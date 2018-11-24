@@ -1,0 +1,5 @@
+quartus_proj/fgba.qws
+quartus_proj/db/*
+quartus_proj/incremental_db/*
+quartus_proj/output_files/*
+*.bak
