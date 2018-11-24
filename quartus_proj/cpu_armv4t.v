@@ -248,7 +248,7 @@ wire [1:0]mode23_LEN = admode3 ? instr[5] : instr[22] ? 0 : 2; // 2: word, 1: ha
 
 wire [31:0]mode2_offset;
 admode2_shifter admode2_shifter1(instr, r[instr[3:0]], f_c, mode2_offset);
-wire [31:0]mode3_offset = instr[22] ? {instr[11:8], instr[3:0]} : r[instr[3:0]];
+wire [31:0]mode3_offset = instr[22] ? {24'b0, instr[11:8], instr[3:0]} : r[instr[3:0]];
 wire [31:0]mode23_offset = admode2 ? mode2_offset : mode3_offset;
 wire [31:0]mode23_address_offset = mode23_U ? (r[rn] + mode23_offset) : (r[rn] - mode23_offset);
 wire [31:0]mode23_address = mode23_P ? mode23_address_offset : r[rn];
