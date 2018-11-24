@@ -1,5 +1,5 @@
 Analysis & Synthesis report for fgba
-Sat Nov 24 20:35:08 2018
+Sat Nov 24 21:24:53 2018
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -10,8 +10,26 @@ Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
   2. Analysis & Synthesis Summary
   3. Analysis & Synthesis Settings
   4. Parallel Compilation
-  5. Analysis & Synthesis Messages
-  6. Analysis & Synthesis Suppressed Messages
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. Analysis & Synthesis RAM Summary
+  9. Analysis & Synthesis IP Cores Summary
+ 10. State Machine - |fgba|cpu_armv4t:cpu|cpu_state
+ 11. Registers Removed During Synthesis
+ 12. General Register Statistics
+ 13. Inverted Register Statistics
+ 14. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 15. Source assignments for memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated
+ 16. Parameter Settings for User Entity Instance: memory:mem|vram:v_ram|altsyncram:altsyncram_component
+ 17. Parameter Settings for User Entity Instance: cpu_armv4t:cpu
+ 18. altsyncram Parameter Settings by Entity Instance
+ 19. Port Connectivity Checks: "graphic:grp|vgac:vga1"
+ 20. Port Connectivity Checks: "cpu_armv4t:cpu|admode1_shifter:admode1_shifter1"
+ 21. Post-Synthesis Netlist Statistics for Top Partition
+ 22. Elapsed Time Per Partition
+ 23. Analysis & Synthesis Messages
+ 24. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -34,22 +52,27 @@ refer to the applicable agreement for further details.
 
 
 
-+---------------------------------------------------------------------------+
-; Analysis & Synthesis Summary                                              ;
-+-----------------------------+---------------------------------------------+
-; Analysis & Synthesis Status ; Failed - Sat Nov 24 20:35:08 2018           ;
-; Quartus Prime Version       ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
-; Revision Name               ; fgba                                        ;
-; Top-level Entity Name       ; fgba                                        ;
-; Family                      ; Cyclone V                                   ;
-; Logic utilization (in ALMs) ; N/A until Partition Merge                   ;
-; Total registers             ; N/A until Partition Merge                   ;
-; Total pins                  ; N/A until Partition Merge                   ;
-; Total virtual pins          ; N/A until Partition Merge                   ;
-; Total block memory bits     ; N/A until Partition Merge                   ;
-; Total PLLs                  ; N/A until Partition Merge                   ;
-; Total DLLs                  ; N/A until Partition Merge                   ;
-+-----------------------------+---------------------------------------------+
++-------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                  ;
++---------------------------------+---------------------------------------------+
+; Analysis & Synthesis Status     ; Successful - Sat Nov 24 21:24:53 2018       ;
+; Quartus Prime Version           ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
+; Revision Name                   ; fgba                                        ;
+; Top-level Entity Name           ; fgba                                        ;
+; Family                          ; Cyclone V                                   ;
+; Logic utilization (in ALMs)     ; N/A                                         ;
+; Total registers                 ; 9084                                        ;
+; Total pins                      ; 31                                          ;
+; Total virtual pins              ; 0                                           ;
+; Total block memory bits         ; 737,280                                     ;
+; Total DSP Blocks                ; 0                                           ;
+; Total HSSI RX PCSs              ; 0                                           ;
+; Total HSSI PMA RX Deserializers ; 0                                           ;
+; Total HSSI TX PCSs              ; 0                                           ;
+; Total HSSI PMA TX Serializers   ; 0                                           ;
+; Total PLLs                      ; 0                                           ;
+; Total DLLs                      ; 0                                           ;
++---------------------------------+---------------------------------------------+
 
 
 +---------------------------------------------------------------------------------------------------------------------------+
@@ -148,11 +171,743 @@ refer to the applicable agreement for further details.
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 1           ;
+; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
+;     Processor 2            ;   0.1%      ;
+;     Processor 3            ;   0.1%      ;
+;     Processor 4            ;   0.1%      ;
 +----------------------------+-------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                         ;
++----------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                     ; Library ;
++----------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------+---------+
+; fgba.v                           ; yes             ; User Verilog HDL File        ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v                                      ;         ;
+; cpu_armv4t.v                     ; yes             ; User Verilog HDL File        ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v                                ;         ;
+; memory.v                         ; yes             ; User Verilog HDL File        ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v                                    ;         ;
+; alu.v                            ; yes             ; User Verilog HDL File        ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v                                       ;         ;
+; admode1_shifter.v                ; yes             ; User Verilog HDL File        ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/admode1_shifter.v                           ;         ;
+; vram.v                           ; yes             ; User Wizard-Generated File   ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/vram.v                                      ;         ;
+; vgac.v                           ; yes             ; User Verilog HDL File        ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/vgac.v                                      ;         ;
+; graphic.v                        ; yes             ; User Verilog HDL File        ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/graphic.v                                   ;         ;
+; admode2_shifter.v                ; yes             ; User Verilog HDL File        ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/admode2_shifter.v                           ;         ;
+; cond_check.v                     ; yes             ; User Verilog HDL File        ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cond_check.v                                ;         ;
+; mifs/rgb.txt                     ; yes             ; Auto-Found File              ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/mifs/rgb.txt                                ;         ;
+; mifs/bios.txt                    ; yes             ; Auto-Found File              ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/mifs/bios.txt                               ;         ;
+; altsyncram.tdf                   ; yes             ; Megafunction                 ; c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
+; stratix_ram_block.inc            ; yes             ; Megafunction                 ; c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
+; lpm_mux.inc                      ; yes             ; Megafunction                 ; c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
+; lpm_decode.inc                   ; yes             ; Megafunction                 ; c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
+; aglobal171.inc                   ; yes             ; Megafunction                 ; c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/aglobal171.inc        ;         ;
+; a_rdenreg.inc                    ; yes             ; Megafunction                 ; c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
+; altrom.inc                       ; yes             ; Megafunction                 ; c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/altrom.inc            ;         ;
+; altram.inc                       ; yes             ; Megafunction                 ; c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/altram.inc            ;         ;
+; altdpram.inc                     ; yes             ; Megafunction                 ; c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
+; db/altsyncram_fpu1.tdf           ; yes             ; Auto-Generated Megafunction  ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf                      ;         ;
+; db/decode_bla.tdf                ; yes             ; Auto-Generated Megafunction  ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/decode_bla.tdf                           ;         ;
+; db/decode_41a.tdf                ; yes             ; Auto-Generated Megafunction  ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/decode_41a.tdf                           ;         ;
+; db/mux_ahb.tdf                   ; yes             ; Auto-Generated Megafunction  ; C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/mux_ahb.tdf                              ;         ;
++----------------------------------+-----------------+------------------------------+--------------------------------------------------------------------------------------------------+---------+
+
+
++---------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                   ;
++---------------------------------------------+-----------------+
+; Resource                                    ; Usage           ;
++---------------------------------------------+-----------------+
+; Estimate of Logic utilization (ALMs needed) ; 9825            ;
+;                                             ;                 ;
+; Combinational ALUT usage for logic          ; 11176           ;
+;     -- 7 input functions                    ; 643             ;
+;     -- 6 input functions                    ; 6413            ;
+;     -- 5 input functions                    ; 725             ;
+;     -- 4 input functions                    ; 577             ;
+;     -- <=3 input functions                  ; 2818            ;
+;                                             ;                 ;
+; Dedicated logic registers                   ; 9084            ;
+;                                             ;                 ;
+; I/O pins                                    ; 31              ;
+; Total MLAB memory bits                      ; 0               ;
+; Total block memory bits                     ; 737280          ;
+;                                             ;                 ;
+; Total DSP Blocks                            ; 0               ;
+;                                             ;                 ;
+; Maximum fan-out node                        ; clk_50mhz~input ;
+; Maximum fan-out                             ; 9117            ;
+; Total fan-out                               ; 82794           ;
+; Average fan-out                             ; 4.06            ;
++---------------------------------------------+-----------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                          ;
++----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+---------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
+; Compilation Hierarchy Node                   ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                 ; Entity Name     ; Library Name ;
++----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+---------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
+; |fgba                                        ; 11176 (122)         ; 9084 (1)                  ; 737280            ; 0          ; 31   ; 0            ; |fgba                                                                                                               ; fgba            ; work         ;
+;    |cpu_armv4t:cpu|                          ; 2960 (2204)         ; 775 (775)                 ; 0                 ; 0          ; 0    ; 0            ; |fgba|cpu_armv4t:cpu                                                                                                ; cpu_armv4t      ; work         ;
+;       |admode1_shifter:admode1_shifter1|     ; 281 (281)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1                                                               ; admode1_shifter ; work         ;
+;       |admode2_shifter:admode2_shifter1|     ; 297 (297)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1                                                               ; admode2_shifter ; work         ;
+;       |alu:alu1|                             ; 178 (178)           ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fgba|cpu_armv4t:cpu|alu:alu1                                                                                       ; alu             ; work         ;
+;    |graphic:grp|                             ; 133 (31)            ; 57 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |fgba|graphic:grp                                                                                                   ; graphic         ; work         ;
+;       |vgac:vga1|                            ; 102 (102)           ; 57 (57)                   ; 0                 ; 0          ; 0    ; 0            ; |fgba|graphic:grp|vgac:vga1                                                                                         ; vgac            ; work         ;
+;    |memory:mem|                              ; 7961 (7946)         ; 8251 (8248)               ; 737280            ; 0          ; 0    ; 0            ; |fgba|memory:mem                                                                                                    ; memory          ; work         ;
+;       |vram:v_ram|                           ; 15 (0)              ; 3 (0)                     ; 737280            ; 0          ; 0    ; 0            ; |fgba|memory:mem|vram:v_ram                                                                                         ; vram            ; work         ;
+;          |altsyncram:altsyncram_component|   ; 15 (0)              ; 3 (0)                     ; 737280            ; 0          ; 0    ; 0            ; |fgba|memory:mem|vram:v_ram|altsyncram:altsyncram_component                                                         ; altsyncram      ; work         ;
+;             |altsyncram_fpu1:auto_generated| ; 15 (0)              ; 3 (3)                     ; 737280            ; 0          ; 0    ; 0            ; |fgba|memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated                          ; altsyncram_fpu1 ; work         ;
+;                |decode_41a:rden_decode_b|    ; 6 (6)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fgba|memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|decode_41a:rden_decode_b ; decode_41a      ; work         ;
+;                |decode_bla:decode2|          ; 9 (9)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fgba|memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|decode_bla:decode2       ; decode_bla      ; work         ;
++----------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+---------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis RAM Summary                                                                                                                                                                      ;
++-------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+------+
+; Name                                                                                            ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size   ; MIF  ;
++-------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+------+
+; memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|ALTSYNCRAM ; AUTO ; Simple Dual Port ; 49152        ; 16           ; 49152        ; 16           ; 786432 ; None ;
++-------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+--------+------+
+
+
++---------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis IP Cores Summary                                                                         ;
++--------+--------------+---------+--------------+--------------+-----------------------------+-----------------+
+; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance             ; IP Include File ;
++--------+--------------+---------+--------------+--------------+-----------------------------+-----------------+
+; Altera ; RAM: 2-PORT  ; 17.1    ; N/A          ; N/A          ; |fgba|memory:mem|vram:v_ram ; vram.v          ;
++--------+--------------+---------+--------------+--------------+-----------------------------+-----------------+
+
+
+Encoding Type:  One-Hot
++----------------------------------------------------------------------------------------+
+; State Machine - |fgba|cpu_armv4t:cpu|cpu_state                                         ;
++------------------+----------------+----------------+----------------+------------------+
+; Name             ; cpu_state.s_ex ; cpu_state.s_id ; cpu_state.s_if ; cpu_state.s_init ;
++------------------+----------------+----------------+----------------+------------------+
+; cpu_state.s_init ; 0              ; 0              ; 0              ; 0                ;
+; cpu_state.s_if   ; 0              ; 0              ; 1              ; 1                ;
+; cpu_state.s_id   ; 0              ; 1              ; 0              ; 1                ;
+; cpu_state.s_ex   ; 1              ; 0              ; 0              ; 1                ;
++------------------+----------------+----------------+----------------+------------------+
+
+
++--------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                         ;
++-----------------------------------------+--------------------------------------------------+
+; Register name                           ; Reason for Removal                               ;
++-----------------------------------------+--------------------------------------------------+
+; cpu_armv4t:cpu|regf_bank2[0][10][7]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][19]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][3]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][19]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][31]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][15]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][27]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][7]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][23]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][11]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][19]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][3]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][15]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][7]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][11]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][3]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][7]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][3]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][0]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][3]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][16]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][30]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][30]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][28]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][30]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][26]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][24]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][28]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][22]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][30]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][20]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][26]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][18]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][31]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][16]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][24]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][14]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][28]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][12]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][22]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][10]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][14]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][8]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][20]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][6]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][26]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][4]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][18]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][2]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][28]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][0]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][16]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][30]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][24]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][28]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][14]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][26]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][12]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][24]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][12]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][22]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][22]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][20]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][10]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][18]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][22]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][16]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][8]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][14]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][20]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][12]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][6]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][10]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][10]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][8]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][4]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][6]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][18]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][4]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][2]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][2]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][0]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][0]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][0]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][30]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][16]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][28]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][30]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][26]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][8]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][24]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][28]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][22]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][14]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][20]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][26]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][18]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][20]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][16]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][24]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][14]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][12]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][12]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][22]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][10]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][6]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][8]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][20]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][6]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][10]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][4]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][18]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][2]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][26]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][0]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][16]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][30]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][8]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][28]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][14]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][26]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][4]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][24]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][12]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][22]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][6]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][20]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][10]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][18]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][18]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][16]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][8]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][14]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][4]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][12]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][6]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][10]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][2]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][8]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][4]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][6]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][2]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][4]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][2]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][0]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][2]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][24]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][25]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][17]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][1]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][1]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][1]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][1]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][29] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][1]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][1]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][1]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][17]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][1]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][17]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][17]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][17]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][17]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][17]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][25]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][17]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][25]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][9]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][25]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][25]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][9]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][9]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][9]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][25]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][25]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][9]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][9]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][25]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][9]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][29]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][9]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][29]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][21]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][29]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][13]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][21]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][5]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][13]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][29]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][13]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][21]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][21]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][13]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][5]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][5]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][21]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][29]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][29]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][21]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][13]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][13]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][21]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][5]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][5]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][29]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][13]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][21]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][5]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][13]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][5]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][31]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][9][5]      ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][0]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][27]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][31]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][23]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][27]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][19]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][15]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][15]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][23]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][11]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][27]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][7]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][19]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][12][3]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][23]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][31]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][15]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][27]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][23]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][23]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][11]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][19]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][11]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][15]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][7]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][11]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][19]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][7]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][10][3]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][11][3]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][31]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][31]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][27]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][15]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][23]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][27]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][19]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][7]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][15]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][9][23]     ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[0][10][11]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][11][11]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][27] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][29]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][27]    ; Merged with cpu_armv4t:cpu|regf_bank2[1][12][31] ;
+; cpu_armv4t:cpu|regf_bank2[1][12][31]    ; Stuck at GND due to stuck port data_in           ;
+; cpu_armv4t:cpu|cpu_state~2              ; Lost fanout                                      ;
+; cpu_armv4t:cpu|cpu_state~3              ; Lost fanout                                      ;
+; cpu_armv4t:cpu|cpu_state~4              ; Lost fanout                                      ;
+; Total Number of Removed Registers = 259 ;                                                  ;
++-----------------------------------------+--------------------------------------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 9084  ;
+; Number of registers using Synchronous Clear  ; 37    ;
+; Number of registers using Synchronous Load   ; 2     ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 9028  ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------+
+; Inverted Register Statistics                     ;
++----------------------------------------+---------+
+; Inverted Register                      ; Fan out ;
++----------------------------------------+---------+
+; cpu_armv4t:cpu|reg_pc[27]              ; 3       ;
+; Total number of inverted registers = 1 ;         ;
++----------------------------------------+---------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                  ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                        ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------------+
+; 7:1                ; 15 bits   ; 60 LEs        ; 60 LEs               ; 0 LEs                  ; Yes        ; |fgba|graphic:grp|vgac:vga1|g[1]                                  ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |fgba|cpu_armv4t:cpu|reg_cpsr[3]                                  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft0  ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftLeft0                                   ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftLeft0                                   ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftLeft0                                   ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftLeft0                                   ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftLeft0                                   ;
+; 4:1                ; 24 bits   ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftRight0 ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft0  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft0  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft0  ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftRight1 ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftRight1 ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftRight0 ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftRight1 ;
+; 4:1                ; 9 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftRight0 ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft1  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft1  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft1  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft1  ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft1  ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|memory:mem|ShiftRight0                                      ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|memory:mem|ShiftRight0                                      ;
+; 4:1                ; 42 bits   ; 84 LEs        ; 84 LEs               ; 0 LEs                  ; No         ; |fgba|memory:mem|ShiftRight1                                      ;
+; 4:1                ; 24 bits   ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftRight2 ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft0  ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft0  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft0  ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftRight0 ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftRight2 ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftRight2 ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftRight0 ;
+; 4:1                ; 9 bits    ; 18 LEs        ; 18 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftRight2 ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft1  ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft1  ;
+; 4:1                ; 4 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft1  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft1  ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 3:1                ; 12 bits   ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regw                                      ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftLeft0                                   ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftRight0                                  ;
+; 6:1                ; 64 bits   ; 256 LEs       ; 256 LEs              ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|Mux13                                        ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftRight0                                  ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftRight0                                  ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|ShiftRight0                                  ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftRight0 ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftRight2 ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft1  ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft1  ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft1  ;
+; 4:1                ; 31 bits   ; 62 LEs        ; 62 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 16:1               ; 32 bits   ; 320 LEs       ; 320 LEs              ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|Mux183                                       ;
+; 16:1               ; 32 bits   ; 320 LEs       ; 320 LEs              ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|Mux121                                       ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftRight0 ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft1  ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft1  ;
+; 16:1               ; 24 bits   ; 240 LEs       ; 240 LEs              ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|Mux249                                       ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftRight2 ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_cpsrd                                     ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode2_shifter:admode2_shifter1|ShiftLeft1  ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 80 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|data_load                                    ;
+; 8:1                ; 4 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|admode1_shifter:admode1_shifter1|ShiftLeft1  ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 7:1                ; 16 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|cr_regd                                      ;
+; 18:1               ; 3 bits    ; 36 LEs        ; 33 LEs               ; 3 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|shift_amount[7]                              ;
+; 18:1               ; 5 bits    ; 60 LEs        ; 55 LEs               ; 5 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|shift_amount[0]                              ;
+; 6:1                ; 20 bits   ; 80 LEs        ; 60 LEs               ; 20 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|Selector827                                  ;
+; 11:1               ; 3 bits    ; 21 LEs        ; 21 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|mode23_offset[2]                             ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_mem_data[4]                                             ;
+; 12:1               ; 3 bits    ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|mode23_offset[12]                            ;
+; 12:1               ; 4 bits    ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|mode23_offset[5]                             ;
+; 10:1               ; 7 bits    ; 42 LEs        ; 14 LEs               ; 28 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|Selector30                                   ;
+; 14:1               ; 2 bits    ; 18 LEs        ; 16 LEs               ; 2 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|mode23_offset[9]                             ;
+; 14:1               ; 2 bits    ; 18 LEs        ; 16 LEs               ; 2 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|mode23_offset[27]                            ;
+; 15:1               ; 8 bits    ; 80 LEs        ; 72 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|mode23_offset[23]                            ;
+; 14:1               ; 15 bits   ; 135 LEs       ; 60 LEs               ; 75 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|Selector8                                    ;
+; 14:1               ; 8 bits    ; 72 LEs        ; 32 LEs               ; 40 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|Selector20                                   ;
+; 12:1               ; 8 bits    ; 64 LEs        ; 56 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|Selector60                                   ;
+; 12:1               ; 8 bits    ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|Selector54                                   ;
+; 13:1               ; 16 bits   ; 128 LEs       ; 128 LEs              ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|Selector35                                   ;
+; 16:1               ; 2 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|mode23_offset[28]                            ;
+; 15:1               ; 2 bits    ; 20 LEs        ; 16 LEs               ; 4 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|mode23_offset[25]                            ;
+; 21:1               ; 4 bits    ; 56 LEs        ; 40 LEs               ; 16 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|shifter_operand[2]                           ;
+; 22:1               ; 3 bits    ; 42 LEs        ; 30 LEs               ; 12 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|alu:alu1|out[4]                              ;
+; 25:1               ; 2 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |fgba|cpu_armv4t:cpu|alu:alu1|out[23]                             ;
+; 27:1               ; 3 bits    ; 54 LEs        ; 39 LEs               ; 15 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|alu:alu1|out[12]                             ;
+; 27:1               ; 6 bits    ; 108 LEs       ; 78 LEs               ; 30 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|alu:alu1|out[21]                             ;
+; 28:1               ; 2 bits    ; 36 LEs        ; 26 LEs               ; 10 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|alu:alu1|out[27]                             ;
+; 29:1               ; 2 bits    ; 38 LEs        ; 28 LEs               ; 10 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|alu:alu1|out[10]                             ;
+; 29:1               ; 2 bits    ; 38 LEs        ; 26 LEs               ; 12 LEs                 ; No         ; |fgba|cpu_armv4t:cpu|alu:alu1|out[26]                             ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------+
+; Source assignments for memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated ;
++---------------------------------+--------------------+------+-----------------------------------------------+
+; Assignment                      ; Value              ; From ; To                                            ;
++---------------------------------+--------------------+------+-----------------------------------------------+
+; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                             ;
++---------------------------------+--------------------+------+-----------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: memory:mem|vram:v_ram|altsyncram:altsyncram_component ;
++------------------------------------+----------------------+----------------------------------------+
+; Parameter Name                     ; Value                ; Type                                   ;
++------------------------------------+----------------------+----------------------------------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped                                ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY                             ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY                           ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE                           ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE                         ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped                                ;
+; OPERATION_MODE                     ; DUAL_PORT            ; Untyped                                ;
+; WIDTH_A                            ; 16                   ; Signed Integer                         ;
+; WIDTHAD_A                          ; 16                   ; Signed Integer                         ;
+; NUMWORDS_A                         ; 49152                ; Signed Integer                         ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped                                ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped                                ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped                                ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped                                ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped                                ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped                                ;
+; WIDTH_B                            ; 16                   ; Signed Integer                         ;
+; WIDTHAD_B                          ; 16                   ; Signed Integer                         ;
+; NUMWORDS_B                         ; 49152                ; Signed Integer                         ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped                                ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped                                ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped                                ;
+; ADDRESS_REG_B                      ; CLOCK0               ; Untyped                                ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped                                ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped                                ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped                                ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped                                ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped                                ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped                                ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped                                ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped                                ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer                         ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Untyped                                ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped                                ;
+; BYTE_SIZE                          ; 8                    ; Untyped                                ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped                                ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped                                ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped                                ;
+; INIT_FILE                          ; UNUSED               ; Untyped                                ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped                                ;
+; MAXIMUM_DEPTH                      ; 0                    ; Untyped                                ;
+; CLOCK_ENABLE_INPUT_A               ; BYPASS               ; Untyped                                ;
+; CLOCK_ENABLE_INPUT_B               ; BYPASS               ; Untyped                                ;
+; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped                                ;
+; CLOCK_ENABLE_OUTPUT_B              ; BYPASS               ; Untyped                                ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped                                ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped                                ;
+; ENABLE_ECC                         ; FALSE                ; Untyped                                ;
+; ECC_PIPELINE_STAGE_ENABLED         ; FALSE                ; Untyped                                ;
+; WIDTH_ECCSTATUS                    ; 3                    ; Untyped                                ;
+; DEVICE_FAMILY                      ; Cyclone V            ; Untyped                                ;
+; CBXI_PARAMETER                     ; altsyncram_fpu1      ; Untyped                                ;
++------------------------------------+----------------------+----------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu_armv4t:cpu          ;
++-----------------+----------------------------------+-----------------+
+; Parameter Name  ; Value                            ; Type            ;
++-----------------+----------------------------------+-----------------+
+; s_init          ; 000                              ; Unsigned Binary ;
+; s_if            ; 001                              ; Unsigned Binary ;
+; s_id            ; 010                              ; Unsigned Binary ;
+; s_ex            ; 011                              ; Unsigned Binary ;
+; msr_UnallocMask ; 00001111111111111111111100000000 ; Unsigned Binary ;
+; msr_UserMask    ; 11110000000000000000000000000000 ; Unsigned Binary ;
+; msr_PrivMask    ; 00000000000000000000000000001111 ; Unsigned Binary ;
+; msr_StateMask   ; 00000000000000000000000000100000 ; Unsigned Binary ;
++-----------------+----------------------------------+-----------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------------+
+; altsyncram Parameter Settings by Entity Instance                                                  ;
++-------------------------------------------+-------------------------------------------------------+
+; Name                                      ; Value                                                 ;
++-------------------------------------------+-------------------------------------------------------+
+; Number of entity instances                ; 1                                                     ;
+; Entity Instance                           ; memory:mem|vram:v_ram|altsyncram:altsyncram_component ;
+;     -- OPERATION_MODE                     ; DUAL_PORT                                             ;
+;     -- WIDTH_A                            ; 16                                                    ;
+;     -- NUMWORDS_A                         ; 49152                                                 ;
+;     -- OUTDATA_REG_A                      ; UNREGISTERED                                          ;
+;     -- WIDTH_B                            ; 16                                                    ;
+;     -- NUMWORDS_B                         ; 49152                                                 ;
+;     -- ADDRESS_REG_B                      ; CLOCK0                                                ;
+;     -- OUTDATA_REG_B                      ; UNREGISTERED                                          ;
+;     -- RAM_BLOCK_TYPE                     ; AUTO                                                  ;
+;     -- READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE                                             ;
++-------------------------------------------+-------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "graphic:grp|vgac:vga1"                                                              ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; clrn ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; rdn  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cpu_armv4t:cpu|admode1_shifter:admode1_shifter1"                                    ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; co   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; arriav_ff             ; 9084                        ;
+;     ENA               ; 9016                        ;
+;     ENA SCLR          ; 10                          ;
+;     ENA SCLR SLD      ; 2                           ;
+;     SCLR              ; 25                          ;
+;     plain             ; 31                          ;
+; arriav_lcell_comb     ; 11177                       ;
+;     arith             ; 161                         ;
+;         1 data inputs ; 93                          ;
+;         2 data inputs ; 36                          ;
+;         3 data inputs ; 16                          ;
+;         5 data inputs ; 16                          ;
+;     extend            ; 643                         ;
+;         7 data inputs ; 643                         ;
+;     normal            ; 10361                       ;
+;         0 data inputs ; 2                           ;
+;         1 data inputs ; 2148                        ;
+;         2 data inputs ; 188                         ;
+;         3 data inputs ; 324                         ;
+;         4 data inputs ; 577                         ;
+;         5 data inputs ; 709                         ;
+;         6 data inputs ; 6413                        ;
+;     shared            ; 12                          ;
+;         1 data inputs ; 3                           ;
+;         2 data inputs ; 7                           ;
+;         3 data inputs ; 2                           ;
+; boundary_port         ; 31                          ;
+; stratixv_ram_block    ; 90                          ;
+;                       ;                             ;
+; Max LUT depth         ; 22.80                       ;
+; Average LUT depth     ; 14.62                       ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:56     ;
++----------------+--------------+
 
 
 +-------------------------------+
@@ -161,7 +916,7 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Sat Nov 24 20:34:54 2018
+    Info: Processing started: Sat Nov 24 21:23:39 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off fgba -c fgba
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -187,15 +942,151 @@ Info (12021): Found 1 design units, including 1 entities, in source file cond_ch
     Info (12023): Found entity 1: cond_check File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cond_check.v Line: 1
 Info (12127): Elaborating entity "fgba" for the top level hierarchy
 Info (12128): Elaborating entity "memory" for hierarchy "memory:mem" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 37
-Error (10509): Verilog HDL error at memory.v(21): start or stop address isn't within the declared range [40:0] of memory bios_rom File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 21
 Warning (10850): Verilog HDL warning at memory.v(22): number of words (253) in memory file does not match the number of elements in the address range [0:255] File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 22
-Error (12152): Can't elaborate user hierarchy "memory:mem" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 37
+Warning (10030): Net "bios_rom.data_a" at memory.v(16) has no driver or initial value, using a default initial value '0' File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 16
+Warning (10030): Net "bios_rom.waddr_a" at memory.v(16) has no driver or initial value, using a default initial value '0' File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 16
+Warning (10030): Net "bios_rom.we_a" at memory.v(16) has no driver or initial value, using a default initial value '0' File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 16
+Info (12128): Elaborating entity "vram" for hierarchy "memory:mem|vram:v_ram" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 71
+Info (12128): Elaborating entity "altsyncram" for hierarchy "memory:mem|vram:v_ram|altsyncram:altsyncram_component" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/vram.v Line: 88
+Info (12130): Elaborated megafunction instantiation "memory:mem|vram:v_ram|altsyncram:altsyncram_component" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/vram.v Line: 88
+Info (12133): Instantiated megafunction "memory:mem|vram:v_ram|altsyncram:altsyncram_component" with the following parameter: File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/vram.v Line: 88
+    Info (12134): Parameter "address_aclr_b" = "NONE"
+    Info (12134): Parameter "address_reg_b" = "CLOCK0"
+    Info (12134): Parameter "clock_enable_input_a" = "BYPASS"
+    Info (12134): Parameter "clock_enable_input_b" = "BYPASS"
+    Info (12134): Parameter "clock_enable_output_b" = "BYPASS"
+    Info (12134): Parameter "intended_device_family" = "Cyclone V"
+    Info (12134): Parameter "lpm_type" = "altsyncram"
+    Info (12134): Parameter "numwords_a" = "49152"
+    Info (12134): Parameter "numwords_b" = "49152"
+    Info (12134): Parameter "operation_mode" = "DUAL_PORT"
+    Info (12134): Parameter "outdata_aclr_b" = "NONE"
+    Info (12134): Parameter "outdata_reg_b" = "UNREGISTERED"
+    Info (12134): Parameter "power_up_uninitialized" = "FALSE"
+    Info (12134): Parameter "read_during_write_mode_mixed_ports" = "DONT_CARE"
+    Info (12134): Parameter "widthad_a" = "16"
+    Info (12134): Parameter "widthad_b" = "16"
+    Info (12134): Parameter "width_a" = "16"
+    Info (12134): Parameter "width_b" = "16"
+    Info (12134): Parameter "width_byteena_a" = "1"
+Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_fpu1.tdf
+    Info (12023): Found entity 1: altsyncram_fpu1 File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 33
+Info (12128): Elaborating entity "altsyncram_fpu1" for hierarchy "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated" File: c:/program files (x86)/intelfpga_lite/17.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 791
+Info (12021): Found 1 design units, including 1 entities, in source file db/decode_bla.tdf
+    Info (12023): Found entity 1: decode_bla File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/decode_bla.tdf Line: 22
+Info (12128): Elaborating entity "decode_bla" for hierarchy "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|decode_bla:decode2" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 44
+Info (12021): Found 1 design units, including 1 entities, in source file db/decode_41a.tdf
+    Info (12023): Found entity 1: decode_41a File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/decode_41a.tdf Line: 22
+Info (12128): Elaborating entity "decode_41a" for hierarchy "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|decode_41a:rden_decode_b" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 45
+Info (12021): Found 1 design units, including 1 entities, in source file db/mux_ahb.tdf
+    Info (12023): Found entity 1: mux_ahb File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/mux_ahb.tdf Line: 22
+Info (12128): Elaborating entity "mux_ahb" for hierarchy "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|mux_ahb:mux3" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 47
+Info (12128): Elaborating entity "cpu_armv4t" for hierarchy "cpu_armv4t:cpu" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 48
+Warning (10036): Verilog HDL or VHDL warning at cpu_armv4t.v(84): object "f_q" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 84
+Warning (10036): Verilog HDL or VHDL warning at cpu_armv4t.v(85): object "f_j" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 85
+Warning (10036): Verilog HDL or VHDL warning at cpu_armv4t.v(86): object "f_ge" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 86
+Warning (10036): Verilog HDL or VHDL warning at cpu_armv4t.v(87): object "f_e" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 87
+Warning (10036): Verilog HDL or VHDL warning at cpu_armv4t.v(88): object "f_a" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 88
+Warning (10036): Verilog HDL or VHDL warning at cpu_armv4t.v(89): object "f_i" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 89
+Warning (10036): Verilog HDL or VHDL warning at cpu_armv4t.v(90): object "f_f" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 90
+Warning (10036): Verilog HDL or VHDL warning at cpu_armv4t.v(143): object "next_pc" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 143
+Warning (10036): Verilog HDL or VHDL warning at cpu_armv4t.v(195): object "shifter_carry_out" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 195
+Warning (10230): Verilog HDL assignment warning at cpu_armv4t.v(246): truncated value with size 32 to match size of target (1) File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 246
+Warning (10230): Verilog HDL assignment warning at cpu_armv4t.v(247): truncated value with size 32 to match size of target (2) File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 247
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "regf_bank2" into its bus
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "regf_bank6" into its bus
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "c_regf_bank2" into its bus
+Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "c_regf_bank6" into its bus
+Info (12128): Elaborating entity "cond_check" for hierarchy "cpu_armv4t:cpu|cond_check:cond_check1" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 187
+Info (12128): Elaborating entity "admode1_shifter" for hierarchy "cpu_armv4t:cpu|admode1_shifter:admode1_shifter1" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 200
+Info (12128): Elaborating entity "admode2_shifter" for hierarchy "cpu_armv4t:cpu|admode2_shifter:admode2_shifter1" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 250
+Info (12128): Elaborating entity "alu" for hierarchy "cpu_armv4t:cpu|alu:alu1" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 261
+Warning (10036): Verilog HDL or VHDL warning at alu.v(9): object "i_mvn" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 9
+Warning (10036): Verilog HDL or VHDL warning at alu.v(11): object "i_and" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 11
+Warning (10036): Verilog HDL or VHDL warning at alu.v(12): object "i_eor" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 12
+Warning (10036): Verilog HDL or VHDL warning at alu.v(13): object "i_orr" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 13
+Warning (10036): Verilog HDL or VHDL warning at alu.v(14): object "i_bic" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 14
+Warning (10036): Verilog HDL or VHDL warning at alu.v(16): object "i_adc" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 16
+Warning (10036): Verilog HDL or VHDL warning at alu.v(17): object "i_add" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 17
+Warning (10036): Verilog HDL or VHDL warning at alu.v(18): object "i_sbc" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 18
+Warning (10036): Verilog HDL or VHDL warning at alu.v(19): object "i_sub" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 19
+Warning (10036): Verilog HDL or VHDL warning at alu.v(20): object "i_rsb" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 20
+Warning (10036): Verilog HDL or VHDL warning at alu.v(21): object "i_rsc" assigned a value but never read File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/alu.v Line: 21
+Info (12128): Elaborating entity "graphic" for hierarchy "graphic:grp" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 63
+Info (12128): Elaborating entity "vgac" for hierarchy "graphic:grp|vgac:vga1" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/graphic.v Line: 36
+Warning (14284): Synthesized away the following node(s):
+    Warning (14285): Synthesized away the following RAM node(s):
+        Warning (14320): Synthesized away node "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|ram_block1a15" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 513
+        Warning (14320): Synthesized away node "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|ram_block1a31" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 1009
+        Warning (14320): Synthesized away node "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|ram_block1a47" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 1505
+        Warning (14320): Synthesized away node "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|ram_block1a63" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 2001
+        Warning (14320): Synthesized away node "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|ram_block1a79" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 2497
+        Warning (14320): Synthesized away node "memory:mem|vram:v_ram|altsyncram:altsyncram_component|altsyncram_fpu1:auto_generated|ram_block1a95" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/altsyncram_fpu1.tdf Line: 2993
+Info (276014): Found 3 instances of uninferred RAM logic
+    Info (276007): RAM logic "memory:mem|bios_rom" is uninferred due to asynchronous read logic File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 16
+    Info (276007): RAM logic "memory:mem|pak_ram" is uninferred due to asynchronous read logic File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Info (276007): RAM logic "memory:mem|cart_ram" is uninferred due to asynchronous read logic File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 19
+Warning (13046): Tri-state node(s) do not directly drive top-level pin(s)
+    Warning (13048): Converted tri-state node "cpu_mem_data[31]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[30]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[29]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[28]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[27]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[26]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[25]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[24]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[23]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[22]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[21]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[20]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[19]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[18]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[17]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[16]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[15]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[14]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[13]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[12]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[11]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[10]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[9]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[8]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[7]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[6]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[5]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[4]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[3]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[2]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[1]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+    Warning (13048): Converted tri-state node "cpu_mem_data[0]" into a selector File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 17
+Warning (127007): Memory Initialization File or Hexadecimal (Intel-Format) File "C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/db/fgba.ram1_memory_e411fb78.hdl.mif" contains "don't care" values -- overwriting them with 0s
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "R[0]" is stuck at GND File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 5
+    Warning (13410): Pin "R[1]" is stuck at GND File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 5
+    Warning (13410): Pin "R[2]" is stuck at GND File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 5
+    Warning (13410): Pin "G[0]" is stuck at GND File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 6
+    Warning (13410): Pin "G[1]" is stuck at GND File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 6
+    Warning (13410): Pin "G[2]" is stuck at GND File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 6
+    Warning (13410): Pin "B[0]" is stuck at GND File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 7
+    Warning (13410): Pin "B[1]" is stuck at GND File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 7
+    Warning (13410): Pin "B[2]" is stuck at GND File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 7
+    Warning (13410): Pin "vga_black_n" is stuck at VCC File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 9
+    Warning (13410): Pin "vga_sync_n" is stuck at VCC File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/fgba.v Line: 13
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 3 registers lost all their fanouts during netlist optimizations.
 Info (144001): Generated suppressed messages file C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/output_files/fgba.map.smsg
-Error: Quartus Prime Analysis & Synthesis was unsuccessful. 2 errors, 2 warnings
-    Error: Peak virtual memory: 4790 megabytes
-    Error: Processing ended: Sat Nov 24 20:35:08 2018
-    Error: Elapsed time: 00:00:14
-    Error: Total CPU time (on all processors): 00:00:29
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 17877 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 2 input pins
+    Info (21059): Implemented 29 output pins
+    Info (21061): Implemented 17756 logic cells
+    Info (21064): Implemented 90 RAM segments
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 81 warnings
+    Info: Peak virtual memory: 5094 megabytes
+    Info: Processing ended: Sat Nov 24 21:24:53 2018
+    Info: Elapsed time: 00:01:14
+    Info: Total CPU time (on all processors): 00:01:28
 
 
 +------------------------------------------+
