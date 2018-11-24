@@ -21,7 +21,7 @@ Disassembly of section .data:
   f8:	e129f000 	msr	CPSR_fc, r0
   fc:	e59fd0b0 	ldr	sp, [pc, #176]	; 0x1b4
  100:	e28f0001 	add	r0, pc, #1
- 104:	e12fff10 	msr	SP_hyp, r0, lsl pc
+ 104:	e12fff10 	bx	r0
  108:	0140482b 	cmpeq	r0, fp, lsr #16
  10c:	4678d20b 	ldrbtmi	sp, [r8], -fp, lsl #4
  110:	d30d0140 	tstle	sp, #64, 2
@@ -93,15 +93,15 @@ Disassembly of section .data:
  218:	e24cb004 	sub	fp, ip, #4
  21c:	e24bd028 	sub	sp, fp, #40	; 0x28
  220:	e89d6ff0 	ldm	sp, {r4, r5, r6, r7, r8, r9, sl, fp, sp, lr}
- 224:	e12fff1e 	msr	SP_hyp, lr, lsl pc
+ 224:	e12fff1e 	bx	lr
  228:	e59f0018 	ldr	r0, [pc, #24]	; 0x248
  22c:	e59f3018 	ldr	r3, [pc, #24]	; 0x24c
  230:	e1530000 	cmp	r3, r0
- 234:	012fff1e 	msreq	SP_hyp, lr, lsl pc
+ 234:	012fff1e 	bxeq	lr
  238:	e59f3010 	ldr	r3, [pc, #16]	; 0x250
  23c:	e3530000 	cmp	r3, #0
- 240:	012fff1e 	msreq	SP_hyp, lr, lsl pc
- 244:	e12fff13 	msr	SP_hyp, r3, lsl pc
+ 240:	012fff1e 	bxeq	lr
+ 244:	e12fff13 	bx	r3
  248:	03000000 	tsteq	r0, #0
  24c:	03000000 	tsteq	r0, #0
  250:	00000000 	andeq	r0, r0, r0
@@ -111,11 +111,11 @@ Disassembly of section .data:
  260:	e1a01141 	asr	r1, r1, #2
  264:	e0811fa1 	add	r1, r1, r1, lsr #31
  268:	e1b010c1 	asrs	r1, r1, #1
- 26c:	012fff1e 	msreq	SP_hyp, lr, lsl pc
+ 26c:	012fff1e 	bxeq	lr
  270:	e59f3010 	ldr	r3, [pc, #16]	; 0x288
  274:	e3530000 	cmp	r3, #0
- 278:	012fff1e 	msreq	SP_hyp, lr, lsl pc
- 27c:	e12fff13 	msr	SP_hyp, r3, lsl pc
+ 278:	012fff1e 	bxeq	lr
+ 27c:	e12fff13 	bx	r3
  280:	03000000 	tsteq	r0, #0
  284:	03000000 	tsteq	r0, #0
  288:	00000000 	andeq	r0, r0, r0
@@ -132,7 +132,7 @@ Disassembly of section .data:
  2b4:	e3a03001 	mov	r3, #1
  2b8:	e5c43000 	strb	r3, [r4]
  2bc:	e8bd4010 	pop	{r4, lr}
- 2c0:	e12fff1e 	msr	SP_hyp, lr, lsl pc
+ 2c0:	e12fff1e 	bx	lr
  2c4:	03000000 	tsteq	r0, #0
  2c8:	00000000 	andeq	r0, r0, r0
  2cc:	080003e0 	stmdaeq	r0, {r5, r6, r7, r8, r9}
@@ -175,7 +175,7 @@ Disassembly of section .data:
  360:	e2844001 	add	r4, r4, #1
  364:	e5b53004 	ldr	r3, [r5, #4]!
  368:	e1a0e00f 	mov	lr, pc
- 36c:	e12fff13 	msr	SP_hyp, r3, lsl pc
+ 36c:	e12fff13 	bx	r3
  370:	e1560004 	cmp	r6, r4
  374:	1afffff9 	bne	0x360
  378:	e59f6040 	ldr	r6, [pc, #64]	; 0x3c0
@@ -189,11 +189,11 @@ Disassembly of section .data:
  398:	e2844001 	add	r4, r4, #1
  39c:	e5b53004 	ldr	r3, [r5, #4]!
  3a0:	e1a0e00f 	mov	lr, pc
- 3a4:	e12fff13 	msr	SP_hyp, r3, lsl pc
+ 3a4:	e12fff13 	bx	r3
  3a8:	e1560004 	cmp	r6, r4
  3ac:	1afffff9 	bne	0x398
  3b0:	e8bd4070 	pop	{r4, r5, r6, lr}
- 3b4:	e12fff1e 	msr	SP_hyp, lr, lsl pc
+ 3b4:	e12fff1e 	bx	lr
  3b8:	03000020 	tsteq	r0, #32
  3bc:	03000020 	tsteq	r0, #32
  3c0:	03000024 	tsteq	r0, #36	; 0x24
@@ -203,7 +203,7 @@ Disassembly of section .data:
  3d0:	e24cb004 	sub	fp, ip, #4
  3d4:	e24bd028 	sub	sp, fp, #40	; 0x28
  3d8:	e89d6ff0 	ldm	sp, {r4, r5, r6, r7, r8, r9, sl, fp, sp, lr}
- 3dc:	e12fff1e 	msr	SP_hyp, lr, lsl pc
+ 3dc:	e12fff1e 	bx	lr
  3e0:	00000000 	andeq	r0, r0, r0
  3e4:	080002d0 	stmdaeq	r0, {r4, r6, r7, r9}
  3e8:	0800028c 	stmdaeq	r0, {r2, r3, r7, r9}
