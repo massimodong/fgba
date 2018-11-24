@@ -1,2 +1,0 @@
-Warning (10273): Verilog HDL warning at cpu_armv4t.v(264): extended using "x" or "z" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/cpu_armv4t.v Line: 264
-Warning (10273): Verilog HDL warning at memory.v(73): extended using "x" or "z" File: C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/memory.v Line: 73

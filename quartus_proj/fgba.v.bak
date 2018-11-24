@@ -1,7 +1,0 @@
-module fgba(
-	input clk_50mhz
-)
-
-
-
-endmodule
