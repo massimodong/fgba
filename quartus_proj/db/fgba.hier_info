@@ -1,35 +1,35 @@
 |fgba
 clk_50mhz => clk_50mhz.IN2
 rstn => rstn.IN1
-R[0] << graphic:grp.R[0]
-R[1] << graphic:grp.R[1]
-R[2] << graphic:grp.R[2]
-R[3] << graphic:grp.R[3]
-R[4] << graphic:grp.R[4]
-R[5] << graphic:grp.R[5]
-R[6] << graphic:grp.R[6]
-R[7] << graphic:grp.R[7]
-G[0] << graphic:grp.G[0]
-G[1] << graphic:grp.G[1]
-G[2] << graphic:grp.G[2]
-G[3] << graphic:grp.G[3]
-G[4] << graphic:grp.G[4]
-G[5] << graphic:grp.G[5]
-G[6] << graphic:grp.G[6]
-G[7] << graphic:grp.G[7]
-B[0] << graphic:grp.B[0]
-B[1] << graphic:grp.B[1]
-B[2] << graphic:grp.B[2]
-B[3] << graphic:grp.B[3]
-B[4] << graphic:grp.B[4]
-B[5] << graphic:grp.B[5]
-B[6] << graphic:grp.B[6]
-B[7] << graphic:grp.B[7]
-vga_clk << graphic:grp.vga_clk
-vga_black_n << graphic:grp.vga_black_n
-HS << graphic:grp.HS
-VS << graphic:grp.VS
-vga_sync_n << graphic:grp.vga_sync_n
+R[0] <= graphic:grp.R[0]
+R[1] <= graphic:grp.R[1]
+R[2] <= graphic:grp.R[2]
+R[3] <= graphic:grp.R[3]
+R[4] <= graphic:grp.R[4]
+R[5] <= graphic:grp.R[5]
+R[6] <= graphic:grp.R[6]
+R[7] <= graphic:grp.R[7]
+G[0] <= graphic:grp.G[0]
+G[1] <= graphic:grp.G[1]
+G[2] <= graphic:grp.G[2]
+G[3] <= graphic:grp.G[3]
+G[4] <= graphic:grp.G[4]
+G[5] <= graphic:grp.G[5]
+G[6] <= graphic:grp.G[6]
+G[7] <= graphic:grp.G[7]
+B[0] <= graphic:grp.B[0]
+B[1] <= graphic:grp.B[1]
+B[2] <= graphic:grp.B[2]
+B[3] <= graphic:grp.B[3]
+B[4] <= graphic:grp.B[4]
+B[5] <= graphic:grp.B[5]
+B[6] <= graphic:grp.B[6]
+B[7] <= graphic:grp.B[7]
+vga_clk <= graphic:grp.vga_clk
+vga_black_n <= graphic:grp.vga_black_n
+HS <= graphic:grp.HS
+VS <= graphic:grp.VS
+vga_sync_n <= graphic:grp.vga_sync_n
 
 
 |fgba|memory:mem
@@ -4747,8 +4747,8 @@ mem_data[30] <> mem_data[30]
 mem_data[31] <> mem_data[31]
 mem_width[0] <= <GND>
 mem_width[1] <= <VCC>
-mem_read <= Selector829.DB_MAX_OUTPUT_PORT_TYPE
-mem_write <= Selector862.DB_MAX_OUTPUT_PORT_TYPE
+mem_read <= Selector879.DB_MAX_OUTPUT_PORT_TYPE
+mem_write <= Selector912.DB_MAX_OUTPUT_PORT_TYPE
 mem_ok => c_saved_instr.OUTPUTSELECT
 mem_ok => c_saved_instr.OUTPUTSELECT
 mem_ok => c_saved_instr.OUTPUTSELECT
@@ -4783,7 +4783,7 @@ mem_ok => c_saved_instr.OUTPUTSELECT
 mem_ok => c_saved_instr.OUTPUTSELECT
 mem_ok => always6.IN1
 mem_ok => c_next_state.DATAB
-mem_ok => Selector795.IN1
+mem_ok => Selector845.IN1
 
 
 |fgba|cpu_armv4t:cpu|cond_check:cond_check1

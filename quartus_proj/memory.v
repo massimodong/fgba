@@ -18,8 +18,8 @@ reg [31:0]pak_ram[255:0];
 //reg [7:0]cart_ram[65535:0];
 reg [7:0]cart_ram[6:0];
 initial begin
-	$readmemh("/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/mifs/bios.txt", bios_rom, 0, 4095);
-	$readmemh("/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/mifs/rgb.txt", pak_ram, 0, 255);
+	$readmemh("mifs/bios.txt", bios_rom, 0, 4095);
+	$readmemh("mifs/rgb.txt", pak_ram, 0, 255);
 end
 
 wire [3:0]select = addr[27:24];

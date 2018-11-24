@@ -236,16 +236,30 @@ wire [31:0]msr_new_spsr = (spsr & ~msr_mask) | (shifter_operand & msr_mask);
 
 //decode addressing mode 2
 wire admode2 = instr[27:26] == 2'b01;
-wire [31:0]offset;
-admode2_shifter admode2_shifter1(instr, r[instr[3:0]], f_c, offset);
+wire [31:0]mode2_offset;
+admode2_shifter admode2_shifter1(instr, r[instr[3:0]], f_c, mode2_offset);
 wire mode2_P = instr[24];
 wire mode2_U = instr[23];
 wire mode2_B = instr[22];
 wire mode2_W = instr[21];
 wire mode2_L = instr[20];
-wire [31:0]mode2_address_offset = mode2_U ? (r[rn] + offset) : (r[rn] - offset);
+wire [31:0]mode2_address_offset = mode2_U ? (r[rn] + mode2_offset) : (r[rn] - mode2_offset);
 wire [31:0]mode2_address = mode2_P ? mode2_address_offset : r[rn];
 //decode addressing mode 2 finish
+
+//decode addressing mode 3
+wire admode3 = instr[27:25] == 3'b0 && instr[6:5] != 2'b0;
+wire mode3_P = instr[24];
+wire mode3_U = instr[23];
+wire mode3_W = instr[21];
+wire mode3_L = instr[20];
+wire mode3_S = instr[6];
+wire mode3_H = instr[5];
+wire rm = instr[3:0];
+wire [31:0]mode3_offset = instr[22] ? {instr[11:8], instr[3:0]} : r[rm];
+wire [31:0]mode3_address_offset = mode3_U ? (r[rn] + mode3_offset) : (r[rn] - mode3_offset);
+wire [31:0]mode3_address = mode3_P ? mode2_address_offset : r[rn];
+//decode addressing mode 3 finish
 
 wire i_b = itype == 3'b101;
 wire i_msr = admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1); //msr is special
@@ -310,6 +324,17 @@ always @(*) begin
 						cr_regw[rn] = 1'b1;
 						cr_regd[rn] = mode2_address_offset;
 					end
+				end else if(admode3) begin
+					addr_load = mode3_address;
+					if(mode3_L == 1'b0) begin
+						data_load = r[rd] & (mode3_H ? 32'hffff : 32'hff);
+						mem_write = 1'b1;
+					end
+				
+					if(mode3_P == 1'b0 || mode3_W == 1'b1) begin
+						cr_regd[rn] = mode3_address_offset;
+						cr_regw[rn] = 1'b1;
+					end
 				end
 				c_next_state = s_ex;
 			end else begin
@@ -354,11 +379,28 @@ always @(*) begin
 					if(mode2_L) begin
 						mem_read = 1'b1;
 						cr_regw[rd] = 1'b1;
-						if(mode2_B) cr_regd[rd] = (r[rd] & 32'hffffff00) | mem_data[7:0];
+						if(mode2_B) cr_regd[rd] = 32'b0 | mem_data[7:0];
 						else cr_regd[rd] = mem_data;
 					end else begin
 						if(mode2_B) data_load = r[rd] & 32'hff;
 						else data_load = r[rd];
+						mem_write = 1'b1;
+					end
+				end
+				admode3: begin
+					addr_load = mode3_address;
+					if(mode3_L) begin
+						mem_read = 1'b1;
+						cr_regw[rd] = 1'b1;
+						case({mode3_S, mode3_H})
+							2'b00: cr_regd[rd] = {24'b0, mem_data[7:0]};
+							2'b01: cr_regd[rd] = {16'b0, mem_data[15:0]};
+							2'b10: cr_regd[rd] = {24'hff, mem_data[7:0]};
+							2'b11: cr_regd[rd] = {16'hffff, mem_data[15:0]};
+							default: ;
+						endcase
+					end else begin
+						data_load = r[rd] & (mode3_H ? 32'hffff : 32'hff);
 						mem_write = 1'b1;
 					end
 				end
