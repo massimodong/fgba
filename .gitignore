@@ -3,4 +3,5 @@ quartus_proj/db/*
 quartus_proj/incremental_db/*
 quartus_proj/output_files/*
 quartus_proj/simulation/
+*.rpt
 *.bak
