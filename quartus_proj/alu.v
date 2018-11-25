@@ -25,6 +25,10 @@ wire i_rsc = opcode == 4'b0111; // reverse subtract with carry
 always @(*) begin
 	case(1'b1)
 		i_mov: out = b;
+		i_add: begin
+			out = a+b;
+			//TODO: cpsr flags
+		end
 		default: begin
 			out = 32'h0;
 			//TODO: undefined instruction

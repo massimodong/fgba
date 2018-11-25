@@ -1,9 +1,0 @@
-vendor_name = ModelSim
-source_file = 1, /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/fgba.v
-source_file = 1, /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/cpu_armv4t.v
-source_file = 1, /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/memory.v
-source_file = 1, mifs/bios.taxt
-source_file = 1, /home/massimo/W/nju/verilog/gba/fgba/quartus_proj/db/fgba.cbx.xml
-design_name = fgba
-instance = comp, \clk_50mhz~input , clk_50mhz~input, fgba, 1
-instance = comp, \~QUARTUS_CREATED_GND~I , ~QUARTUS_CREATED_GND~I, fgba, 1

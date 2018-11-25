@@ -244,7 +244,7 @@ wire mode23_U = instr[23];
 wire mode23_W = instr[21];
 wire mode23_L = instr[20];
 wire mode23_S = admode3 ? instr[6] : 0;
-wire [1:0]mode23_LEN = admode3 ? instr[5] : instr[22] ? 0 : 2; // 2: word, 1: halfword, 0: byte.
+wire [1:0]mode23_LEN = admode3 ? {1'b0, instr[5]} : (instr[22] ? 2'h0 : 2'h2); // 2: word, 1: halfword, 0: byte.
 
 wire [31:0]mode2_offset;
 admode2_shifter admode2_shifter1(instr, r[instr[3:0]], f_c, mode2_offset);

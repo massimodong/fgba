@@ -1,0 +1,4 @@
+initial begin
+	$readmemh("/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/mifs/bios.txt", bios_rom, 0, 4095);
+	$readmemh("/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/mifs/rgb.txt", pak_ram, 0, 255);
+end

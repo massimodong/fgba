@@ -52,18 +52,10 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda
 set_global_assignment -name VERILOG_FILE fgba.v
 set_global_assignment -name VERILOG_FILE cpu_armv4t.v
 set_global_assignment -name VERILOG_FILE memory.v
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
-set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH fbga -section_id eda_simulation
-set_global_assignment -name EDA_TEST_BENCH_NAME fbga -section_id eda_simulation
-set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id fbga
-set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "1 ns" -section_id fbga
-set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME fgba_vlg_tst -section_id fbga
-set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/fgba.vt -section_id fbga
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH fgba_vlg_tst -section_id eda_simulation
 set_global_assignment -name VERILOG_FILE alu.v
 set_global_assignment -name VERILOG_FILE admode1_shifter.v
 set_global_assignment -name QIP_FILE vram.qip
@@ -71,4 +63,12 @@ set_global_assignment -name VERILOG_FILE vgac.v
 set_global_assignment -name VERILOG_FILE graphic.v
 set_global_assignment -name VERILOG_FILE admode2_shifter.v
 set_global_assignment -name VERILOG_FILE cond_check.v
+set_global_assignment -name EDA_TEST_BENCH_NAME fgba_vlg_tst -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id fgba_vlg_tst
+set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "1 ns" -section_id fgba_vlg_tst
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME fgba_vlg_tst -section_id fgba_vlg_tst
+set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/fgba.vt -section_id fgba_vlg_tst
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
