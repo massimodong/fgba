@@ -182,6 +182,7 @@ wire [2:0]itype = instr[27:25];
 wire [3:0]opcode = instr[24:21];
 wire [3:0]rn = instr[19:16];
 wire [3:0]rd = instr[15:12];
+wire [3:0]rm = instr[3:0];
 wire update_cpsr = instr[20];
 wire cond_pass;
 cond_check cond_check1(f_n, f_z, f_c, f_v, cond, cond_pass);
@@ -197,7 +198,7 @@ reg shifter_carry_out;
 wire [31:0]admode1_shifter_operand;
 wire admode1_shifter_carry_out;
 
-admode1_shifter admode1_shifter1(r[instr[3:0]], shift_amount, instr[4], f_c, instr[6:5], admode1_shifter_operand, admode1_shifter_carry_out);
+admode1_shifter admode1_shifter1(r[rm], shift_amount, instr[4], f_c, instr[6:5], admode1_shifter_operand, admode1_shifter_carry_out);
 
 always @(*) begin
 	shift_amount = 8'h0;
@@ -247,15 +248,16 @@ wire mode23_S = admode3 ? instr[6] : 0;
 wire [1:0]mode23_LEN = admode3 ? {1'b0, instr[5]} : (instr[22] ? 2'h0 : 2'h2); // 2: word, 1: halfword, 0: byte.
 
 wire [31:0]mode2_offset;
-admode2_shifter admode2_shifter1(instr, r[instr[3:0]], f_c, mode2_offset);
-wire [31:0]mode3_offset = instr[22] ? {24'b0, instr[11:8], instr[3:0]} : r[instr[3:0]];
+admode2_shifter admode2_shifter1(instr, r[rm], f_c, mode2_offset);
+wire [31:0]mode3_offset = instr[22] ? {24'b0, instr[11:8], instr[3:0]} : r[rm];
 wire [31:0]mode23_offset = admode2 ? mode2_offset : mode3_offset;
 wire [31:0]mode23_address_offset = mode23_U ? (r[rn] + mode23_offset) : (r[rn] - mode23_offset);
 wire [31:0]mode23_address = mode23_P ? mode23_address_offset : r[rn];
 //decode addressing mode 23 finish
 
 wire i_b = itype == 3'b101;
-wire i_msr = admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1); //msr is special
+wire i_bx = instr[27:4] == 24'h12fff1; //bx seems to be in addressing mode 1
+wire i_msr = admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1) && ~i_bx; //msr is special
 
 wire [31:0]alu_out;
 alu alu1(opcode, r[rn], shifter_operand, alu_out);
@@ -347,6 +349,13 @@ always @(*) begin
 							cr_spsrw = 1'b1;
 							cr_spsrd = msr_new_spsr;
 						end
+					end else if(i_bx) begin //branch and exchange
+						if(r[rm][0]) begin
+							cr_cpsrw = 1'b1;
+							cr_cpsrd = cpsr;
+							cr_cpsrd[5] = 1'b1;
+						end
+						cr_regd[15] = r[rm] & 32'hfffffffe;
 					end else begin //change a general register
 						cr_regw[rd] = 1'b1;
 						cr_regd[rd] = alu_out;
