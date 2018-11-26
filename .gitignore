@@ -3,5 +3,6 @@ quartus_proj/db/*
 quartus_proj/incremental_db/*
 quartus_proj/output_files/*
 quartus_proj/simulation/
+quartus_proj/mem_init.txt
 *.rpt
 *.bak
