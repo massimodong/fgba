@@ -185,10 +185,10 @@ wire [3:0]rd = instr[15:12];
 wire [3:0]rm = instr[3:0];
 wire update_cpsr = instr[20];
 wire cond_pass;
-cond_check cond_check1(f_n, f_z, f_c, f_v, cond, cond_pass);
+cond_check cond_check1(f_t, f_n, f_z, f_c, f_v, cond, cond_pass);
 
 //decode addressing mode 1
-wire admode1 = (instr[27:26] == 2'b00) && ({instr[25],instr[4],instr[7]} != 3'b011);
+wire admode1 = (~f_t) && (instr[27:26] == 2'b00) && ({instr[25],instr[4],instr[7]} != 3'b011);
 wire [4:0]rotate_amount = {instr[11:8], 1'b0};
 wire [31:0]immed_8 = {24'b0, instr[7:0]};
 reg [7:0]shift_amount;
@@ -236,16 +236,16 @@ wire [31:0]msr_new_spsr = (spsr & ~msr_mask) | (shifter_operand & msr_mask);
 //decode addressing mode 1 finish
 
 //decode addressing mode 2 / 3
-wire admode2 = instr[27:26] == 2'b01;
-wire admode3 = instr[27:25] == 3'b0 && instr[6:5] != 2'b0;
+wire admode2 = (~f_t) && (instr[27:26] == 2'b01);
+wire admode3 = (~f_t) && (instr[27:25] == 3'b0) && (instr[6:5] != 2'b0);
 wire admode23 = admode2 | admode3;
 
 wire mode23_P = instr[24];
 wire mode23_U = instr[23];
 wire mode23_W = instr[21];
 wire mode23_L = instr[20];
-wire mode23_S = admode3 ? instr[6] : 0;
-wire [1:0]mode23_LEN = admode3 ? {1'b0, instr[5]} : (instr[22] ? 2'h0 : 2'h2); // 2: word, 1: halfword, 0: byte.
+wire mode23_S = admode3 ? instr[6] : 1'b0;
+wire [1:0]mode23_len = admode3 ? {1'b0, instr[5]} : (instr[22] ? 2'h0 : 2'h2); // 2: word, 1: halfword, 0: byte.
 
 wire [31:0]mode2_offset;
 admode2_shifter admode2_shifter1(instr, r[rm], f_c, mode2_offset);
@@ -255,9 +255,32 @@ wire [31:0]mode23_address_offset = mode23_U ? (r[rn] + mode23_offset) : (r[rn] -
 wire [31:0]mode23_address = mode23_P ? mode23_address_offset : r[rn];
 //decode addressing mode 23 finish
 
-wire i_b = itype == 3'b101;
-wire i_bx = instr[27:4] == 24'h12fff1; //bx seems to be in addressing mode 1
-wire i_msr = admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1) && ~i_bx; //msr is special
+//decode thumb
+wire [3:0]t_rd = {1'b0, instr[10:8]};
+
+//decode thumb load/store instructions
+wire tm_literal_pool = f_t && instr[15:11] == 5'b01001; //Load from literal pool LDR(3)
+wire tm_stack = f_t && instr[15:12] == 4'b1001; //Load/store to/from stack TODO
+wire tm_loadstore = tm_literal_pool;
+
+wire tm_ls_L = 1'b1;
+wire tm_ls_S = 1'b0;
+wire [31:0]tm_ls_address = (r[15] & 32'hfffffffc) + {instr[7:0], 2'h0};
+wire [1:0]tm_ls_len = 2'h2;
+//decode thumb instructions finish
+
+//load store
+wire loadstore = admode23 | tm_loadstore;
+wire ls_L = admode23 ? mode23_L : tm_ls_L;
+wire ls_S = admode23 ? mode23_S : tm_ls_S;
+wire [31:0]ls_address = admode23 ? mode23_address : tm_ls_address;
+wire [1:0]ls_len = admode23 ? mode23_len : tm_ls_len;
+wire [3:0]ls_rd = admode23 ? rd : t_rd;
+
+
+wire i_b = (~f_t) && itype == 3'b101;
+wire i_bx = (~f_t) && instr[27:4] == 24'h12fff1; //bx seems to be in addressing mode 1
+wire i_msr = (~f_t) && admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1) && ~i_bx; //msr is special
 
 wire [31:0]alu_out;
 alu alu1(opcode, r[rn], shifter_operand, alu_out);
@@ -307,14 +330,15 @@ always @(*) begin
 		
 		s_id: begin
 			if(cond_pass) begin
-				if(admode23) begin
-					addr_load = mode23_address;
-					if(mode23_L == 1'b0) begin
-						data_load = r[rd] & (mode23_LEN == 2 ? 32'hffffffff : mode23_LEN ? 32'hffff : 32'hff);
+				if(loadstore) begin
+					addr_load = ls_address;
+					if(ls_L == 1'b0) begin //write
+						data_load = r[ls_rd];
+						mem_width = ls_len;
 						mem_write = 1'b1;
 					end
 				
-					if(mode23_P == 1'b0 || mode23_W == 1'b1) begin
+					if(admode23 && (mode23_P == 1'b0 || mode23_W == 1'b1)) begin
 						cr_regw[rn] = 1'b1;
 						cr_regd[rn] = mode23_address_offset;
 					end
@@ -349,8 +373,8 @@ always @(*) begin
 							cr_spsrw = 1'b1;
 							cr_spsrd = msr_new_spsr;
 						end
-					end else if(i_bx) begin //branch and exchange
-						if(r[rm][0]) begin
+					end else if(i_bx) begin //branch and exchange (into thumb mode)
+						if(r[rm][0]) begin //to thumb mode
 							cr_cpsrw = 1'b1;
 							cr_cpsrd = cpsr;
 							cr_cpsrd[5] = 1'b1;
@@ -364,21 +388,22 @@ always @(*) begin
 						//TODO
 					end
 				end
-				admode23: begin	
-					addr_load = mode23_address;
-					if(mode23_L) begin
+				loadstore: begin
+					addr_load = ls_address;
+					if(ls_L) begin
 						mem_read = 1'b1;
-						cr_regw[rd] = 1'b1;
-						case({mode23_S, mode23_LEN})
-							3'b000: cr_regd[rd] = {24'b0, mem_data[7:0]};
-							3'b001: cr_regd[rd] = {16'b0, mem_data[15:0]};
-							3'b010: cr_regd[rd] = mem_data;
-							3'b100: cr_regd[rd] = {24'hff, mem_data[7:0]};
-							3'b101: cr_regd[rd] = {16'hffff, mem_data[15:0]};
+						cr_regw[ls_rd] = 1'b1;
+						case({ls_S, ls_len})
+							3'b000: cr_regd[ls_rd] = {24'b0, mem_data[7:0]};
+							3'b001: cr_regd[ls_rd] = {16'b0, mem_data[15:0]};
+							3'b010: cr_regd[ls_rd] = mem_data;
+							3'b100: cr_regd[ls_rd] = {24'hff, mem_data[7:0]}; //TODO: real sign extend
+							3'b101: cr_regd[ls_rd] = {16'hffff, mem_data[15:0]};
 							default: ; // undefined
 						endcase
 					end else begin
-						data_load = r[rd] & (mode23_LEN == 2 ? 32'hffffffff : mode23_LEN ? 32'hffff : 32'hff);
+						data_load = r[ls_rd];
+						mem_width = ls_len;
 						mem_write = 1'b1;
 					end
 				end
@@ -388,7 +413,7 @@ always @(*) begin
 				end
 			endcase
 			
-			if((!admode2) || mem_ok) begin
+			if((!loadstore) || mem_ok) begin
 				c_next_state = s_if;
 			end else begin //wait for memory
 				for(i=0;i<16;i=i+1) cr_regw[i] = 1'b0;
