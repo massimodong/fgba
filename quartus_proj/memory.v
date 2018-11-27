@@ -12,12 +12,7 @@ module memory(
 	output [15:0]vgac_data
 );
 
-//ram & rom & registers
-reg [31:0]bios_rom[4095:0];
-reg [31:0]pak_ram[255:0];
-//reg [7:0]cart_ram[65535:0];
-reg [7:0]cart_ram[6:0];
-`include "mem_init.txt"
+//`include "mem_init.txt"
 
 wire [3:0]select = addr[27:24];
 
@@ -31,32 +26,21 @@ wire rw_pak = select == 4'h8 ||
 wire rw_cart = select == 4'he || select == 4'hf;
 wire rw_v = select == 4'h6;
 
-reg [31:0]out;
-always @(*) begin
-	case(1'b1)
-		rw_rom: out = bios_rom[addr[13:2]] >> addr[1:0];
-		rw_pak: out = pak_ram[addr[24:2]] >> addr[1:0];
-		rw_cart: out = {24'h0, cart_ram[addr[15:0]]};
-		default: out = 32'h0;
-	endcase
-end
+wire [31:0]bios_out;
+wire [31:0]pak_out;
+bios_rom bios_rom1(
+	.address(addr[13:2]),
+	.clock(clk),
+	.q(bios_out)
+);
 
-/*
-reg [31:0]store_val;
-always @(*) begin
-	case(width)
-		2'h0: store_val = out & 32'hff;
-		2'h1: store_val = out & 32'hffff;
-		2'h2: store_val = out;
-		default: store_val = out;
-	endcase
-end*/
-always @(posedge clk) begin
-	if(write) begin
-		if(rw_pak) pak_ram[addr[24:2]] <= data;
-		if(rw_cart) cart_ram[addr[15:0]] <= data[7:0];
-	end
-end
+pak_ram pak_ram1(
+	.address(addr[24:2]),
+	.clock(clk),
+	.data(data),
+	.wren(rw_pak && write),
+	.q(pak_out)
+);
 
 vram v_ram(
 	.clock(clk),
@@ -66,6 +50,16 @@ vram v_ram(
 	.wren(rw_v & write),
 	.q(vgac_data)
 );
+
+reg [31:0]out;
+always @(*) begin
+	case(1'b1)
+		rw_rom: out = bios_out >> addr[1:0];
+		rw_pak: out = pak_out >> addr[1:0];
+		//rw_cart: out = {24'h0, cart_ram[addr[15:0]]};
+		default: out = 32'h0;
+	endcase
+end
 
 assign data = read ? out : 32'bz;
 

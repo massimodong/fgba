@@ -330,18 +330,9 @@ always @(*) begin
 		
 		s_id: begin
 			if(cond_pass) begin
-				if(loadstore) begin
-					addr_load = ls_address;
-					if(ls_L == 1'b0) begin //write
-						data_load = r[ls_rd];
-						mem_width = ls_len;
-						mem_write = 1'b1;
-					end
-				
-					if(admode23 && (mode23_P == 1'b0 || mode23_W == 1'b1)) begin
-						cr_regw[rn] = 1'b1;
-						cr_regd[rn] = mode23_address_offset;
-					end
+				if(admode23 && (mode23_P == 1'b0 || mode23_W == 1'b1)) begin
+					cr_regw[rn] = 1'b1;
+					cr_regd[rn] = mode23_address_offset;
 				end
 				c_next_state = s_ex;
 			end else begin

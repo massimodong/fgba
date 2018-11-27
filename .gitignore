@@ -4,5 +4,6 @@ quartus_proj/incremental_db/*
 quartus_proj/output_files/*
 quartus_proj/simulation/
 quartus_proj/mem_init.txt
+quartus_proj/greybox_tmp/cbx_args.txt
 *.rpt
 *.bak
