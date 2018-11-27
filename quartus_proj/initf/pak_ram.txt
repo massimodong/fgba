@@ -1,1 +1,1 @@
-altsyncram_component.init_file = "/home/massimo/W/nju/verilog/gba/fgba/quartus_proj/mifs/rgb.mif",
+		altsyncram_component.init_file = "C:/Users/PEI/Documents/Lab_Verilog/fgba/quartus_proj/mifs/rgb.mif",

@@ -5,5 +5,6 @@ quartus_proj/output_files/*
 quartus_proj/simulation/
 quartus_proj/mem_init.txt
 quartus_proj/greybox_tmp/cbx_args.txt
+quartus_proj/initf/*
 *.rpt
 *.bak
