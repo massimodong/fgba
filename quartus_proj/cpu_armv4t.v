@@ -55,7 +55,7 @@ reg [31:0]c_regf[7:0];
 reg [31:0]c_regf_bank2[1:0][12:8];
 reg [31:0]c_regf_bank6[5:0][14:13];
 reg [31:0]c_reg_pc;
-reg [31:0]c_reg_cpsr;
+reg [31:0]c_cpsr;
 reg [31:0]c_reg_spsr[5:1];
 
 always @(posedge clk) begin
@@ -74,7 +74,7 @@ always @(posedge clk) begin
 	
 	reg_pc <= c_reg_pc;
 	
-	reg_cpsr <= c_reg_cpsr;
+	reg_cpsr <= c_cpsr;
 	for(i=1;i<6;i=i+1) reg_spsr[i] <= c_reg_spsr[i];
 end
 
@@ -136,11 +136,9 @@ end
 
 //register control signals by instruction execution
 reg cr_regw[15:0];
-reg cr_cpsrw;
 reg cr_spsrw;
 
 reg [31:0]cr_regd[15:0];
-reg [31:0]cr_cpsrd;
 reg [31:0]cr_spsrd;
 
 //wires
@@ -162,7 +160,6 @@ always @(*) begin
 	
 	c_reg_pc = reg_pc;
 	
-	c_reg_cpsr = reg_cpsr;
 	for(i=1;i<6;i=i+1) c_reg_spsr[i] = reg_spsr[i];
 	//initialize complete
 	
@@ -175,7 +172,6 @@ always @(*) begin
 	
 	if(cr_regw[15]) c_reg_pc = cr_regd[15];
 	
-	if(cr_cpsrw) c_reg_cpsr = cr_cpsrd;
 	if(cr_spsrw && bank6id != 3'h0) c_reg_spsr[bank6id] = cr_spsrd;
 end
 
@@ -330,18 +326,17 @@ always @(*) begin
 		cr_regw[i] = 1'b0;
 		cr_regd[i] = 32'h0;
 	end
-	cr_cpsrw = 1'b0;
-	cr_cpsrd = 32'h0;
 	cr_spsrw = 1'b0;
 	cr_spsrd = 32'h0;
 	
+	c_cpsr = cpsr;
+
 	case (cpu_state)
 		s_init: begin
 			cr_regw[15] = 1'b1;
 			cr_regd[15] = 32'h08000000;
 			
-			cr_cpsrw = 1'b1;
-			cr_cpsrd = 32'h13; //Supervisor mode
+			c_cpsr = 32'h13; //Supervisor mode
 
 			c_next_state = s_if;
 		end
@@ -387,17 +382,13 @@ always @(*) begin
 				admode1: begin //addressing mode 1 instructions
 					if(i_msr) begin //msr instruction changes cpsr or spsr, not a general register
 						if(instr[22] == 1'b0) begin //change cpsr
-							cr_cpsrw = 1'b1;
-							cr_cpsrd = msr_new_cpsr;
+							c_cpsr = msr_new_cpsr;
 						end else begin //change spsr
-							cr_spsrw = 1'b1;
-							cr_spsrd = msr_new_spsr;
+							c_cpsr = msr_new_spsr;
 						end
 					end else if(i_bx) begin //branch and exchange (into thumb mode)
 						if(r[rm][0]) begin //to thumb mode
-							cr_cpsrw = 1'b1;
-							cr_cpsrd = cpsr;
-							cr_cpsrd[5] = 1'b1;
+							c_cpsr[5] = 1'b1;
 						end
 						cr_regd[15] = r[rm] & 32'hfffffffe;
 					end else begin //change a general register
@@ -428,23 +419,21 @@ always @(*) begin
 					end
 				end
 				ti_lsl: begin //thumb shift left instruction
-					cr_cpsrw = 1'b1;
-					cr_cpsrd = cpsr;
 					cr_regw[t_rd] = 1'b1;
 					if(t_src2[7:0] == 8'h0) begin
 						cr_regd[t_rd] = t_src1;
 					end else if(t_src2[7:0] < 8'd32) begin
-						cr_cpsrd[CFb] = t_src1[8'd32 - t_src2];
+						c_cpsr[CFb] = t_src1[8'd32 - t_src2];
 						cr_regd[t_rd] = t_src1 << t_src2;
 					end else if(t_src2[7:0] == 8'd32) begin
-						cr_cpsrd[CFb] = t_src1[0];
+						c_cpsr[CFb] = t_src1[0];
 						cr_regd[t_rd] = 32'h0;
 					end else begin
-						cr_cpsrd[CFb] = 1'b0;
+						c_cpsr[CFb] = 1'b0;
 						cr_regd[t_rd] = 32'h0;
 					end
-					cr_cpsrd[NFb] = cr_regd[t_rd][31];
-					cr_cpsrd[ZFb] = (cr_regd[t_rd] == 32'h0) ? 1'b1 : 1'b0;
+					c_cpsr[NFb] = cr_regd[t_rd][31];
+					c_cpsr[ZFb] = (cr_regd[t_rd] == 32'h0) ? 1'b1 : 1'b0;
 				end
 				default: begin
 				// undefined instruction
@@ -456,7 +445,7 @@ always @(*) begin
 				c_next_state = s_if;
 			end else begin //wait for memory
 				for(i=0;i<16;i=i+1) cr_regw[i] = 1'b0;
-				cr_cpsrw = 1'b0;
+				c_cpsr = cpsr;
 				cr_spsrw = 1'b0;
 				c_next_state = s_ex;
 			end
