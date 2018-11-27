@@ -29,6 +29,11 @@ parameter msr_UserMask = 32'hf0000000;
 parameter msr_PrivMask = 32'h0000000f;
 parameter msr_StateMask = 32'h00000020;
 
+parameter [4:0]NFb = 5'd31;
+parameter [4:0]ZFb = 5'd30;
+parameter [4:0]CFb = 5'd29;
+parameter [4:0]VFb = 5'd28;
+
 integer i, j;
 
 //sequential
@@ -255,9 +260,6 @@ wire [31:0]mode23_address_offset = mode23_U ? (r[rn] + mode23_offset) : (r[rn] -
 wire [31:0]mode23_address = mode23_P ? mode23_address_offset : r[rn];
 //decode addressing mode 23 finish
 
-//decode thumb
-wire [3:0]t_rd = {1'b0, instr[10:8]};
-
 //decode thumb load/store instructions
 wire tm_literal_pool = f_t && instr[15:11] == 5'b01001; //Load from literal pool LDR(3)
 wire tm_stack = f_t && instr[15:12] == 4'b1001; //Load/store to/from stack TODO
@@ -267,7 +269,33 @@ wire tm_ls_L = 1'b1;
 wire tm_ls_S = 1'b0;
 wire [31:0]tm_ls_address = (r[15] & 32'hfffffffc) + {instr[7:0], 2'h0};
 wire [1:0]tm_ls_len = 2'h2;
-//decode thumb instructions finish
+//decode thumb load/store instructions finish
+
+//decode thumb
+reg [3:0]t_rd;
+reg [31:0]t_src1;
+reg [31:0]t_src2;
+reg [3:0]t_opcode; //opcode of specific ARM instruction
+reg t_alu; //perfrom an ARM style instuction
+reg ti_lsl; //shift left
+always @(*) begin
+	t_rd = 4'h0;
+	t_src1 = 32'h0;
+	t_src2 = 32'h0;
+	t_opcode = 4'h0;
+	t_alu = 1'b0;
+	ti_lsl = 1'b0;
+
+	if(instr[15:13] == 3'h0) begin //Shift by immediate LSL(1)
+		t_rd = {1'b0, instr[2:0]};
+		t_src1 = r[{1'b0, instr[5:3]}];
+		t_src2 = {27'h0, instr[10:6]};
+		ti_lsl = 1'b1;
+	end else if(tm_literal_pool) begin
+		t_rd = {1'b0, instr[10:8]};
+	end
+end
+//decode thumb end
 
 //load store
 wire loadstore = admode23 | tm_loadstore;
@@ -276,6 +304,7 @@ wire ls_S = admode23 ? mode23_S : tm_ls_S;
 wire [31:0]ls_address = admode23 ? mode23_address : tm_ls_address;
 wire [1:0]ls_len = admode23 ? mode23_len : tm_ls_len;
 wire [3:0]ls_rd = admode23 ? rd : t_rd;
+//load store end
 
 
 wire i_b = (~f_t) && itype == 3'b101;
@@ -283,7 +312,7 @@ wire i_bx = (~f_t) && instr[27:4] == 24'h12fff1; //bx seems to be in addressing 
 wire i_msr = (~f_t) && admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1) && ~i_bx; //msr is special
 
 wire [31:0]alu_out;
-alu alu1(opcode, r[rn], shifter_operand, alu_out);
+alu alu1(f_t ? t_opcode : opcode, f_t ? t_src1 : r[rn], f_t ? t_src2 : shifter_operand, alu_out);
 
 assign mem_addr = addr_load; //addr only used as output
 assign mem_data = (mem_write ? data_load : 32'bz);
@@ -397,6 +426,25 @@ always @(*) begin
 						mem_width = ls_len;
 						mem_write = 1'b1;
 					end
+				end
+				ti_lsl: begin //thumb shift left instruction
+					cr_cpsrw = 1'b1;
+					cr_cpsrd = cpsr;
+					cr_regw[t_rd] = 1'b1;
+					if(t_src2[7:0] == 8'h0) begin
+						cr_regd[t_rd] = t_src1;
+					end else if(t_src2[7:0] < 8'd32) begin
+						cr_cpsrd[CFb] = t_src1[8'd32 - t_src2];
+						cr_regd[t_rd] = t_src1 << t_src2;
+					end else if(t_src2[7:0] == 8'd32) begin
+						cr_cpsrd[CFb] = t_src1[0];
+						cr_regd[t_rd] = 32'h0;
+					end else begin
+						cr_cpsrd[CFb] = 1'b0;
+						cr_regd[t_rd] = 32'h0;
+					end
+					cr_cpsrd[NFb] = cr_regd[t_rd][31];
+					cr_cpsrd[ZFb] = (cr_regd[t_rd] == 32'h0) ? 1'b1 : 1'b0;
 				end
 				default: begin
 				// undefined instruction

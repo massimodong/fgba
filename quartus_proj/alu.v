@@ -5,6 +5,7 @@ module alu(
 	output reg [31:0]out
 );
 
+//TODO: correct opcodes according to table A3-2
 wire i_mov = opcode == 4'b1101;
 wire i_mvn = opcode == 4'b1111; // move not
 

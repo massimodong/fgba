@@ -51,11 +51,13 @@ vram v_ram(
 	.q(vgac_data)
 );
 
+wire [4:0]sr32 = {addr[1:0], 3'h0};
+
 reg [31:0]out;
 always @(*) begin
 	case(1'b1)
-		rw_rom: out = bios_out >> addr[1:0];
-		rw_pak: out = pak_out >> addr[1:0];
+		rw_rom: out = bios_out >> sr32;
+		rw_pak: out = pak_out >> sr32;
 		//rw_cart: out = {24'h0, cart_ram[addr[15:0]]};
 		default: out = 32'h0;
 	endcase
