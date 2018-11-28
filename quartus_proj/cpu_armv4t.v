@@ -314,7 +314,6 @@ wire i_msr = (~f_t) && admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1)
 
 wire [31:0]alu_out;
 wire alu_out_n, alu_out_z, alu_out_c, alu_out_v;
-// TODO: cpsr flags
 alu alu1(f_t ? t_opcode : opcode,
 			f_t ? t_src1 : r[rn],
 			f_t ? t_src2 : shifter_operand,
