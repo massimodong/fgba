@@ -308,6 +308,40 @@ always @(*) begin
 			2'b11: t_opcode = 4'b0010;//sub
 		endcase
 		t_alu = 1'b1;
+	end else if(instr[15:10] == 6'b010000) begin //Data processing register
+		t_rd = {1'b0, instr[2:0]};
+		t_src1 = r[t_rd];
+		t_src2 = r[{1'b0, instr[5:3]}];
+		t_opcode = instr[9:6];
+		t_alu = 1'b1;
+		case(t_opcode) //special opcodes
+			4'b1001: begin //neg
+				t_src1 = 32'h0;
+				t_opcode = 4'b0010; //sub
+			end
+			4'b1101: begin //mul
+				t_alu = 1'b0;
+				//TODO
+			end
+			4'b0010: begin //lsl
+				t_alu = 1'b0;
+				//TODO
+			end
+			4'b0011: begin //lsr
+				t_alu = 1'b0;
+				//TODO
+			end
+			4'b0100: begin //asr
+				t_alu = 1'b0;
+				//TODO
+			end
+			4'b0111: begin //ror
+				t_alu = 1'b0;
+				//TODO
+			end
+			default: begin
+			end
+		endcase
 	end else if(instr[15:12] == 4'b1101) begin //Conditional branch
 		ti_cb = 1'b1;
 		t_src1 = r[15] + {{23{instr[7]}}, instr[7:0], 1'b0};
