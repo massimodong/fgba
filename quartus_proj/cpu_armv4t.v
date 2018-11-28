@@ -313,12 +313,13 @@ wire i_bx = (~f_t) && instr[27:4] == 24'h12fff1; //bx seems to be in addressing 
 wire i_msr = (~f_t) && admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1) && ~i_bx; //msr is special
 
 wire [31:0]alu_out;
+wire alu_out_n, alu_out_z, alu_out_c, alu_out_v;
 // TODO: cpsr flags
 alu alu1(f_t ? t_opcode : opcode,
 			f_t ? t_src1 : r[rn],
 			f_t ? t_src2 : shifter_operand,
-			f_n, f_z, f_c, f_v,
-			alu_out);
+			f_n, f_z, f_c, f_v, shifter_carry_out,
+			alu_out, alu_out_n, alu_out_z, alu_out_c, alu_out_v);
 
 assign mem_addr = addr_load; //addr only used as output
 assign mem_data = (mem_write ? data_load : 32'bz);
