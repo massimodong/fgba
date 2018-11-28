@@ -5,7 +5,7 @@ module alu(
 	input n, z, c, v, shifter_carry_out,
 	output reg [31:0]out,
 	output reg out_n, out_z, out_c, out_v,
-	output reg wrd
+	output wrd
 );
 
 wire i_mov = opcode == 4'b1101; // move
@@ -28,8 +28,11 @@ wire i_teq = opcode == 4'b1001; // test equivalence
 wire i_cmp = opcode == 4'b1010; // compare
 wire i_cmn = opcode == 4'b1011; // compare negated
 
+assign wrd = ~(i_tst | i_teq | i_cmp | i_cmn);
+
 always @(*) begin
 	out_c = c;
+	out_v = v;
 	case(1'b1)
 		i_add, i_cmn:	{out_c, out} = a + b;
 		i_adc:			{out_c, out} = a + b + c;
@@ -54,12 +57,7 @@ always @(*) begin
 		i_add, i_cmn, i_adc:	out_v = a[31] == b[31] && a[31] != out[31];
 		i_sub, i_cmp, i_sbc:	out_v = a[31] != b[31] && a[31] != out[31];
 		i_rsb, i_rsc:			out_v = a[31] != b[31] && b[31] != out[31];
-		default:					begin out_c = shifter_carry_out; out_v = v; end
-	endcase
-
-	case(1'b1)
-		i_tst, i_teq, i_cmp, i_cmn: wrd = 1'b0;
-		default: wrd = 1'b1;
+		default:					out_c = shifter_carry_out;
 	endcase
 end
 
