@@ -289,6 +289,17 @@ always @(*) begin
 		t_src1 = r[{1'b0, instr[5:3]}];
 		t_src2 = {27'h0, instr[10:6]};
 		ti_lsl = 1'b1;
+	end else if(instr[15:13] == 3'b001) begin //Add/subtract/compare/move immediate
+		t_rd = {1'b0, instr[10:8]};
+		t_src1 = r[t_rd];
+		t_src2 = {24'h0, instr[7:0]};
+		case(instr[12:11])
+			2'b00: t_opcode = 4'b1101;//mov
+			2'b01: t_opcode = 4'b1010;//cmp
+			2'b10: t_opcode = 4'b0100;//add
+			2'b11: t_opcode = 4'b0010;//sub
+		endcase
+		t_alu = 1'b1;
 	end else if(instr[15:12] == 4'b1101) begin //Conditional branch
 		ti_cb = 1'b1;
 		t_src1 = r[15] + {{23{instr[7]}}, instr[7:0], 1'b0};
@@ -427,6 +438,11 @@ always @(*) begin
 						mem_width = ls_len;
 						mem_write = 1'b1;
 					end
+				end
+				t_alu: begin
+					cr_regw[t_rd] = 1'b1;
+					cr_regd[t_rd] = alu_out;
+					//TODO: update cpsr
 				end
 				ti_lsl: begin //thumb shift left instruction
 					cr_regw[t_rd] = 1'b1;
