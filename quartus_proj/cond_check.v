@@ -1,12 +1,10 @@
 module cond_check(
-	input t, n, z, c, v,
+	input n, z, c, v,
 	input [3:0]cond,
 	output reg o
 );
 
 always @(*) begin
-	if(t) o = 1'b1;
-	else begin
 		case(cond)
 			4'b0000: o = z;	// equal
 			4'b0001: o = ~z;	// not equal
@@ -26,7 +24,6 @@ always @(*) begin
 			4'b1111: o = 1'b0;	// should not reach here
 			default: o = 1'b0;	// should not reach here
 		endcase
-	end
 end
 
 endmodule

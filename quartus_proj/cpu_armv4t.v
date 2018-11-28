@@ -178,7 +178,7 @@ end
 //process
 reg [31:0]addr_load;
 reg [31:0]data_load;
-wire [3:0]cond = instr[31:28];
+wire [3:0]cond = f_t ? instr[11:8] : instr[31:28];
 wire [2:0]itype = instr[27:25];
 wire [3:0]opcode = instr[24:21];
 wire [3:0]rn = instr[19:16];
@@ -186,7 +186,7 @@ wire [3:0]rd = instr[15:12];
 wire [3:0]rm = instr[3:0];
 wire update_cpsr = instr[20];
 wire cond_pass;
-cond_check cond_check1(f_t, f_n, f_z, f_c, f_v, cond, cond_pass);
+cond_check cond_check1(f_n, f_z, f_c, f_v, cond, cond_pass);
 
 //decode addressing mode 1
 wire admode1 = (~f_t) && (instr[27:26] == 2'b00) && ({instr[25],instr[4],instr[7]} != 3'b011);
@@ -274,6 +274,7 @@ reg [31:0]t_src2;
 reg [3:0]t_opcode; //opcode of specific ARM instruction
 reg t_alu; //perfrom an ARM style instuction
 reg ti_lsl; //shift left
+reg ti_cb; //conditional branch
 always @(*) begin
 	t_rd = 4'h0;
 	t_src1 = 32'h0;
@@ -281,12 +282,16 @@ always @(*) begin
 	t_opcode = 4'h0;
 	t_alu = 1'b0;
 	ti_lsl = 1'b0;
+	ti_cb = 1'b0;
 
 	if(instr[15:13] == 3'h0) begin //Shift by immediate LSL(1)
 		t_rd = {1'b0, instr[2:0]};
 		t_src1 = r[{1'b0, instr[5:3]}];
 		t_src2 = {27'h0, instr[10:6]};
 		ti_lsl = 1'b1;
+	end else if(instr[15:12] == 4'b1101) begin //Conditional branch
+		ti_cb = 1'b1;
+		t_src1 = r[15] + {{23{instr[7]}}, instr[7:0], 1'b0};
 	end else if(tm_literal_pool) begin
 		t_rd = {1'b0, instr[10:8]};
 	end
@@ -312,6 +317,7 @@ wire [31:0]alu_out;
 alu alu1(f_t ? t_opcode : opcode,
 			f_t ? t_src1 : r[rn],
 			f_t ? t_src2 : shifter_operand,
+			f_n, f_z, f_c, f_v,
 			alu_out);
 
 assign mem_addr = addr_load; //addr only used as output
@@ -357,7 +363,7 @@ always @(*) begin
 		end
 		
 		s_id: begin
-			if(cond_pass) begin
+			if(f_t || cond_pass) begin
 				if(admode23 && (mode23_P == 1'b0 || mode23_W == 1'b1)) begin
 					cr_regw[rn] = 1'b1;
 					cr_regd[rn] = mode23_address_offset;
@@ -438,6 +444,9 @@ always @(*) begin
 					end
 					c_cpsr[NFb] = cr_regd[t_rd][31];
 					c_cpsr[ZFb] = (cr_regd[t_rd] == 32'h0) ? 1'b1 : 1'b0;
+				end
+				ti_cb: begin //conditional branch
+					if(cond_pass) cr_regd[15] = t_src1;
 				end
 				default: begin
 				// undefined instruction
