@@ -28,6 +28,7 @@ wire i_cmp = opcode == 4'b1010; // compare
 wire i_cmn = opcode == 4'b1011; // compare negated
 
 always @(*) begin
+	out_c = c;
 	case(1'b1)
 		i_add, i_cmn:	{out_c, out} = a + b;
 		i_adc:			{out_c, out} = a + b + c;

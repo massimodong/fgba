@@ -275,6 +275,7 @@ reg [3:0]t_opcode; //opcode of specific ARM instruction
 reg t_alu; //perfrom an ARM style instuction
 reg ti_lsl; //shift left
 reg ti_cb; //conditional branch
+reg ti_b; //some branches
 always @(*) begin
 	t_rd = 4'h0;
 	t_src1 = 32'h0;
@@ -283,6 +284,7 @@ always @(*) begin
 	t_alu = 1'b0;
 	ti_lsl = 1'b0;
 	ti_cb = 1'b0;
+	ti_b = 1'b0;
 
 	if(instr[15:13] == 3'h0) begin //Shift by immediate LSL(1)
 		t_rd = {1'b0, instr[2:0]};
@@ -303,6 +305,9 @@ always @(*) begin
 	end else if(instr[15:12] == 4'b1101) begin //Conditional branch
 		ti_cb = 1'b1;
 		t_src1 = r[15] + {{23{instr[7]}}, instr[7:0], 1'b0};
+	end else if(instr[15:13] == 3'b111) begin //some branches
+		ti_b = 1'b1;
+		t_src1 = {21'h0, instr[10:0]};
 	end else if(tm_literal_pool) begin
 		t_rd = {1'b0, instr[10:8]};
 	end
@@ -463,6 +468,22 @@ always @(*) begin
 				end
 				ti_cb: begin //conditional branch
 					if(cond_pass) cr_regd[15] = t_src1;
+				end
+				ti_b: begin //some brances
+					case(instr[12:11])
+						2'b00: cr_regd[15] = r[15] + {{20{t_src1[10]}}, t_src1[10:0], 1'b0};
+						2'b10: begin
+							cr_regw[14] = 1'b1;
+							cr_regd[14] = r[15] + {{9{t_src1[10]}}, t_src1[10:0], 12'h0};
+						end
+						2'b11: begin
+							cr_regd[15] = r[14] + {20'h0, instr[10:0], 1'b0};
+							cr_regw[14] = 1'b1;
+							cr_regd[14] = seq_pc | 1;
+						end
+						default: begin//armv5t instruction, should not reach here
+						end
+					endcase
 				end
 				default: begin
 				// undefined instruction
