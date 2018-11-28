@@ -286,7 +286,13 @@ always @(*) begin
 	ti_cb = 1'b0;
 	ti_b = 1'b0;
 
-	if(instr[15:13] == 3'h0) begin //Shift by immediate LSL(1)
+	if(instr[15:11] == 5'b00011) begin
+		t_rd = {1'b0, instr[2:0]};
+		t_src1 = r[{1'b0, instr[5:3]}];
+		t_src2 = instr[10] ? {29'h0, instr[8:6]} : r[{1'b0, instr[8:6]}];
+		t_opcode = instr[9] ? 4'b0010 : 4'b0100;
+		t_alu = 1'b1;
+	end else if(instr[15:13] == 3'h0) begin //Shift by immediate LSL(1)
 		t_rd = {1'b0, instr[2:0]};
 		t_src1 = r[{1'b0, instr[5:3]}];
 		t_src2 = {27'h0, instr[10:6]};
