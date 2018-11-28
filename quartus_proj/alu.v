@@ -4,7 +4,8 @@ module alu(
 	input [31:0]b,
 	input n, z, c, v, shifter_carry_out,
 	output reg [31:0]out,
-	output reg out_n, out_z, out_c, out_v
+	output reg out_n, out_z, out_c, out_v,
+	output reg wrd
 );
 
 wire i_mov = opcode == 4'b1101; // move
@@ -48,12 +49,17 @@ always @(*) begin
 			//should reaise interrupt
 		end
 	endcase
-	
+
 	case(1'b1)
 		i_add, i_cmn, i_adc:	out_v = a[31] == b[31] && a[31] != out[31];
 		i_sub, i_cmp, i_sbc:	out_v = a[31] != b[31] && a[31] != out[31];
 		i_rsb, i_rsc:			out_v = a[31] != b[31] && b[31] != out[31];
 		default:					begin out_c = shifter_carry_out; out_v = v; end
+	endcase
+
+	case(1'b1)
+		i_tst, i_teq, i_cmp, i_cmn: wrd = 1'b0;
+		default: wrd = 1'b1;
 	endcase
 end
 
