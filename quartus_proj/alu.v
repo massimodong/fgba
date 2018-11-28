@@ -2,9 +2,9 @@ module alu(
 	input [3:0]opcode,
 	input [31:0]a,
 	input [31:0]b,
-	input o_n, o_z, o_c, o_v,
+	input n, z, c, v, shifter_carry_out,
 	output reg [31:0]out,
-	output reg n, z, c, v
+	output reg out_n, out_z, out_c, out_v
 );
 
 wire i_mov = opcode == 4'b1101; // move
@@ -29,17 +29,17 @@ wire i_cmn = opcode == 4'b1011; // compare negated
 
 always @(*) begin
 	case(1'b1)
+		i_add, i_cmn:	{out_c, out} = a + b;
+		i_adc:			{out_c, out} = a + b + c;
+		i_sub, i_cmp:	{out_c, out} = {1'b1, a} - b;
+		i_sbc:			{out_c, out} = {1'b1, a} - b - ~c;
+		i_rsb:			{out_c, out} = {1'b1, b} - a;
+		i_rsc:			{out_c, out} = {1'b1, b} - a - ~c;
 		i_and, i_tst:	out = a & b;
+		i_bic:			out = a & (~b);
 		i_eor, i_teq:	out = a ^ b;
-		i_sub, i_cmp:	out = a - b;
-		i_rsb:			out = b - a;
-		i_add, i_cmn:	out = a + b;
-		i_adc:			out = a + b + o_c;
-		i_sbc:			out = a - b - ~o_c;
-		i_rsc:			out = b - a - ~o_c;
 		i_orr:			out = a | b;
 		i_mov:			out = b;
-		i_bic:			out = a & (~b);
 		i_mvn:			out = ~b;
 		default: begin
 			out = 32'h0;
@@ -48,11 +48,12 @@ always @(*) begin
 		end
 	endcase
 	
-	//TODO: cpsr flags. See page 50: A2-12
-	n = out[31];
-	z = out == 0;
-	c = o_c;
-	v = o_v;
+	case(1'b1)
+		i_add, i_cmn, i_adc:	out_v = a[31] == b[31] && a[31] != out[31];
+		i_sub, i_cmp, i_sbc:	out_v = a[31] != b[31] && a[31] != out[31];
+		i_rsb, i_rsc:			out_v = a[31] != b[31] && b[31] != out[31];
+		default:					begin out_c = shifter_carry_out; out_v = v; end
+	endcase
 end
 
 endmodule
