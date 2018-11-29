@@ -4,7 +4,8 @@ module alu(
 	input [31:0]b,
 	input n, z, c, v, shifter_carry_out,
 	output reg [31:0]out,
-	output reg out_n, out_z, out_c, out_v,
+	output out_n, out_z,
+	output reg out_c, out_v,
 	output wrd
 );
 
@@ -29,6 +30,8 @@ wire i_cmp = opcode == 4'b1010; // compare
 wire i_cmn = opcode == 4'b1011; // compare negated
 
 assign wrd = ~(i_tst | i_teq | i_cmp | i_cmn);
+assign out_n = out[31];
+assign out_z = out == 32'h0 ? 1'b1 : 1'b0;
 
 always @(*) begin
 	out_c = c;
