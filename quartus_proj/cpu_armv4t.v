@@ -458,11 +458,19 @@ always @(*) begin
 						end
 						cr_regd[15] = r[rm] & 32'hfffffffe;
 					end else begin //change a general register
-						cr_regw[rd] = 1'b1;
-						cr_regd[rd] = alu_out;
-					end
-					if(update_cpsr) begin
-						//TODO
+						if(alu_wrd) begin
+							cr_regw[rd] = 1'b1;
+							cr_regd[rd] = alu_out;
+						end
+						if(update_cpsr) begin
+							if(rd == 4'd15) c_cpsr = spsr;
+							else begin
+								c_cpsr[NFb] = alu_out_n;
+								c_cpsr[ZFb] = alu_out_z;
+								c_cpsr[CFb] = alu_out_c;
+								c_cpsr[VFb] = alu_out_v;
+							end
+						end
 					end
 				end
 				loadstore: begin
@@ -487,7 +495,10 @@ always @(*) begin
 				t_alu: begin
 					cr_regw[t_rd] = 1'b1;
 					cr_regd[t_rd] = alu_out;
-					//TODO: update cpsr
+					c_cpsr[NFb] = alu_out_n;
+					c_cpsr[ZFb] = alu_out_z;
+					c_cpsr[CFb] = alu_out_c;
+					c_cpsr[VFb] = alu_out_v;
 				end
 				ti_lsl: begin //thumb shift left instruction
 					cr_regw[t_rd] = 1'b1;
