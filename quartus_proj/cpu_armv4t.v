@@ -19,10 +19,37 @@ begin
 end
 endtask
 
+task priority_encoder16_4;
+input [15:0]a;
+output reg [3:0]b;
+begin
+	case(1'b1)
+		a[0]: b = 4'h0;
+		a[1]: b = 4'h1;
+		a[2]: b = 4'h2;
+		a[3]: b = 4'h3;
+		a[4]: b = 4'h4;
+		a[5]: b = 4'h5;
+		a[6]: b = 4'h6;
+		a[7]: b = 4'h7;
+		a[8]: b = 4'h8;
+		a[9]: b = 4'h9;
+		a[10]: b = 4'ha;
+		a[11]: b = 4'hb;
+		a[12]: b = 4'hc;
+		a[13]: b = 4'hd;
+		a[14]: b = 4'he;
+		a[15]: b = 4'hf;
+		default: b = 4'h0;
+	endcase
+end
+endtask
+
 parameter s_init = 3'h0;
 parameter s_if = 3'h1;
 parameter s_id = 3'h2;
 parameter s_ex = 3'h3;
+parameter s_lsm = 3'h4; //load store multiple
 
 parameter msr_UnallocMask = 32'h0fffff00;
 parameter msr_UserMask = 32'hf0000000;
@@ -47,6 +74,11 @@ reg [31:0]reg_pc = 32'h08000000;
 reg [31:0]reg_cpsr = 32'h0;
 reg [31:0]reg_spsr[5:1];
 
+reg [31:0]lsm_address;
+reg [15:0]lsm_rgs;
+reg lsm_L;
+reg [3:0]lsm_rd;
+
 //base controls
 reg [2:0]c_next_state;
 reg [31:0]c_saved_instr;
@@ -58,24 +90,35 @@ reg [31:0]c_reg_pc;
 reg [31:0]c_cpsr;
 reg [31:0]c_reg_spsr[5:1];
 
+reg [31:0]c_lsm_address;
+reg [15:0]c_lsm_rgs;
+reg c_lsm_L;
+reg [3:0]c_lsm_rd;
+always @(*) priority_encoder16_4(c_lsm_rgs, c_lsm_rd);
+
 always @(posedge clk) begin
 	cpu_state <= c_next_state;
 	saved_instr <= c_saved_instr;
-	
+
 	for(i=0;i<8;i=i+1)  regf[i] <= c_regf[i];
 	
 	for(i=0;i<2;i=i+1) begin
 		for(j=8;j<13;j=j+1) regf_bank2[i][j] <= c_regf_bank2[i][j];
 	end
-	
+
 	for(i=0;i<6;i=i+1) begin
 		for(j=13;j<15;j=j+1) regf_bank6[i][j] <= c_regf_bank6[i][j];
 	end
-	
+
 	reg_pc <= c_reg_pc;
-	
+
 	reg_cpsr <= c_cpsr;
 	for(i=1;i<6;i=i+1) reg_spsr[i] <= c_reg_spsr[i];
+
+	lsm_address <= c_lsm_address;
+	lsm_rgs <= c_lsm_rgs;
+	lsm_L <= c_lsm_L;
+	lsm_rd <= c_lsm_rd;
 end
 
 //wires
@@ -276,6 +319,7 @@ reg t_alu; //perfrom an ARM style instuction
 reg ti_lsl; //shift left
 reg ti_cb; //conditional branch
 reg ti_b; //some branches
+reg ti_lsm; //load store multiple
 always @(*) begin
 	t_rd = 4'h0;
 	t_src1 = 32'h0;
@@ -285,6 +329,7 @@ always @(*) begin
 	ti_lsl = 1'b0;
 	ti_cb = 1'b0;
 	ti_b = 1'b0;
+	ti_lsm = 1'b0;
 
 	if(instr[15:11] == 5'b00011) begin
 		t_rd = {1'b0, instr[2:0]};
@@ -342,6 +387,8 @@ always @(*) begin
 			default: begin
 			end
 		endcase
+	end else if(instr[15:12] == 4'b1100) begin //load store multiple
+		ti_lsm = 1'b1;
 	end else if(instr[15:12] == 4'b1101) begin //Conditional branch
 		ti_cb = 1'b1;
 		t_src1 = r[15] + {{23{instr[7]}}, instr[7:0], 1'b0};
@@ -388,6 +435,10 @@ always @(*) begin
 	mem_read = 1'b0;
 	mem_write = 1'b0;
 	
+	c_lsm_address = 32'h0;
+	c_lsm_rgs = 16'h0;
+	c_lsm_L = 1'b0;
+
 	for(i=0;i<16;i=i+1) begin
 		cr_regw[i] = 1'b0;
 		cr_regd[i] = 32'h0;
@@ -419,12 +470,17 @@ always @(*) begin
 		end
 		
 		s_id: begin
+			c_next_state = s_ex;
 			if(f_t || cond_pass) begin
 				if(admode23 && (mode23_P == 1'b0 || mode23_W == 1'b1)) begin
 					cr_regw[rn] = 1'b1;
 					cr_regd[rn] = mode23_address_offset;
+				end else if(ti_lsm) begin
+					c_lsm_L = instr[11];
+					c_lsm_address = r[{1'b0, instr[10:8]}];
+					c_lsm_rgs = {8'h0, instr[7:0]};
+					c_next_state = s_lsm;
 				end
-				c_next_state = s_ex;
 			end else begin
 				cr_regw[15] = 1'b1;
 				cr_regd[15] = seq_pc;
@@ -551,7 +607,32 @@ always @(*) begin
 				c_next_state = s_ex;
 			end
 		end
-		
+		s_lsm: begin
+			addr_load = lsm_address;
+			if(lsm_L) begin
+				mem_read = 1'b1;
+				cr_regw[lsm_rd] = 1'b1;
+				cr_regd[lsm_rd] = mem_data;
+			end else begin
+				mem_write = 1'b1;
+				data_load = r[lsm_rd];
+			end
+
+			c_lsm_address = lsm_address + 32'h4;
+			c_lsm_rgs = lsm_rgs;
+			c_lsm_rgs[lsm_rd] = 1'b0;
+
+			if(c_lsm_rgs == 16'h0) begin
+				cr_regw[15] = 1'b1;
+				cr_regd[15] = seq_pc;
+				c_next_state = s_if;
+
+				if(ti_lsm) begin
+					cr_regw[{1'b0, instr[10:8]}] = 1'b1;
+					cr_regd[{1'b0, instr[10:8]}] = c_lsm_address;
+				end
+			end else c_next_state = s_lsm;
+		end
 		default: begin
 			//should not reach here
 			c_next_state = s_init;
