@@ -320,6 +320,7 @@ reg ti_lsl; //shift left
 reg ti_cb; //conditional branch
 reg ti_b; //some branches
 reg ti_lsm; //load store multiple
+reg ti_bx;
 always @(*) begin
 	t_rd = 4'h0;
 	t_src1 = 32'h0;
@@ -330,6 +331,7 @@ always @(*) begin
 	ti_cb = 1'b0;
 	ti_b = 1'b0;
 	ti_lsm = 1'b0;
+	ti_bx = 1'b0;
 
 	if(instr[15:11] == 5'b00011) begin
 		t_rd = {1'b0, instr[2:0]};
@@ -387,6 +389,9 @@ always @(*) begin
 			default: begin
 			end
 		endcase
+	end else if(instr[15:7] == 9'b010001110) begin //bx
+		ti_bx = 1'b1;
+		t_rd = instr[6:3];
 	end else if(instr[15:12] == 4'b1100) begin //load store multiple
 		ti_lsm = 1'b1;
 	end else if(instr[15:12] == 4'b1101) begin //Conditional branch
@@ -591,6 +596,10 @@ always @(*) begin
 						default: begin//armv5t instruction, should not reach here
 						end
 					endcase
+				end
+				ti_bx: begin //bx
+					c_cpsr[5] = r[t_rd][0];
+					cr_regd[15] = {r[t_rd][31:1], 1'b0};
 				end
 				default: begin
 				// undefined instruction
