@@ -139,7 +139,7 @@ wire f_f = cpsr[6];
 wire f_t = cpsr[5];
 wire [4:0]f_m = cpsr[4:0];
 
-wire m_user = f_m == 5'b10000;
+wire m_user = f_m == 5'b10000 || (admode4 == 1'b1 && mode4_S == 1'b1 && mode4_ST == 1'b0);
 wire m_fiq = f_m == 5'b10001;
 wire m_irq = f_m == 5'b10010;
 wire m_supv = f_m == 5'b10011;
@@ -298,6 +298,19 @@ wire [31:0]mode23_offset = admode2 ? mode2_offset : mode3_offset;
 wire [31:0]mode23_address_offset = mode23_U ? (r[rn] + mode23_offset) : (r[rn] - mode23_offset);
 wire [31:0]mode23_address = mode23_P ? mode23_address_offset : r[rn];
 //decode addressing mode 23 finish
+
+//decode addressing mode 4
+wire admode4 = (~f_t) && (instr[27:25] == 3'b100);
+
+wire mode4_P = instr[24];
+wire mode4_U = instr[23];
+wire mode4_S = instr[22];
+wire mode4_W = instr[21];
+wire mode4_L = instr[20];
+wire mode4_ST = mode4_L & instr[15]; // When S == 1, S_type is 1 means CPSR loaded from SPSR, 0 means use Ri_usr.
+wire [4:0]mode4_NUM = instr[0] + instr[1] + instr[2] + instr[3] + instr[4] + instr[5] + instr[6] + instr[7] +
+							 instr[8] + instr[9] + instr[10] + instr[11] + instr[12] + instr[13] + instr[14] + instr[15];
+//decode addressing mode 4 finish
 
 //decode thumb load/store instructions
 wire tm_literal_pool = f_t && instr[15:11] == 5'b01001; //Load from literal pool LDR(3)
@@ -480,6 +493,11 @@ always @(*) begin
 				if(admode23 && (mode23_P == 1'b0 || mode23_W == 1'b1)) begin
 					cr_regw[rn] = 1'b1;
 					cr_regd[rn] = mode23_address_offset;
+				end else if(admode4) begin
+					c_lsm_L = mode4_L;
+					c_lsm_address = r[rn] - (mode4_U ? {mode4_NUM, 2'b00} : 32'b0) + (mode4_P == mode4_U ? 32'h4 : 32'b0);
+					c_lsm_rgs = instr[15: 0];
+					c_next_state = s_lsm;
 				end else if(ti_lsm) begin
 					c_lsm_L = instr[11];
 					c_lsm_address = r[{1'b0, instr[10:8]}];
@@ -632,14 +650,24 @@ always @(*) begin
 			c_lsm_rgs[lsm_rd] = 1'b0;
 
 			if(c_lsm_rgs == 16'h0) begin
-				cr_regw[15] = 1'b1;
-				cr_regd[15] = seq_pc;
-				c_next_state = s_if;
-
 				if(ti_lsm) begin
+					cr_regw[15] = 1'b1;
+					cr_regd[15] = seq_pc;
 					cr_regw[{1'b0, instr[10:8]}] = 1'b1;
 					cr_regd[{1'b0, instr[10:8]}] = c_lsm_address;
+				end else begin // admode4
+					if(mode4_S && mode4_ST) c_cpsr = spsr;
+					
+					cr_regw[15] = 1'b1;
+					if(lsm_rd == 4'hf && mode4_L && mode4_S) cr_regd[15] = cr_regd[15] & 32'hfffffffc;
+					else if(!(lsm_rd == 4'hf && mode4_L)) cr_regd[15] = seq_pc;
+					
+					if(mode4_W) begin
+						cr_regw[rn] = 1'b1;
+						cr_regd[rn] = mode4_U ? (r[rn] + {mode4_NUM, 2'b00}) : (r[rn] - {mode4_NUM, 2'b00});
+					end
 				end
+				c_next_state = s_if;
 			end else c_next_state = s_lsm;
 		end
 		default: begin
