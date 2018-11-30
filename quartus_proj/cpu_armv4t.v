@@ -316,22 +316,18 @@ wire [4:0]mode4_NUM = instr[0] + instr[1] + instr[2] + instr[3] + instr[4] + ins
 							 instr[8] + instr[9] + instr[10] + instr[11] + instr[12] + instr[13] + instr[14] + instr[15];
 //decode addressing mode 4 finish
 
-//decode thumb load/store instructions
-wire tm_literal_pool = f_t && instr[15:11] == 5'b01001; //Load from literal pool LDR(3)
-wire tm_stack = f_t && instr[15:12] == 4'b1001; //Load/store to/from stack TODO
-wire tm_loadstore = tm_literal_pool;
-
-wire tm_ls_L = 1'b1;
-wire tm_ls_S = 1'b0;
-wire [31:0]tm_ls_address = (r[15] & 32'hfffffffc) + {instr[7:0], 2'h0};
-wire [1:0]tm_ls_len = 2'h2;
-//decode thumb load/store instructions finish
-
 //decode thumb
 reg [3:0]t_rd;
 reg [31:0]t_src1;
 reg [31:0]t_src2;
 reg [3:0]t_opcode; //opcode of specific ARM instruction
+
+reg tm_loadstore = 1'b0;
+reg tm_ls_L = 1'b0;
+reg tm_ls_S = 1'b0;
+reg [31:0]tm_ls_address = 32'h0;
+reg [1:0]tm_ls_len = 2'h2; //default 32bit
+
 reg t_alu; //perfrom an ARM style instuction
 reg ti_lsl; //shift left
 reg ti_cb; //conditional branch
@@ -409,6 +405,18 @@ always @(*) begin
 	end else if(instr[15:7] == 9'b010001110) begin //bx
 		ti_bx = 1'b1;
 		t_rd = instr[6:3];
+	end else if(instr[15:11] == 5'b01001) begin //load from literal pool
+		t_rd = {1'b0, instr[10:8]};
+		tm_loadstore = 1'b1;
+		tm_ls_L = 1'b1;
+		tm_ls_address = (r[15] & 32'hfffffffc) + {instr[7:0], 2'h0};
+	end else if(instr[15:12] == 4'b0101) begin //Load/store register offset
+		t_rd = {1'b0, instr[2:0]};
+		tm_loadstore = 1'b1;
+		//tm_ls_L (TODO)
+		//tm_ls_S = 1'b0;
+		tm_ls_address = r[{1'b0, instr[8:6]}] + r[{1'b0, instr[5:3]}]; //rm + rn
+		//tm_ls_len = 2'h2; //default 32bit
 	end else if(instr[15:12] == 4'b1100) begin //load store multiple
 		ti_lsm = 1'b1;
 	end else if(instr[15:12] == 4'b1101) begin //Conditional branch
@@ -417,8 +425,6 @@ always @(*) begin
 	end else if(instr[15:13] == 3'b111) begin //some branches
 		ti_b = 1'b1;
 		t_src1 = {21'h0, instr[10:0]};
-	end else if(tm_literal_pool) begin
-		t_rd = {1'b0, instr[10:8]};
 	end
 end
 //decode thumb end
