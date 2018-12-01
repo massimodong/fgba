@@ -61,6 +61,23 @@ parameter [4:0]ZFb = 5'd30;
 parameter [4:0]CFb = 5'd29;
 parameter [4:0]VFb = 5'd28;
 
+parameter OPCODE_MOV = 4'b1101;
+parameter OPCODE_MVN = 4'b1111;
+parameter OPCODE_AND = 4'b0000;
+parameter OPCODE_EOR = 4'b0001;
+parameter OPCODE_ORR = 4'b1100;
+parameter OPCODE_BIC = 4'b1110;
+parameter OPCODE_ADD = 4'b0100;
+parameter OPCODE_ADC = 4'b0101;
+parameter OPCODE_SUB = 4'b0010;
+parameter OPCODE_RSB = 4'b0011;
+parameter OPCODE_SBC = 4'b0110;
+parameter OPCODE_RSC = 4'b0111;
+parameter OPCODE_TST = 4'b1000;
+parameter OPCODE_TEQ = 4'b1001;
+parameter OPCODE_CMP = 4'b1010;
+parameter OPCODE_CMN = 4'b1011;
+
 integer i, j;
 
 //sequential
@@ -429,6 +446,24 @@ always @(*) begin
 	end else if(instr[15:7] == 9'b010001110) begin //bx
 		ti_bx = 1'b1;
 		t_rd = instr[6:3];
+	end else if(instr[15:10] == 6'b010001) begin //special data processing
+		t_rd = {instr[7], instr[2:0]};
+		t_src1 = r[t_rd];
+		t_src2 = r[instr[6:3]];
+		t_alu = 1'b1;
+		case(instr[9:8])
+			2'b00: begin
+				t_opcode = OPCODE_ADD;
+				t_alu_update_cpsr = 1'b0;
+			end
+			2'b01: t_opcode = OPCODE_CMP;
+			2'b10: begin
+				t_opcode = OPCODE_MOV;
+				t_alu_update_cpsr = 1'b0;
+			end
+			default: begin
+			end
+		endcase
 	end else if(instr[15:11] == 5'b01001) begin //load from literal pool
 		t_rd = {1'b0, instr[10:8]};
 		tm_loadstore = 1'b1;
