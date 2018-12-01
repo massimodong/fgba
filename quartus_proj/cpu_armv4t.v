@@ -401,19 +401,27 @@ always @(*) begin
 			end
 			4'b0010: begin //lsl
 				t_alu = 1'b0;
-				//TODO
+				tm_shift = 1'b1;
+				tm_shift_isrg = 1'b1;
+				t_opcode[1:0] = 2'b00;
 			end
 			4'b0011: begin //lsr
 				t_alu = 1'b0;
-				//TODO
+				tm_shift = 1'b1;
+				tm_shift_isrg = 1'b1;
+				t_opcode[1:0] = 2'b01;
 			end
 			4'b0100: begin //asr
 				t_alu = 1'b0;
-				//TODO
+				tm_shift = 1'b1;
+				tm_shift_isrg = 1'b1;
+				t_opcode[1:0] = 2'b10;
 			end
 			4'b0111: begin //ror
 				t_alu = 1'b0;
-				//TODO
+				tm_shift = 1'b1;
+				tm_shift_isrg = 1'b1;
+				t_opcode[1:0] = 2'b11;
 			end
 			default: begin
 			end
