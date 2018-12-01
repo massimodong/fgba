@@ -329,6 +329,7 @@ reg [31:0]tm_ls_address = 32'h0;
 reg [1:0]tm_ls_len = 2'h2; //default 32bit
 
 reg t_alu; //perfrom an ARM style instuction
+reg t_alu_update_cpsr;
 reg ti_lsl; //shift left
 reg ti_cb; //conditional branch
 reg ti_b; //some branches
@@ -348,6 +349,7 @@ always @(*) begin
 	tm_ls_len = 2'h2;
 
 	t_alu = 1'b0;
+	t_alu_update_cpsr = 1'b1; //default update cpsr
 	ti_lsl = 1'b0;
 	ti_cb = 1'b0;
 	ti_b = 1'b0;
@@ -427,7 +429,14 @@ always @(*) begin
 		tm_ls_address = r[{1'b0, instr[8:6]}] + r[{1'b0, instr[5:3]}]; //rm + rn
 		tm_ls_len = 2'h2 - instr[10:9];
 	end else if(instr[15:12] == 4'b1011) begin //miscellaneous
-		if(instr[10:9] == 2'b10) begin //push/pop register list
+		if(instr[11:8] == 4'h0) begin //Adjust stack pointer
+			t_alu = 1'b1;
+			t_opcode = instr[7] ? 4'b0010 : 4'b0100; // sub/add
+			t_src1 = r[13];
+			t_src2 = {23'h0, instr[6:0], 2'h0};
+			t_rd = 4'd13;
+			t_alu_update_cpsr = 1'b0;
+		end else if(instr[10:9] == 2'b10) begin //push/pop register list
 			ti_push_pop = 1'b1;
 		end
 	end else if(instr[15:12] == 4'b1100) begin //load store multiple
@@ -612,10 +621,12 @@ always @(*) begin
 				t_alu: begin
 					cr_regw[t_rd] = 1'b1;
 					cr_regd[t_rd] = alu_out;
-					c_cpsr[NFb] = alu_out_n;
-					c_cpsr[ZFb] = alu_out_z;
-					c_cpsr[CFb] = alu_out_c;
-					c_cpsr[VFb] = alu_out_v;
+					if(t_alu_update_cpsr) begin
+						c_cpsr[NFb] = alu_out_n;
+						c_cpsr[ZFb] = alu_out_z;
+						c_cpsr[CFb] = alu_out_c;
+						c_cpsr[VFb] = alu_out_v;
+					end
 				end
 				ti_lsl: begin //thumb shift left instruction
 					cr_regw[t_rd] = 1'b1;
