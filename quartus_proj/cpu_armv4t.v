@@ -339,6 +339,13 @@ always @(*) begin
 	t_src1 = 32'h0;
 	t_src2 = 32'h0;
 	t_opcode = 4'h0;
+
+	tm_loadstore = 1'b0;
+	tm_ls_L = 1'b0;
+	tm_ls_S = 1'b0;
+	tm_ls_address = 32'h0;
+	tm_ls_len = 2'h2;
+
 	t_alu = 1'b0;
 	ti_lsl = 1'b0;
 	ti_cb = 1'b0;
@@ -413,10 +420,10 @@ always @(*) begin
 	end else if(instr[15:12] == 4'b0101) begin //Load/store register offset
 		t_rd = {1'b0, instr[2:0]};
 		tm_loadstore = 1'b1;
-		//tm_ls_L (TODO)
-		//tm_ls_S = 1'b0;
+		tm_ls_L = instr[11];
+		tm_ls_S = 1'b0;
 		tm_ls_address = r[{1'b0, instr[8:6]}] + r[{1'b0, instr[5:3]}]; //rm + rn
-		//tm_ls_len = 2'h2; //default 32bit
+		tm_ls_len = 2'h2 - instr[10:9];
 	end else if(instr[15:12] == 4'b1100) begin //load store multiple
 		ti_lsm = 1'b1;
 	end else if(instr[15:12] == 4'b1101) begin //Conditional branch
