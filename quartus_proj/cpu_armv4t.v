@@ -483,6 +483,11 @@ always @(*) begin
 		tm_ls_S = instr[12];
 		tm_ls_address = r[{1'b0, instr[5:3]}] + {instr[10:6], 2'b0};
 		tm_ls_len = instr[15:13] == 3'b011 ? (instr[12] ? 2'b0 : 2'h2) : 2'h1;
+	end else if(instr[15:12] == 4'b1001) begin //Load/Store from stack
+		t_rd = {1'b0, instr[10:8]};
+		tm_loadstore = 1'b1;
+		tm_ls_L = instr[11];
+		tm_ls_address = r[13] + {22'h0, instr[7:0], 2'h0};
 	end else if(instr[15:12] == 4'b1011) begin //miscellaneous
 		if(instr[11:8] == 4'h0) begin //Adjust stack pointer
 			t_alu = 1'b1;
