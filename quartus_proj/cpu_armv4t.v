@@ -234,6 +234,8 @@ wire [3:0]rm = instr[3:0];
 wire update_cpsr = instr[20];
 wire cond_pass;
 cond_check cond_check1(f_n, f_z, f_c, f_v, cond, cond_pass);
+wire [4:0]lsm_cnt = c_lsm_rgs[0] + c_lsm_rgs[1] + c_lsm_rgs[2] + c_lsm_rgs[3] + c_lsm_rgs[4] + c_lsm_rgs[5] + c_lsm_rgs[6] + c_lsm_rgs[7] +
+                    c_lsm_rgs[8] + c_lsm_rgs[9] + c_lsm_rgs[10] + c_lsm_rgs[11] + c_lsm_rgs[12] + c_lsm_rgs[13] + c_lsm_rgs[14] + c_lsm_rgs[15];
 
 //decode addressing mode 1
 wire admode1 = (~f_t) && (instr[27:26] == 2'b00) && ({instr[25],instr[4],instr[7]} != 3'b011);
@@ -312,8 +314,6 @@ assign mode4_S = instr[22]; //declared previosly
 wire mode4_W = instr[21];
 wire mode4_L = instr[20];
 assign mode4_ST = mode4_L & instr[15]; // When S == 1, S_type is 1 means CPSR loaded from SPSR, 0 means use Ri_usr.
-wire [4:0]mode4_NUM = instr[0] + instr[1] + instr[2] + instr[3] + instr[4] + instr[5] + instr[6] + instr[7] +
-							 instr[8] + instr[9] + instr[10] + instr[11] + instr[12] + instr[13] + instr[14] + instr[15];
 //decode addressing mode 4 finish
 
 //decode thumb
@@ -333,6 +333,7 @@ reg ti_lsl; //shift left
 reg ti_cb; //conditional branch
 reg ti_b; //some branches
 reg ti_lsm; //load store multiple
+reg ti_push_pop;
 reg ti_bx;
 always @(*) begin
 	t_rd = 4'h0;
@@ -351,6 +352,7 @@ always @(*) begin
 	ti_cb = 1'b0;
 	ti_b = 1'b0;
 	ti_lsm = 1'b0;
+	ti_push_pop = 1'b0;
 	ti_bx = 1'b0;
 
 	if(instr[15:11] == 5'b00011) begin
@@ -424,8 +426,13 @@ always @(*) begin
 		tm_ls_S = 1'b0;
 		tm_ls_address = r[{1'b0, instr[8:6]}] + r[{1'b0, instr[5:3]}]; //rm + rn
 		tm_ls_len = 2'h2 - instr[10:9];
+	end else if(instr[15:12] == 4'b1011) begin //miscellaneous
+		if(instr[10:9] == 2'b10) begin //push/pop register list
+			ti_push_pop = 1'b1;
+		end
 	end else if(instr[15:12] == 4'b1100) begin //load store multiple
 		ti_lsm = 1'b1;
+		t_rd = {1'b0, instr[10:8]};
 	end else if(instr[15:12] == 4'b1101) begin //Conditional branch
 		ti_cb = 1'b1;
 		t_src1 = r[15] + {{23{instr[7]}}, instr[7:0], 1'b0};
@@ -512,14 +519,27 @@ always @(*) begin
 					cr_regd[rn] = mode23_address_offset;
 				end else if(admode4) begin
 					c_lsm_L = mode4_L;
-					c_lsm_address = r[rn] - (mode4_U ? {mode4_NUM, 2'b00} : 32'b0) + (mode4_P == mode4_U ? 32'h4 : 32'b0);
+					c_lsm_address = r[rn] - (mode4_U ? {lsm_cnt, 2'b00} : 32'b0) + (mode4_P == mode4_U ? 32'h4 : 32'b0);
 					c_lsm_rgs = instr[15: 0];
 					c_next_state = s_lsm;
+					if(mode4_W) begin
+						cr_regw[rn] = 1'b1;
+						cr_regd[rn] = mode4_U ? (r[rn] + {lsm_cnt, 2'b00}) : (r[rn] - {lsm_cnt, 2'b00});
+					end
 				end else if(f_t && ti_lsm) begin
 					c_lsm_L = instr[11];
-					c_lsm_address = r[{1'b0, instr[10:8]}];
+					c_lsm_address = r[t_rd];
 					c_lsm_rgs = {8'h0, instr[7:0]};
 					c_next_state = s_lsm;
+					cr_regw[t_rd] = 1'b1;
+					cr_regd[t_rd] = r[t_rd] - {lsm_cnt, 2'b0};
+				end else if(f_t && ti_push_pop) begin
+					c_lsm_L = instr[11];
+					c_lsm_address = r[13] - {lsm_cnt, 2'h0};
+					c_lsm_rgs = {1'b0, instr[8], 6'h0, instr[7:0]};
+					c_next_state = s_lsm;
+					cr_regw[13] = 1'b1;
+					cr_regd[13] = c_lsm_address;
 				end
 			end else begin
 				cr_regw[15] = 1'b1;
@@ -668,22 +688,11 @@ always @(*) begin
 			c_lsm_rgs[lsm_rd] = 1'b0;
 
 			if(c_lsm_rgs == 16'h0) begin
-				if(ti_lsm) begin
-					cr_regw[15] = 1'b1;
-					cr_regd[15] = seq_pc;
-					cr_regw[{1'b0, instr[10:8]}] = 1'b1;
-					cr_regd[{1'b0, instr[10:8]}] = c_lsm_address;
-				end else begin // admode4
+				cr_regw[15] = 1'b1;
+				cr_regd[15] = seq_pc;
+				if(admode4) begin // admode4
 					if(mode4_S && mode4_ST) c_cpsr = spsr;
-					
-					cr_regw[15] = 1'b1;
 					if(lsm_rd == 4'hf && mode4_L && mode4_S) cr_regd[15] = cr_regd[15] & 32'hfffffffc;
-					else if(!(lsm_rd == 4'hf && mode4_L)) cr_regd[15] = seq_pc;
-					
-					if(mode4_W) begin
-						cr_regw[rn] = 1'b1;
-						cr_regd[rn] = mode4_U ? (r[rn] + {mode4_NUM, 2'b00}) : (r[rn] - {mode4_NUM, 2'b00});
-					end
 				end
 				c_next_state = s_if;
 			end else c_next_state = s_lsm;
