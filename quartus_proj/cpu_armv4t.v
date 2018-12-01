@@ -512,6 +512,7 @@ wire [3:0]ls_rd = admode23 ? rd : t_rd;
 
 wire i_b = (~f_t) && itype == 3'b101;
 wire i_bx = (~f_t) && instr[27:4] == 24'h12fff1; //bx seems to be in addressing mode 1
+wire i_mrs = (~f_t) && instr[27:23] == 5'b00010 && instr[21:20] == 2'b0;
 wire i_msr = (~f_t) && admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1) && ~i_bx; //msr is special
 
 wire [31:0]alu_out;
@@ -623,7 +624,15 @@ always @(*) begin
 					end
 				end
 				admode1: begin //addressing mode 1 instructions
-					if(i_msr) begin //msr instruction changes cpsr or spsr, not a general register
+					if(i_mrs) begin
+						if(instr[22] == 1'b0) begin
+							cr_regw[rd] = 1'b1;
+							cr_regd[rd] = cpsr;
+						end else begin
+							cr_regw[rd] = 1'b1;
+							cr_regd[rd] = spsr;
+						end
+					end else if(i_msr) begin //msr instruction changes cpsr or spsr, not a general register
 						if(instr[22] == 1'b0) begin //change cpsr
 							c_cpsr = msr_new_cpsr;
 						end else begin //change spsr
