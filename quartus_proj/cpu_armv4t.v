@@ -328,6 +328,9 @@ reg tm_ls_S = 1'b0;
 reg [31:0]tm_ls_address = 32'h0;
 reg [1:0]tm_ls_len = 2'h2; //default 32bit
 
+reg tm_shift;
+reg tm_shift_isrg;
+
 reg t_alu; //perfrom an ARM style instuction
 reg t_alu_update_cpsr;
 reg ti_cb; //conditional branch
@@ -347,6 +350,9 @@ always @(*) begin
 	tm_ls_address = 32'h0;
 	tm_ls_len = 2'h2;
 
+	tm_shift = 1'b0;
+	tm_shift_isrg = 1'b0;
+
 	t_alu = 1'b0;
 	t_alu_update_cpsr = 1'b1; //default update cpsr
 	ti_cb = 1'b0;
@@ -362,10 +368,11 @@ always @(*) begin
 		t_opcode = instr[9] ? 4'b0010 : 4'b0100;
 		t_alu = 1'b1;
 	end else if(instr[15:13] == 3'h0) begin //Shift by immediate
+		tm_shift = 1'b1;
 		t_rd = {1'b0, instr[2:0]};
 		t_src1 = r[{1'b0, instr[5:3]}];
 		t_src2 = {27'h0, instr[10:6]};
-		//TODO
+		t_opcode[1:0] = instr[12:11];
 	end else if(instr[15:13] == 3'b001) begin //Add/subtract/compare/move immediate
 		t_rd = {1'b0, instr[10:8]};
 		t_src1 = r[t_rd];
@@ -471,6 +478,10 @@ alu alu1(f_t ? t_opcode : opcode,
 			f_t ? t_src2 : shifter_operand,
 			f_n, f_z, f_c, f_v, shifter_carry_out,
 			alu_out, alu_out_n, alu_out_z, alu_out_c, alu_out_v, alu_wrd);
+
+wire [31:0]shifter_out;
+wire shifter_co;
+shifter ex_shifter(t_src1, t_src2[7:0], tm_shift_isrg, f_c, t_opcode[1:0], shifter_out, shifter_co);
 
 assign mem_addr = addr_load; //addr only used as output
 assign mem_data = (mem_write ? data_load : 32'bz);
@@ -625,6 +636,13 @@ always @(*) begin
 						c_cpsr[CFb] = alu_out_c;
 						c_cpsr[VFb] = alu_out_v;
 					end
+				end
+				tm_shift: begin
+					cr_regw[t_rd] = 1'b1;
+					cr_regd[t_rd] = shifter_out;
+					c_cpsr[NFb] = shifter_out[31];
+					c_cpsr[ZFb] = shifter_out == 32'h0 ? 1'b1 : 1'b0;
+					c_cpsr[CFb] = shifter_co;
 				end
 				ti_cb: begin //conditional branch
 					if(cond_pass) cr_regd[15] = t_src1;
