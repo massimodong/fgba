@@ -248,7 +248,7 @@ reg shifter_carry_out;
 wire [31:0]admode1_shifter_operand;
 wire admode1_shifter_carry_out;
 
-admode1_shifter admode1_shifter1(r[rm], shift_amount, instr[4], f_c, instr[6:5], admode1_shifter_operand, admode1_shifter_carry_out);
+shifter admode1_shifter1(r[rm], shift_amount, instr[4], f_c, instr[6:5], admode1_shifter_operand, admode1_shifter_carry_out);
 
 always @(*) begin
 	shift_amount = 8'h0;
@@ -330,7 +330,6 @@ reg [1:0]tm_ls_len = 2'h2; //default 32bit
 
 reg t_alu; //perfrom an ARM style instuction
 reg t_alu_update_cpsr;
-reg ti_lsl; //shift left
 reg ti_cb; //conditional branch
 reg ti_b; //some branches
 reg ti_lsm; //load store multiple
@@ -350,7 +349,6 @@ always @(*) begin
 
 	t_alu = 1'b0;
 	t_alu_update_cpsr = 1'b1; //default update cpsr
-	ti_lsl = 1'b0;
 	ti_cb = 1'b0;
 	ti_b = 1'b0;
 	ti_lsm = 1'b0;
@@ -363,11 +361,11 @@ always @(*) begin
 		t_src2 = instr[10] ? {29'h0, instr[8:6]} : r[{1'b0, instr[8:6]}];
 		t_opcode = instr[9] ? 4'b0010 : 4'b0100;
 		t_alu = 1'b1;
-	end else if(instr[15:13] == 3'h0) begin //Shift by immediate LSL(1)
+	end else if(instr[15:13] == 3'h0) begin //Shift by immediate
 		t_rd = {1'b0, instr[2:0]};
 		t_src1 = r[{1'b0, instr[5:3]}];
 		t_src2 = {27'h0, instr[10:6]};
-		ti_lsl = 1'b1;
+		//TODO
 	end else if(instr[15:13] == 3'b001) begin //Add/subtract/compare/move immediate
 		t_rd = {1'b0, instr[10:8]};
 		t_src1 = r[t_rd];
@@ -627,23 +625,6 @@ always @(*) begin
 						c_cpsr[CFb] = alu_out_c;
 						c_cpsr[VFb] = alu_out_v;
 					end
-				end
-				ti_lsl: begin //thumb shift left instruction
-					cr_regw[t_rd] = 1'b1;
-					if(t_src2[7:0] == 8'h0) begin
-						cr_regd[t_rd] = t_src1;
-					end else if(t_src2[7:0] < 8'd32) begin
-						c_cpsr[CFb] = t_src1[8'd32 - t_src2];
-						cr_regd[t_rd] = t_src1 << t_src2;
-					end else if(t_src2[7:0] == 8'd32) begin
-						c_cpsr[CFb] = t_src1[0];
-						cr_regd[t_rd] = 32'h0;
-					end else begin
-						c_cpsr[CFb] = 1'b0;
-						cr_regd[t_rd] = 32'h0;
-					end
-					c_cpsr[NFb] = cr_regd[t_rd][31];
-					c_cpsr[ZFb] = (cr_regd[t_rd] == 32'h0) ? 1'b1 : 1'b0;
 				end
 				ti_cb: begin //conditional branch
 					if(cond_pass) cr_regd[15] = t_src1;

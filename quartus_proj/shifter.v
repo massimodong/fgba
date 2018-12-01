@@ -1,4 +1,4 @@
-module admode1_shifter(
+module shifter(
 	input [31:0]base,
 	input [7:0]amount,
 	input rg,
