@@ -378,11 +378,11 @@ always @(*) begin
 	ti_push_pop = 1'b0;
 	ti_bx = 1'b0;
 
-	if(instr[15:11] == 5'b00011) begin
+	if(instr[15:11] == 5'b00011) begin //Add/substract register/immediate
 		t_rd = {1'b0, instr[2:0]};
 		t_src1 = r[{1'b0, instr[5:3]}];
 		t_src2 = instr[10] ? {29'h0, instr[8:6]} : r[{1'b0, instr[8:6]}];
-		t_opcode = instr[9] ? 4'b0010 : 4'b0100;
+		t_opcode = instr[9] ? OPCODE_SUB : OPCODE_ADD;
 		t_alu = 1'b1;
 	end else if(instr[15:13] == 3'h0) begin //Shift by immediate
 		tm_shift = 1'b1;
@@ -395,10 +395,10 @@ always @(*) begin
 		t_src1 = r[t_rd];
 		t_src2 = {24'h0, instr[7:0]};
 		case(instr[12:11])
-			2'b00: t_opcode = 4'b1101;//mov
-			2'b01: t_opcode = 4'b1010;//cmp
-			2'b10: t_opcode = 4'b0100;//add
-			2'b11: t_opcode = 4'b0010;//sub
+			2'b00: t_opcode = OPCODE_MOV;
+			2'b01: t_opcode = OPCODE_CMP;
+			2'b10: t_opcode = OPCODE_ADD;
+			2'b11: t_opcode = OPCODE_SUB;
 		endcase
 		t_alu = 1'b1;
 	end else if(instr[15:10] == 6'b010000) begin //Data processing register
@@ -410,7 +410,7 @@ always @(*) begin
 		case(t_opcode) //special opcodes
 			4'b1001: begin //neg
 				t_src1 = 32'h0;
-				t_opcode = 4'b0010; //sub
+				t_opcode = OPCODE_SUB;
 			end
 			4'b1101: begin //mul
 				t_alu = 1'b0;
@@ -476,6 +476,13 @@ always @(*) begin
 		tm_ls_S = 1'b0;
 		tm_ls_address = r[{1'b0, instr[8:6]}] + r[{1'b0, instr[5:3]}]; //rm + rn
 		tm_ls_len = 2'h2 - instr[10:9];
+	end else if(instr[15:13] == 3'b011 || instr[15:14] == 4'b1000) begin //Load/store halfword/word/byte immediate offset
+		t_rd = {1'b0, instr[2:0]};
+		tm_loadstore = 1'b1;
+		tm_ls_L = instr[11];
+		tm_ls_S = instr[12];
+		tm_ls_address = r[{1'b0, instr[5:3]}] + {instr[10:6], 2'b0};
+		tm_ls_len = instr[15:13] == 3'b011 ? (instr[12] ? 2'b0 : 2'h2) : 2'h1;
 	end else if(instr[15:12] == 4'b1001) begin //Load/Store from stack
 		t_rd = {1'b0, instr[10:8]};
 		tm_loadstore = 1'b1;
@@ -491,7 +498,7 @@ always @(*) begin
 	end else if(instr[15:12] == 4'b1011) begin //miscellaneous
 		if(instr[11:8] == 4'h0) begin //Adjust stack pointer
 			t_alu = 1'b1;
-			t_opcode = instr[7] ? 4'b0010 : 4'b0100; // sub/add
+			t_opcode = instr[7] ? OPCODE_SUB : OPCODE_ADD;
 			t_src1 = r[13];
 			t_src2 = {23'h0, instr[6:0], 2'h0};
 			t_rd = 4'd13;
