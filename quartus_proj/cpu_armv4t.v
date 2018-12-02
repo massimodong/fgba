@@ -481,6 +481,13 @@ always @(*) begin
 		tm_loadstore = 1'b1;
 		tm_ls_L = instr[11];
 		tm_ls_address = r[13] + {22'h0, instr[7:0], 2'h0};
+	end else if(instr[15:12] == 4'b1010) begin //Add to SP or PC
+		t_alu = 1'b1;
+		t_opcode = OPCODE_ADD;
+		t_alu_update_cpsr = 1'b0;
+		t_rd = {1'b0, instr[10:8]};
+		t_src1 = instr[11] ? r[13] : {r[15][31:2], 2'h0};
+		t_src2 = {22'h0, instr[7:0], 2'h0};
 	end else if(instr[15:12] == 4'b1011) begin //miscellaneous
 		if(instr[11:8] == 4'h0) begin //Adjust stack pointer
 			t_alu = 1'b1;
