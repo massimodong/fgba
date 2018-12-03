@@ -15,6 +15,9 @@ module fgba(
 reg clk_25mhz = 1'b0;
 always @(posedge clk_50mhz) clk_25mhz = ~clk_25mhz;
 
+reg clk_12_5mhz = 1'b0;
+always @(posedge clk_25mhz) clk_12_5mhz = ~clk_12_5mhz;
+
 wire [31:0]cpu_mem_addr;
 wire [31:0]cpu_mem_data;
 wire [1:0]cpu_mem_width;

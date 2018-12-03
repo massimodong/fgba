@@ -2,7 +2,7 @@ module alu(
 	input [3:0]opcode,
 	input [31:0]a,
 	input [31:0]b,
-	input n, z, c, v, shifter_carry_out,
+	input n, z, c, v,
 	output reg [31:0]out,
 	output out_n, out_z,
 	output reg out_c, out_v,
@@ -60,7 +60,8 @@ always @(*) begin
 		i_add, i_cmn, i_adc:	out_v = a[31] == b[31] && a[31] != out[31];
 		i_sub, i_cmp, i_sbc:	out_v = a[31] != b[31] && a[31] != out[31];
 		i_rsb, i_rsc:			out_v = a[31] != b[31] && b[31] != out[31];
-		default:					out_c = shifter_carry_out;
+		default: begin
+		end
 	endcase
 end
 

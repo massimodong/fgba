@@ -539,7 +539,7 @@ wire alu_out_n, alu_out_z, alu_out_c, alu_out_v, alu_wrd;
 alu alu1(f_t ? t_opcode : opcode,
 			f_t ? t_src1 : r[rn],
 			f_t ? t_src2 : shifter_operand,
-			f_n, f_z, f_c, f_v, shifter_carry_out,
+			f_n, f_z, f_t ? f_c : shifter_carry_out, f_v,
 			alu_out, alu_out_n, alu_out_z, alu_out_c, alu_out_v, alu_wrd);
 
 wire [31:0]shifter_out;
@@ -600,7 +600,7 @@ always @(*) begin
 					cr_regd[rn] = mode23_address_offset;
 				end else if(admode4) begin
 					c_lsm_L = mode4_L;
-					c_lsm_address = r[rn] - (mode4_U ? {lsm_cnt, 2'b00} : 32'b0) + (mode4_P == mode4_U ? 32'h4 : 32'b0);
+					c_lsm_address = r[rn] - (mode4_U ? 32'b0 : {lsm_cnt, 2'b00}) + (mode4_P == mode4_U ? 32'h4 : 32'b0);
 					c_lsm_rgs = instr[15: 0];
 					c_next_state = s_lsm;
 					if(mode4_W) begin
