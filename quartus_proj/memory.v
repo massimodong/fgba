@@ -17,6 +17,7 @@ module memory(
 wire [3:0]select = addr[27:24];
 
 wire rw_rom = select == 4'h0;
+wire rw_int = select == 4'h3;
 wire rw_pak = select == 4'h8 ||
               select == 4'h9 ||
               select == 4'ha ||
@@ -28,10 +29,19 @@ wire rw_v = select == 4'h6;
 
 wire [31:0]bios_out;
 wire [31:0]pak_out;
+wire [31:0]int_out;
 bios_rom bios_rom1(
 	.address(addr[13:2]),
 	.clock(clk),
 	.q(bios_out)
+);
+
+internal_ram internal_ram1(
+	.address(addr[14:2]),
+	.clock(clk),
+	.data(data),
+	.wren(rw_int && write),
+	.q(int_out)
 );
 
 pak_ram pak_ram1(
@@ -58,6 +68,7 @@ always @(*) begin
 	case(1'b1)
 		rw_rom: out = bios_out >> sr32;
 		rw_pak: out = pak_out >> sr32;
+		rw_int: out = int_out >> sr32;
 		//rw_cart: out = {24'h0, cart_ram[addr[15:0]]};
 		default: out = 32'h0;
 	endcase
