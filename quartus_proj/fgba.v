@@ -27,7 +27,7 @@ wire [15:0]vgac_addr;
 wire [15:0]vgac_data;
 
 memory mem(
-	.clk(~clk_50mhz),
+	.clk(~clk_12_5mhz),
 	.addr(cpu_mem_addr),
 	.data(cpu_mem_data),
 	.width(cpu_mem_width),
@@ -40,7 +40,7 @@ memory mem(
 );
 
 cpu_armv4t cpu(
-	.clk(clk_50mhz),
+	.clk(clk_12_5mhz),
 	.rstn(rstn),
 	.mem_addr(cpu_mem_addr),
 	.mem_data(cpu_mem_data),

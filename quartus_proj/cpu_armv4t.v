@@ -595,10 +595,7 @@ always @(*) begin
 		s_id: begin
 			c_next_state = s_ex;
 			if(f_t || cond_pass) begin
-				if(admode23 && (mode23_P == 1'b0 || mode23_W == 1'b1)) begin
-					cr_regw[rn] = 1'b1;
-					cr_regd[rn] = mode23_address_offset;
-				end else if(admode4) begin
+				if(admode4) begin
 					c_lsm_L = mode4_L;
 					c_lsm_address = r[rn] - (mode4_U ? 32'b0 : {lsm_cnt, 2'b00}) + (mode4_P == mode4_U ? 32'h4 : 32'b0);
 					c_lsm_rgs = instr[15: 0];
@@ -696,6 +693,10 @@ always @(*) begin
 						data_load = r[ls_rd];
 						mem_width = ls_len;
 						mem_write = 1'b1;
+					end
+					if(admode23 && (mode23_P == 1'b0 || mode23_W == 1'b1)) begin
+						cr_regw[rn] = 1'b1;
+						cr_regd[rn] = mode23_address_offset;
 					end
 				end
 				t_alu: begin
