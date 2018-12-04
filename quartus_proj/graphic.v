@@ -22,7 +22,8 @@ wire inframe = (row_addr < 160) && (col_addr < 240);
 assign addr = inframe ? ({row_addr[7:0], 8'b00000000} - {row_addr, 4'b0000} + col_addr) : 16'b0;
 
 vgac vga1(
-	.d_in(inframe ? data[14:0] : 15'b110111101111011), //grey if out of frame
+	//.d_in(inframe ? last_data : 15'b110111101111011), //grey if out of frame
+	.d_in(data[14:0]),
 	.vga_clk(clk),
 	.clrn(1'b1),
 	.row_addr(row_addr),
@@ -38,7 +39,7 @@ vgac vga1(
 assign R[2:0] = 3'h0;
 assign G[2:0] = 3'h0;
 assign B[2:0] = 3'h0;
-assign vga_clk = ~clk;
+assign vga_clk = clk;
 assign vga_black_n = 1'b1;
 assign vga_sync_n = 1'b1;
 

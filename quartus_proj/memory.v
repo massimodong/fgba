@@ -1,5 +1,6 @@
 module memory(
 	input clk,
+	input clk_25mhz,
 	inout [31:0]addr,
 	inout [31:0]data,
 	input [1:0]width,
@@ -53,8 +54,9 @@ pak_ram pak_ram1(
 );
 
 vram v_ram(
-	.clock(clk),
 	.data(data[15:0]),
+	.inclock(clk),
+	.outclock(clk_25mhz),
 	.rdaddress(vgac_addr),
 	.wraddress({addr[16], addr[16]?1'b0:addr[15], addr[14:1]}),
 	.wren(rw_v & write),

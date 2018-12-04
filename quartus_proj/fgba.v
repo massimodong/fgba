@@ -28,6 +28,7 @@ wire [15:0]vgac_data;
 
 memory mem(
 	.clk(~clk_12_5mhz),
+	.clk_25mhz(clk_25mhz),
 	.addr(cpu_mem_addr),
 	.data(cpu_mem_data),
 	.width(cpu_mem_width),

@@ -52,8 +52,8 @@ module vgac (vga_clk,clrn,d_in,row_addr,col_addr,rdn,r,g,b,hs,vs);
         rdn      <= ~read;                     // read pixel (active low)
         hs       <=  h_sync;                   // horizontal synch
         vs       <=  v_sync;                   // vertical   synch
-        r        <=  rdn ? 5'h0 : d_in[14:10]; // 5-bit red
-        g        <=  rdn ? 5'h0 : d_in[09:05]; // 5-bit green
-        b        <=  rdn ? 5'h0 : d_in[04:00]; // 5-bit blue
+        r        <=  rdn ? 5'h0 : d_in[4:0]; // 5-bit red
+        g        <=  rdn ? 5'h0 : d_in[9:5]; // 5-bit green
+        b        <=  rdn ? 5'h0 : d_in[14:10]; // 5-bit blue
     end
 endmodule
