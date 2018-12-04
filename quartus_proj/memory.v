@@ -55,10 +55,10 @@ pak_ram pak_ram1(
 
 vram v_ram(
 	.data(data[15:0]),
-	.inclock(clk),
-	.outclock(clk_25mhz),
 	.rdaddress(vgac_addr),
+	.rdclock(clk_25mhz),
 	.wraddress({addr[16], addr[16]?1'b0:addr[15], addr[14:1]}),
+	.wrclock(clk),
 	.wren(rw_v & write),
 	.q(vgac_data)
 );
