@@ -106,4 +106,7 @@ set_location_assignment PIN_AJ16 -to B[6]
 set_location_assignment PIN_AK16 -to B[7]
 set_global_assignment -name QIP_FILE internal_ram.qip
 set_global_assignment -name VERILOG_FILE reprogram.v
+set_global_assignment -name VERILOG_FILE uart_recv.v
+set_global_assignment -name QIP_FILE uart16.qip
+set_global_assignment -name SIP_FILE uart16.sip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -1,7 +1,7 @@
 module fgba(
 	input clk_50mhz,
 	input rstn,
-	
+
 	output [7:0]R,
 	output [7:0]G,
 	output [7:0]B,
@@ -9,7 +9,12 @@ module fgba(
 	output vga_black_n,
 	output HS,
 	output VS,
-	output vga_sync_n
+	output vga_sync_n,
+
+	input RPG_RX, //gpio[8]
+	output RPG_TX, //gpio[9]
+
+	input RPG //sw[0]
 );
 
 reg clk_25mhz = 1'b0;
@@ -25,6 +30,11 @@ wire cpu_mem_read, cpu_mem_write, cpu_mem_ok;
 
 wire [15:0]vgac_addr;
 wire [15:0]vgac_data;
+
+wire [12:0]rpg_addr;
+wire [31:0]rpg_data;
+wire rpg_write;
+wire [7:0]rpg_xorc;
 
 memory mem(
 	.clk(~clk_50mhz),
@@ -65,5 +75,16 @@ graphic grp(
 	.VS(VS),
 	.vga_sync_n(vga_sync_n)
 );
+
+reprogram rpg1(
+	.clk_50mhz(clk_50mhz),
+	.rstn(rstn),
+	.rx(RPG_RX),
+	.addr(rpg_addr),
+	.data(rpg_data),
+	.write(rpg_write),
+	.xorc(rpg_xorc)
+);
+assign RPG_TX = 1'b1;
 
 endmodule
