@@ -43,7 +43,7 @@ int main(int argc, char *argv[]){
 
 	int cs = checksum,
 	    cx = checkxor;
-	printf("checksum: %d\n checkxor: %d\n", cs, cx);
+	printf("checksum: %x\ncheckxor: %x\n", cs, cx);
 
 	close(fd);
 }
