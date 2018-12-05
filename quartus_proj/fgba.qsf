@@ -109,4 +109,17 @@ set_global_assignment -name VERILOG_FILE reprogram.v
 set_global_assignment -name VERILOG_FILE uart_recv.v
 set_global_assignment -name QIP_FILE uart16.qip
 set_global_assignment -name SIP_FILE uart16.sip
+set_location_assignment PIN_AB30 -to RPG
+set_location_assignment PIN_AH4 -to RPG_RX
+set_location_assignment PIN_AH5 -to RPG_TX
+set_location_assignment PIN_AA24 -to LED[0]
+set_location_assignment PIN_AB23 -to LED[1]
+set_location_assignment PIN_AC23 -to LED[2]
+set_location_assignment PIN_AD24 -to LED[3]
+set_location_assignment PIN_AG25 -to LED[4]
+set_location_assignment PIN_AF25 -to LED[5]
+set_location_assignment PIN_AE24 -to LED[6]
+set_location_assignment PIN_AF24 -to LED[7]
+set_location_assignment PIN_AB22 -to LED[8]
+set_location_assignment PIN_AC22 -to LED[9]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

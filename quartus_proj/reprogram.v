@@ -3,14 +3,14 @@ module reprogram(
 	input rstn,
 	input rx,
 	
-	output reg [12:0]addr = 13'h1fff,
+	output reg [22:0]addr = 23'h7fffff,
 	output reg [31:0]data = 32'h0,
 	output write,
 	
 	output reg [7:0]xorc = 8'h0 //xor of all received bytes
 );
 
-parameter INIT_ADDR = 13'h1fff;
+parameter INIT_ADDR = 23'h7fffff;
 
 assign write = addr != INIT_ADDR;
 
@@ -45,10 +45,10 @@ always @(negedge rstn or posedge clk_50mhz) begin
 			old_ok <= uart_ok;
 			xorc <= xorc ^ uart_data;
 			data_shifter <= {uart_data, data_shifter[31:8]}; //little endian
-			cnt <= cnt + 1;
+			cnt <= cnt + 2'h1;
 			if(cnt == 2'd3) begin
 				data <= {uart_data, data_shifter[31:8]};
-				addr <= addr + 1;
+				addr <= addr + 23'h1;
 			end
 		end else if(state == 2'h2) begin
 			if(uart_ok != old_ok) state <= 2'h0;

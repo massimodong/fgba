@@ -1,19 +1,29 @@
 module memory(
 	input clk,
 	input clk_25mhz,
-	inout [31:0]addr,
-	inout [31:0]data,
-	input [1:0]width,
-	input read,
-	input write,
+	inout [31:0]mem_addr,
+	inout [31:0]mem_data,
+	input [1:0]mem_width,
+	input mem_read,
+	input mem_write,
 	output ok,
-	
-	
+
 	input [15:0]vgac_addr,
-	output [15:0]vgac_data
+	output [15:0]vgac_data,
+
+	input rpg,
+	input [22:0]rpg_addr,
+	input [31:0]rpg_data,
+	input rpg_write
 );
 
 //`include "mem_init.txt"
+
+wire [31:0]addr = rpg ? {7'b0000100, rpg_addr, 2'b00} : mem_addr;
+wire [31:0]data = rpg ? rpg_data : mem_data;
+wire [1:0]width = rpg ? 2'h2 : mem_width;
+wire read = rpg ? 1'b0 : mem_read;
+wire write = rpg ? rpg_write : mem_write;
 
 wire [3:0]select = addr[27:24];
 
@@ -76,8 +86,8 @@ always @(*) begin
 	endcase
 end
 
-assign data = read ? out : 32'bz;
+assign mem_data = read ? out : 32'bz;
 
-assign ok = 1'b1;
+assign ok = rpg ? 1'b0 : 1'b1;
 
 endmodule

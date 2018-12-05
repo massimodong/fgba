@@ -14,7 +14,9 @@ module fgba(
 	input RPG_RX, //gpio[8]
 	output RPG_TX, //gpio[9]
 
-	input RPG //sw[0]
+	input RPG, //sw[0]
+
+	output [9:0]LED
 );
 
 reg clk_25mhz = 1'b0;
@@ -31,7 +33,7 @@ wire cpu_mem_read, cpu_mem_write, cpu_mem_ok;
 wire [15:0]vgac_addr;
 wire [15:0]vgac_data;
 
-wire [12:0]rpg_addr;
+wire [22:0]rpg_addr;
 wire [31:0]rpg_data;
 wire rpg_write;
 wire [7:0]rpg_xorc;
@@ -39,15 +41,20 @@ wire [7:0]rpg_xorc;
 memory mem(
 	.clk(~clk_50mhz),
 	.clk_25mhz(clk_25mhz),
-	.addr(cpu_mem_addr),
-	.data(cpu_mem_data),
-	.width(cpu_mem_width),
-	.read(cpu_mem_read),
-	.write(cpu_mem_write),
+	.mem_addr(cpu_mem_addr),
+	.mem_data(cpu_mem_data),
+	.mem_width(cpu_mem_width),
+	.mem_read(cpu_mem_read),
+	.mem_write(cpu_mem_write),
 	.ok(cpu_mem_ok),
-	
+
 	.vgac_addr(vgac_addr),
-	.vgac_data(vgac_data)
+	.vgac_data(vgac_data),
+
+	.rpg(RPG),
+	.rpg_addr(rpg_addr),
+	.rpg_data(rpg_data),
+	.rpg_write(rpg_write)
 );
 
 cpu_armv4t cpu(
@@ -65,7 +72,7 @@ graphic grp(
 	.clk(clk_25mhz),
 	.addr(vgac_addr),
 	.data(vgac_data),
-	
+
 	.R(R),
 	.G(G),
 	.B(B),
@@ -76,6 +83,7 @@ graphic grp(
 	.vga_sync_n(vga_sync_n)
 );
 
+assign LED[7:0] = rpg_xorc;
 reprogram rpg1(
 	.clk_50mhz(clk_50mhz),
 	.rstn(rstn),
@@ -87,4 +95,6 @@ reprogram rpg1(
 );
 assign RPG_TX = 1'b1;
 
+
+assign LED[9:8] = 2'b0;
 endmodule
