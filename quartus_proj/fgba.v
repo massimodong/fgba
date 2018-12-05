@@ -90,7 +90,7 @@ graphic grp(
 	.addr(vgac_addr),
 	.color_num(vgac_color_num),
 	.data(vgac_data),
-	.color(vgac_color),//
+	.color(vgac_color),//TODO: read from vgac_color_num
 	
 	.dispcnt(reg_dispcnt),
 
