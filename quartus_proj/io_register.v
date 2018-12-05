@@ -4,7 +4,8 @@ module io_register(
 	input [31:0]data_in,
 	output [31:0]data_out,
 	input read,
-	input write
+	input write,
+	input [1:0]width
 );
 
 integer i;
@@ -51,32 +52,47 @@ task update_timer;
 	end else time_tick <= time_tick + 2'h1;
 endtask
 
-wire [31:0]register[4096];
-assign register[12'h100] = {tmcnt[0], tmd[0]};
-assign register[12'h104] = {tmcnt[1], tmd[1]};
-assign register[12'h108] = {tmcnt[2], tmd[2]};
-assign register[12'h10c] = {tmcnt[3], tmd[3]};
+wire [31:0]register[1024];
+assign register[12'h100 >> 2] = {tmcnt[0], tmd[0]};
+assign register[12'h104 >> 2] = {tmcnt[1], tmd[1]};
+assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
+assign register[12'h10c >> 2] = {tmcnt[3], tmd[3]};
+wire [31:0]reg_out = register[addr[11:2]];
 
-assign data_out = register[addr[23:2]];
+wire [4:0]shift_amount = {addr[1:0], 3'h0};
+assign data_out = reg_out >> shift_amount;
+
+reg [31:0]mask;
+always @(*) begin
+	case(width)
+		2'b00: mask = 32'hff;
+		2'b01: mask = 32'hffff;
+		default: mask = 32'hffffffff;
+	endcase
+
+	mask = mask << shift_amount;
+end
+wire [31:0]masked_data = (data_in << shift_amount) & mask;
+wire [31:0]newval = (reg_out & (~mask)) | (masked_data);
 
 always @(posedge clk_mem) begin
 	update_timer();
 	if(write) begin
-		case(addr[11:0])
+		case({addr[11:2], 2'h0})
 			12'h100: begin
-				{tmcnt[0], tmd[0]} <= data_in;
+				{tmcnt[0], tmd[0]} <= newval;
 				time_count[0] <= 10'h0;
 			end
 			12'h104: begin
-				{tmcnt[1], tmd[1]} <= data_in;
+				{tmcnt[1], tmd[1]} <= newval;
 				time_count[1] <= 10'h0;
 			end
 			12'h108: begin
-				{tmcnt[2], tmd[2]} <= data_in;
+				{tmcnt[2], tmd[2]} <= newval;
 				time_count[2] <= 10'h0;
 			end
 			12'h10c: begin
-				{tmcnt[3], tmd[3]} <= data_in;
+				{tmcnt[3], tmd[3]} <= newval;
 				time_count[3] <= 10'h0;
 			end
 			default: begin

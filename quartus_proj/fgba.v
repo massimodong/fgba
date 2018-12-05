@@ -42,6 +42,7 @@ wire [23:0]io_addr;
 wire [31:0]io_data_in;
 wire [31:0]io_data_out;
 wire io_read, io_write;
+wire [1:0]io_width;
 
 memory mem(
 	.clk(~clk_50mhz),
@@ -65,7 +66,8 @@ memory mem(
 	.io_data_in(io_data_in),
 	.io_data_out(io_data_out),
 	.io_read(io_read),
-	.io_write(io_write)
+	.io_write(io_write),
+	.io_width(io_width)
 );
 
 cpu_armv4t cpu(
@@ -112,7 +114,8 @@ io_register iorgst(
 	.data_in(io_data_in),
 	.data_out(io_data_out),
 	.read(io_read),
-	.write(io_write)
+	.write(io_write),
+	.width(io_width)
 );
 
 assign LED[9:8] = 2'b0;

@@ -20,7 +20,8 @@ module memory(
 	output [31:0]io_data_in,
 	input [31:0]io_data_out,
 	output io_read,
-	output io_write
+	output io_write,
+	output [1:0]io_width
 );
 
 //`include "mem_init.txt"
@@ -80,10 +81,11 @@ vram v_ram(
 	.q(vgac_data)
 );
 
-assign io_addr = addr[23:0]; //TODO: handle mirrors properly
+assign io_addr = addr[23:0];
 assign io_data_in = data;
 assign io_read = rw_io & read;
 assign io_write = rw_io & write;
+assign io_width = width;
 
 wire [4:0]sr32 = {addr[1:0], 3'h0};
 
@@ -93,7 +95,7 @@ always @(*) begin
 		rw_rom: out = bios_out >> sr32;
 		rw_pak: out = pak_out >> sr32;
 		rw_int: out = int_out >> sr32;
-		rw_io: out = io_data_out >> sr32;
+		rw_io: out = io_data_out;
 		//rw_cart: out = {24'h0, cart_ram[addr[15:0]]};
 		default: out = 32'h0;
 	endcase
