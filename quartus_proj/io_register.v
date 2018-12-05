@@ -10,6 +10,7 @@ module io_register(
 
 integer i;
 
+// timer start
 reg [1:0]time_tick = 2'h0;
 reg [9:0]time_count[4];
 
@@ -51,18 +52,23 @@ task update_timer;
 		end
 	end else time_tick <= time_tick + 2'h1;
 endtask
+//timer finish
 
+wire [4:0]shift_amount = {addr[1:0], 3'h0};
+
+//prepare data_out
 wire [31:0]register[1024];
 assign register[12'h100 >> 2] = {tmcnt[0], tmd[0]};
 assign register[12'h104 >> 2] = {tmcnt[1], tmd[1]};
 assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
 assign register[12'h10c >> 2] = {tmcnt[3], tmd[3]};
 wire [31:0]reg_out = register[addr[11:2]];
-
-wire [4:0]shift_amount = {addr[1:0], 3'h0};
 assign data_out = reg_out >> shift_amount;
+//prepare data_out finish
 
-reg [31:0]mask;
+
+//prepare new register value (a word) from data_in
+reg [31:0]mask; //mask to the bit(s) to be changed
 always @(*) begin
 	case(width)
 		2'b00: mask = 32'hff;
@@ -74,7 +80,10 @@ always @(*) begin
 end
 wire [31:0]masked_data = (data_in << shift_amount) & mask;
 wire [31:0]newval = (reg_out & (~mask)) | (masked_data);
+//prepare new register value finish
 
+//write to io-register
+//and update timer
 always @(posedge clk_mem) begin
 	update_timer();
 	if(write) begin
