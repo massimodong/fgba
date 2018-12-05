@@ -32,6 +32,8 @@ wire cpu_mem_read, cpu_mem_write, cpu_mem_ok;
 
 wire [15:0]vgac_addr;
 wire [15:0]vgac_data;
+wire [7:0]vgac_color_num;
+wire [15:0]vgac_color;
 
 wire [22:0]rpg_addr;
 wire [31:0]rpg_data;
@@ -43,6 +45,8 @@ wire [31:0]io_data_in;
 wire [31:0]io_data_out;
 wire io_read, io_write;
 wire [1:0]io_width;
+
+wire [15:0]reg_dispcnt;
 
 memory mem(
 	.clk(~clk_50mhz),
@@ -84,7 +88,11 @@ cpu_armv4t cpu(
 graphic grp(
 	.clk(clk_25mhz),
 	.addr(vgac_addr),
+	.color_num(vgac_color_num),
 	.data(vgac_data),
+	.color(vgac_color),//
+	
+	.dispcnt(reg_dispcnt),
 
 	.R(R),
 	.G(G),
@@ -115,7 +123,9 @@ io_register iorgst(
 	.data_out(io_data_out),
 	.read(io_read),
 	.write(io_write),
-	.width(io_width)
+	.width(io_width),
+	
+	.dispcnt(reg_dispcnt)
 );
 
 assign LED[9:8] = 2'b0;
