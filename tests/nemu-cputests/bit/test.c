@@ -43,5 +43,6 @@ int main() {
 	setbit(buf, 15, 0);
 	nemu_assert(buf[1] == 0x55);
 
+	_halt(0);
 	return 0;
 }

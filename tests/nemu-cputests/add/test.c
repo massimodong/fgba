@@ -21,5 +21,6 @@ int main() {
 
 	nemu_assert(i == NR_DATA);
 
+	_halt(0);
 	return 0;
 }
