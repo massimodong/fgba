@@ -38,6 +38,11 @@ wire [31:0]rpg_data;
 wire rpg_write;
 wire [7:0]rpg_xorc;
 
+wire [23:0]io_addr;
+wire [31:0]io_data_in;
+wire [31:0]io_data_out;
+wire io_read, io_write;
+
 memory mem(
 	.clk(~clk_50mhz),
 	.clk_25mhz(clk_25mhz),
@@ -54,7 +59,13 @@ memory mem(
 	.rpg(RPG),
 	.rpg_addr(rpg_addr),
 	.rpg_data(rpg_data),
-	.rpg_write(rpg_write)
+	.rpg_write(rpg_write),
+
+	.io_addr(io_addr),
+	.io_data_in(io_data_in),
+	.io_data_out(io_data_out),
+	.io_read(io_read),
+	.io_write(io_write)
 );
 
 cpu_armv4t cpu(
@@ -95,6 +106,14 @@ reprogram rpg1(
 );
 assign RPG_TX = 1'b1;
 
+io_register iorgst(
+	.clk_mem(~clk_50mhz),
+	.addr(io_addr),
+	.data_in(io_data_in),
+	.data_out(io_data_out),
+	.read(io_read),
+	.write(io_write)
+);
 
 assign LED[9:8] = 2'b0;
 endmodule

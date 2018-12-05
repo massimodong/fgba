@@ -14,7 +14,13 @@ module memory(
 	input rpg,
 	input [22:0]rpg_addr,
 	input [31:0]rpg_data,
-	input rpg_write
+	input rpg_write,
+
+	output [23:0]io_addr,
+	output [31:0]io_data_in,
+	input [31:0]io_data_out,
+	output io_read,
+	output io_write
 );
 
 //`include "mem_init.txt"
@@ -29,6 +35,7 @@ wire [3:0]select = addr[27:24];
 
 wire rw_rom = select == 4'h0;
 wire rw_int = select == 4'h3;
+wire rw_io = select == 4'h4;
 wire rw_pak = select == 4'h8 ||
               select == 4'h9 ||
               select == 4'ha ||
@@ -73,6 +80,11 @@ vram v_ram(
 	.q(vgac_data)
 );
 
+assign io_addr = addr[23:0]; //TODO: handle mirrors properly
+assign io_data_in = data;
+assign io_read = rw_io & read;
+assign io_write = rw_io & write;
+
 wire [4:0]sr32 = {addr[1:0], 3'h0};
 
 reg [31:0]out;
@@ -81,6 +93,7 @@ always @(*) begin
 		rw_rom: out = bios_out >> sr32;
 		rw_pak: out = pak_out >> sr32;
 		rw_int: out = int_out >> sr32;
+		rw_io: out = io_data_out >> sr32;
 		//rw_cart: out = {24'h0, cart_ram[addr[15:0]]};
 		default: out = 32'h0;
 	endcase
