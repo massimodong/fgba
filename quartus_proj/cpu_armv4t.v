@@ -610,7 +610,7 @@ always @(*) begin
 					c_lsm_rgs = {8'h0, instr[7:0]};
 					c_next_state = s_lsm;
 					cr_regw[t_rd] = 1'b1;
-					cr_regd[t_rd] = r[t_rd] - {lsm_cnt, 2'b0};
+					cr_regd[t_rd] = r[t_rd] + {lsm_cnt, 2'b0};
 				end else if(f_t && ti_push_pop) begin
 					c_lsm_L = instr[11];
 					c_lsm_address = r[13] - {lsm_cnt, 2'h0};

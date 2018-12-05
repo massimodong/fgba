@@ -17,10 +17,10 @@ integer i;
 
 // timer start
 reg [1:0]time_tick = 2'h0;
-reg [9:0]time_count[4];
+reg [9:0]time_count[3:0];
 
-reg [15:0]tmd[4]; //time value
-reg [15:0]tmcnt[4]; //time controller
+reg [15:0]tmd[3:0]; //time value
+reg [15:0]tmcnt[3:0]; //time controller
 
 task update_timer;
 	if(time_tick == 2'h2) begin //(50Mhz / 3) = 16.67MHz ~ 16.78MHz
@@ -61,7 +61,7 @@ endtask
 wire [4:0]shift_amount = {addr[1:0], 3'h0};
 
 //prepare data_out
-wire [31:0]register[1024];
+wire [31:0]register[1023:0];
 assign register[12'h100 >> 2] = {tmcnt[0], tmd[0]};
 assign register[12'h104 >> 2] = {tmcnt[1], tmd[1]};
 assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
