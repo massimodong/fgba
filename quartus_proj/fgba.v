@@ -32,8 +32,8 @@ wire cpu_mem_read, cpu_mem_write, cpu_mem_ok;
 
 wire [15:0]vgac_addr;
 wire [15:0]vgac_data;
-wire [7:0]vgac_color_num;
-wire [15:0]vgac_color;
+wire [7:0]vgac_palette_addr;
+wire [15:0]vgac_palette_data;
 
 wire [22:0]rpg_addr;
 wire [31:0]rpg_data;
@@ -61,6 +61,9 @@ memory mem(
 	.vgac_addr(vgac_addr),
 	.vgac_data(vgac_data),
 
+	.vgac_palette_addr(vgac_palette_addr),
+	.vgac_palette_data(vgac_palette_data),
+
 	.rpg(RPG),
 	.rpg_addr(rpg_addr),
 	.rpg_data(rpg_data),
@@ -87,10 +90,10 @@ cpu_armv4t cpu(
 
 graphic grp(
 	.clk(clk_25mhz),
-	.addr(vgac_addr),
-	.color_num(vgac_color_num),
-	.data(vgac_data),
-	.color(vgac_color),//TODO: read from vgac_color_num
+	.vram_addr(vgac_addr),
+	.palette_addr(vgac_palette_addr),
+	.vram_data(vgac_data),
+	.palette_data(vgac_palette_data),
 	
 	.dispcnt(reg_dispcnt),
 
@@ -124,7 +127,7 @@ io_register iorgst(
 	.read(io_read),
 	.write(io_write),
 	.width(io_width),
-	
+
 	.dispcnt(reg_dispcnt)
 );
 

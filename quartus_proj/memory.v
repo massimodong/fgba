@@ -11,6 +11,9 @@ module memory(
 	input [15:0]vgac_addr,
 	output [15:0]vgac_data,
 
+	input [7:0]vgac_palette_addr,
+	output [15:0]vgac_palette_data,
+
 	input rpg,
 	input [22:0]rpg_addr,
 	input [31:0]rpg_data,
@@ -39,6 +42,7 @@ reg [31:0]raw_out;
 wire rw_rom = select == 4'h0;
 wire rw_int = select == 4'h3;
 wire rw_io = select == 4'h4;
+wire rw_pal = select == 4'h5;
 wire rw_pak = select == 4'h8 ||
               select == 4'h9 ||
               select == 4'ha ||
@@ -99,6 +103,16 @@ pak_ram pak_ram1(
 	.data(aligned_data),
 	.wren(rw_pak && aligned_write),
 	.q(pak_out)
+);
+
+palette_ram pal_ram1(
+	.data(data[15:0]),
+	.rdaddress(vgac_palette_addr),
+	.rdclock(clk_25mhz),
+	.wraddress(addr[8:1]),
+	.wrclock(clk),
+	.wren(rw_pal & write),
+	.q(vgac_palette_data)
 );
 
 vram v_ram(
