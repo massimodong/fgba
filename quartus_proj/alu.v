@@ -40,9 +40,9 @@ always @(*) begin
 		i_add, i_cmn:	{out_c, out} = a + b;
 		i_adc:			{out_c, out} = a + b + c;
 		i_sub, i_cmp:	{out_c, out} = {1'b1, a} - b;
-		i_sbc:			{out_c, out} = {1'b1, a} - b - ~c;
+		i_sbc:			{out_c, out} = {1'b1, a} - b - !c;
 		i_rsb:			{out_c, out} = {1'b1, b} - a;
-		i_rsc:			{out_c, out} = {1'b1, b} - a - ~c;
+		i_rsc:			{out_c, out} = {1'b1, b} - a - !c;
 		i_and, i_tst:	out = a & b;
 		i_bic:			out = a & (~b);
 		i_eor, i_teq:	out = a ^ b;
