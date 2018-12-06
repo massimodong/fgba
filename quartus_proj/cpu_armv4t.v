@@ -472,16 +472,20 @@ always @(*) begin
 	end else if(instr[15:12] == 4'b0101) begin //Load/store register offset
 		t_rd = {1'b0, instr[2:0]};
 		tm_loadstore = 1'b1;
-		tm_ls_L = instr[11];
-		tm_ls_S = 1'b0;
+		if(instr[10:9] != 2'b11) begin
+			tm_ls_L = instr[11];
+			tm_ls_len = 2'h2 - instr[10:9];
+		end else begin
+			tm_ls_L = 1'b1;
+			tm_ls_len = instr[11] ? 2'h1 : 2'h0;
+			tm_ls_S = 1'b1;
+		end
 		tm_ls_address = r[{1'b0, instr[8:6]}] + r[{1'b0, instr[5:3]}]; //rm + rn
-		tm_ls_len = 2'h2 - instr[10:9];
 	end else if(instr[15:13] == 3'b011 || instr[15:14] == 4'b1000) begin //Load/store halfword/word/byte immediate offset
 		t_rd = {1'b0, instr[2:0]};
 		tm_loadstore = 1'b1;
 		tm_ls_L = instr[11];
-		tm_ls_S = instr[12];
-		tm_ls_address = r[{1'b0, instr[5:3]}] + {instr[10:6], 2'b0};
+		tm_ls_address = r[{1'b0, instr[5:3]}] + (instr[10:6] << tm_ls_len);
 		tm_ls_len = instr[15:13] == 3'b011 ? (instr[12] ? 2'b0 : 2'h2) : 2'h1;
 	end else if(instr[15:12] == 4'b1001) begin //Load/Store from stack
 		t_rd = {1'b0, instr[10:8]};
@@ -584,6 +588,7 @@ always @(*) begin
 		s_if: begin
 			addr_load = reg_pc;
 			mem_read = 1'b1;
+			mem_width = f_t ? 2'h1 : 2'h2;
 			if(mem_ok) begin
 				c_next_state = s_id;
 				c_saved_instr = mem_data;
@@ -678,6 +683,7 @@ always @(*) begin
 				end
 				loadstore: begin
 					addr_load = ls_address;
+					mem_width = ls_len;
 					if(ls_L) begin
 						mem_read = 1'b1;
 						cr_regw[ls_rd] = 1'b1;
@@ -685,13 +691,12 @@ always @(*) begin
 							3'b000: cr_regd[ls_rd] = {24'b0, mem_data[7:0]};
 							3'b001: cr_regd[ls_rd] = {16'b0, mem_data[15:0]};
 							3'b010: cr_regd[ls_rd] = mem_data;
-							3'b100: cr_regd[ls_rd] = {24'hff, mem_data[7:0]}; //TODO: real sign extend
-							3'b101: cr_regd[ls_rd] = {16'hffff, mem_data[15:0]};
+							3'b100: cr_regd[ls_rd] = {{24{mem_data[7]}}, mem_data[7:0]};
+							3'b101: cr_regd[ls_rd] = {{16{mem_data[15]}}, mem_data[15:0]};
 							default: ; // undefined
 						endcase
 					end else begin
 						data_load = r[ls_rd];
-						mem_width = ls_len;
 						mem_write = 1'b1;
 					end
 					if(admode23 && (mode23_P == 1'b0 || mode23_W == 1'b1)) begin
@@ -769,15 +774,22 @@ always @(*) begin
 			c_lsm_rgs = lsm_rgs;
 			c_lsm_rgs[lsm_rd] = 1'b0;
 
-			if(c_lsm_rgs == 16'h0) begin
-				cr_regw[15] = 1'b1;
-				cr_regd[15] = seq_pc;
-				if(admode4) begin // admode4
-					if(mode4_S && mode4_ST) c_cpsr = spsr;
-					if(lsm_rd == 4'hf && mode4_L && mode4_S) cr_regd[15] = cr_regd[15] & 32'hfffffffc;
-				end
-				c_next_state = s_if;
-			end else c_next_state = s_lsm;
+			if(mem_ok) begin
+				if(c_lsm_rgs == 16'h0) begin
+					cr_regw[15] = 1'b1;
+					cr_regd[15] = seq_pc;
+					if(admode4) begin // admode4
+						if(mode4_S && mode4_ST) c_cpsr = spsr;
+						if(lsm_rd == 4'hf && mode4_L && mode4_S) cr_regd[15] = cr_regd[15] & 32'hfffffffc;
+					end
+					c_next_state = s_if;
+				end else c_next_state = s_lsm;
+			end else begin
+				c_lsm_address = lsm_address;
+				c_lsm_rgs = lsm_rgs;
+				c_lsm_rgs[lsm_rd] = 1'b1;
+				c_next_state = s_lsm;
+			end
 		end
 		default: begin
 			//should not reach here

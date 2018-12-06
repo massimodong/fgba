@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
 	sscanf(argv[1], "%d", &width);
 	f = fopen(argv[2], "r");
 
-	printf("WIDTH=%d;\n", width);
+	printf("WIDTH=%d;\n", width*8);
 
 	unsigned int size;
 	fseek(f, 0l, SEEK_END);

@@ -13,8 +13,6 @@ void _halt(int cond){
 
 	volatile unsigned short *vram = (unsigned short *)0x06000000;
 
-	for(int i=0;i<160;++i) for(int j=0;j<240;++j) setcolor(j, i, 31,31,31);
-
 	if(cond){
 		vram[0] = 0x001F; //C = 000000000011111 = R
 	}else{
