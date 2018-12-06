@@ -7,6 +7,7 @@ module io_register(
 	input write,
 	input [1:0]width,
 	
+	input key_data,
 	output reg [15:0]dispcnt
 );
 
@@ -58,15 +59,23 @@ task update_timer;
 endtask
 //timer finish
 
+//key start
+reg [15:0] keyinput = 16'b0, keycnt = 16'b0;
+always @(*) begin
+	keyinput = {6'b0, key_data};
+end
+//key finist
+
 wire [4:0]shift_amount = {addr[1:0], 3'h0};
 
 //prepare data_out
 wire [31:0]register[1023:0];
+assign register[12'h000 >> 2] = {16'b0, dispcnt};
 assign register[12'h100 >> 2] = {tmcnt[0], tmd[0]};
 assign register[12'h104 >> 2] = {tmcnt[1], tmd[1]};
 assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
 assign register[12'h10c >> 2] = {tmcnt[3], tmd[3]};
-assign register[12'h000 >> 2] = {16'b0, dispcnt};
+assign register[12'h132 >> 2] = {keycnt, keyinput};
 wire [31:0]reg_out = register[addr[11:2]];
 assign data_out = reg_out >> shift_amount;
 //prepare data_out finish

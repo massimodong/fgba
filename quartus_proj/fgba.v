@@ -10,6 +10,9 @@ module fgba(
 	output HS,
 	output VS,
 	output vga_sync_n,
+	
+	input PS2_CLK,
+	input PS2_DAT,
 
 	input RPG_RX, //gpio[8]
 	output RPG_TX, //gpio[9]
@@ -47,6 +50,8 @@ wire io_read, io_write;
 wire [1:0]io_width;
 
 wire [15:0]reg_dispcnt;
+
+wire [9:0]kbd_data;
 
 memory mem(
 	.clk(~clk_50mhz),
@@ -128,7 +133,15 @@ io_register iorgst(
 	.write(io_write),
 	.width(io_width),
 
+	.key_data(kbd_data),
 	.dispcnt(reg_dispcnt)
+);
+
+keyboard kbd(
+	.clk(clk_50mhz),
+	.ps2_clk(PS2_CLK),
+	.ps2_data(PS2_DAT),
+	.en(kbd_data)
 );
 
 assign LED[9:8] = 2'b0;
