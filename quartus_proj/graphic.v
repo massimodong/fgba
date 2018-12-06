@@ -1,7 +1,9 @@
 module graphic(
 	input clk,
+	
 	output reg [15:0]vram_addr,
 	output [7:0]palette_addr,
+	output [7:0]v_addr = row_addr < 8'd227 ? row_addr : 8'd227,
 	input [15:0]vram_data,
 	input [15:0]palette_data,
 	

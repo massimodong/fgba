@@ -37,6 +37,7 @@ wire [15:0]vgac_addr;
 wire [15:0]vgac_data;
 wire [7:0]vgac_palette_addr;
 wire [15:0]vgac_palette_data;
+wire [7:0]vgac_v_addr;
 
 wire [22:0]rpg_addr;
 wire [31:0]rpg_data;
@@ -99,6 +100,7 @@ graphic grp(
 	.palette_addr(vgac_palette_addr),
 	.vram_data(vgac_data),
 	.palette_data(vgac_palette_data),
+	.v_addr(vgac_v_addr),
 	
 	.dispcnt(reg_dispcnt),
 
@@ -133,6 +135,7 @@ io_register iorgst(
 	.write(io_write),
 	.width(io_width),
 
+	.vgac_v_addr(vgac_v_addr),
 	.key_data(kbd_data),
 	.dispcnt(reg_dispcnt)
 );

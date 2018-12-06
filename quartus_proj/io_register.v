@@ -7,13 +7,16 @@ module io_register(
 	input write,
 	input [1:0]width,
 	
-	input key_data,
+	input [7:0]vgac_v_addr,
+	input [9:0]key_data,
 	output reg [15:0]dispcnt
 );
 
 integer i;
 // vga register start
 //reg [15:0] dispcnt;
+wire [15:0] vcount = {8'b0, vgac_v_addr};
+reg [15:0] dispstat = 16'b0; //not complete
 // vga register end
 
 // timer start
@@ -71,6 +74,7 @@ wire [4:0]shift_amount = {addr[1:0], 3'h0};
 //prepare data_out
 wire [31:0]register[1023:0];
 assign register[12'h000 >> 2] = {16'b0, dispcnt};
+assign register[12'h004 >> 2] = {dispstat, vcount};
 assign register[12'h100 >> 2] = {tmcnt[0], tmd[0]};
 assign register[12'h104 >> 2] = {tmcnt[1], tmd[1]};
 assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
@@ -103,6 +107,7 @@ always @(posedge clk_mem) begin
 	if(write) begin
 		case({addr[11:2], 2'h0})
 			12'h000: dispcnt <= newval[15:0];
+			12'h004: dispstat <= newval[31:16];
 			12'h100: begin
 				{tmcnt[0], tmd[0]} <= newval;
 				time_count[0] <= 10'h0;
