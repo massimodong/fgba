@@ -10,5 +10,6 @@ int main() {
 
 	nemu_assert(sum == 5050);
 
+	_halt(0);
 	return 0;
 }

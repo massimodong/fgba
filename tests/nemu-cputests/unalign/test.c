@@ -14,5 +14,6 @@ int main() {
 		buf[0] = buf[1] = 0;
 	}
 
+	_halt(0);
 	return 0;
 }

@@ -14,5 +14,6 @@ int main() {
 		nemu_assert(to_lower_case(i) == ans[i]);
 	}
 
+	_halt(0);
 	return 0;
 }
