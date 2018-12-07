@@ -1,17 +1,28 @@
-void setcolor(int x,int y,int r,int g,int b){
-	volatile unsigned short * const vram = (unsigned short *)0x06000000;
+volatile unsigned char * const ioram = (unsigned char *)0x04000000;
+volatile unsigned short * const vram = (unsigned short *)0x06000000;
 
+void _putc(char c){
+	while(1){ // wait for serial port to be ready
+		unsigned char cnt = ioram[0x401];
+		if((cnt &1) == (cnt>>1)) break;
+	}
+
+	//load data
+	ioram[0x400] = c;
+
+	//send!
+	ioram[0x401] ^= 1;
+}
+
+void setcolor(int x,int y,int r,int g,int b){
 	short color = r + (g<<5) + (b<<10);
 
 	vram[(y<<8) - (y<<4) + x] = color;
 }
 
 void _halt(int cond){
-	volatile unsigned char *ioram = (unsigned char *)0x04000000;
 	ioram[0] = 0x03;
 	ioram[1] = 0x04;
-
-	volatile unsigned short *vram = (unsigned short *)0x06000000;
 
 	if(cond){
 		vram[0] = 0x001F; //C = 000000000011111 = R
