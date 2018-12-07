@@ -90,7 +90,7 @@ wire [4:0]shift_amount = {addr[1:0], 3'h0};
 //prepare data_out
 wire [31:0]register[1023:0];
 assign register[12'h000 >> 2] = {16'b0, dispcnt};
-assign register[12'h004 >> 2] = {dispstat, vcount};
+assign register[12'h004 >> 2] = {vcount, dispstat};
 assign register[12'h100 >> 2] = {tmcnt[0], tmd[0]};
 assign register[12'h104 >> 2] = {tmcnt[1], tmd[1]};
 assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
