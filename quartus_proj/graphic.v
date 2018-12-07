@@ -3,7 +3,7 @@ module graphic(
 	
 	output reg [15:0]vram_addr,
 	output [7:0]palette_addr,
-	output [7:0]v_addr = row_addr < 8'd227 ? row_addr : 8'd227,
+	output [7:0]v_addr,
 	input [15:0]vram_data,
 	input [15:0]palette_data,
 	
@@ -60,5 +60,6 @@ assign B[2:0] = 3'h0;
 assign vga_clk = clk;
 assign vga_black_n = 1'b1;
 assign vga_sync_n = 1'b1;
+assign v_addr = row_addr < 8'd227 ? row_addr[7:0] : 8'd227;
 
 endmodule
