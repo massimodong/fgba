@@ -15,7 +15,7 @@ endmodule
 module dispose_keyboard(
 	input clk, ready,
 	input [7:0] data_kbd,
-	output reg [7:0] en
+	output reg [7:0] en = 8'hff
 );
 	
 	reg [1:0] state = 1'b0;
@@ -41,10 +41,10 @@ module dispose_keyboard(
 		if (ready) begin
 			if (state == 0) begin
 				if (data_kbd == 8'hf0) state = 1;
-				else if (data_num < 4'ha) en[data_num] = 1;
+				else if (data_num < 4'ha) en[data_num] = 0;
 			end else begin
 				state = 0;
-				if (data_num < 4'ha) en[data_num] = 0;
+				if (data_num < 4'ha) en[data_num] = 1;
 			end
 		end
 	end
