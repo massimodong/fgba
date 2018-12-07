@@ -1,5 +1,6 @@
 module io_register(
 	input clk_mem,
+	input clk_uart16,
 	input [23:0]addr,
 	input [31:0]data_in,
 	output [31:0]data_out,
@@ -9,7 +10,9 @@ module io_register(
 	
 	input [7:0]vgac_v_addr,
 	input [9:0]key_data,
-	output reg [15:0]dispcnt
+	output reg [15:0]dispcnt,
+
+	output tx
 );
 
 integer i;
@@ -69,6 +72,19 @@ always @(*) begin
 end
 //key finist
 
+//uart send to pc (0x400)
+reg [7:0]uart2pc_data = 8'b0;
+reg uart2pc_local_st = 1'b0;
+wire uart2pc_remote_st;
+uart_send uart_send2pc(
+	.clk_uart16(clk_uart16),
+	.data(uart2pc_data),
+	.local_st(uart2pc_local_st),
+	.remote_st(uart2pc_remote_st),
+	.tx(tx)
+);
+//uart send to pc finish
+
 wire [4:0]shift_amount = {addr[1:0], 3'h0};
 
 //prepare data_out
@@ -80,6 +96,7 @@ assign register[12'h104 >> 2] = {tmcnt[1], tmd[1]};
 assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
 assign register[12'h10c >> 2] = {tmcnt[3], tmd[3]};
 assign register[12'h132 >> 2] = {keycnt, keyinput};
+assign register[12'h400 >> 2] = {22'h0, uart2pc_remote_st, uart2pc_local_st, uart2pc_data};
 wire [31:0]reg_out = register[addr[11:2]];
 assign data_out = reg_out >> shift_amount;
 //prepare data_out finish
@@ -124,6 +141,7 @@ always @(posedge clk_mem) begin
 				{tmcnt[3], tmd[3]} <= newval;
 				time_count[3] <= 10'h0;
 			end
+			12'h400: {uart2pc_local_st, uart2pc_data} <= newval[8:0];
 			default: begin
 			end
 		endcase

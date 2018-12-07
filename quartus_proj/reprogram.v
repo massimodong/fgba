@@ -1,5 +1,6 @@
 module reprogram(
 	input clk_50mhz,
+	input clk_uart16,
 	input rstn,
 	input rx,
 	
@@ -13,10 +14,6 @@ module reprogram(
 parameter INIT_ADDR = 23'h7fffff;
 
 assign write = addr != INIT_ADDR;
-
-//clock
-wire clk_uart16, locked;
-uart16 clkgen1(clk_50mhz, ~rstn, clk_uart16, locked);
 
 //uart receiver
 wire [7:0]uart_data;

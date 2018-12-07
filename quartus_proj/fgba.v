@@ -10,7 +10,7 @@ module fgba(
 	output HS,
 	output VS,
 	output vga_sync_n,
-	
+
 	input PS2_CLK,
 	input PS2_DAT,
 
@@ -27,6 +27,9 @@ always @(posedge clk_50mhz) clk_25mhz = ~clk_25mhz;
 
 reg clk_12_5mhz = 1'b0;
 always @(posedge clk_25mhz) clk_12_5mhz = ~clk_12_5mhz;
+
+wire clk_uart16, locked;
+uart16 clkgen1(clk_50mhz, ~rstn, clk_uart16, locked);
 
 wire [31:0]cpu_mem_addr;
 wire [31:0]cpu_mem_data;
@@ -117,6 +120,7 @@ graphic grp(
 assign LED[7:0] = rpg_xorc;
 reprogram rpg1(
 	.clk_50mhz(clk_50mhz),
+	.clk_uart16(clk_uart16),
 	.rstn(rstn),
 	.rx(RPG_RX),
 	.addr(rpg_addr),
@@ -124,10 +128,10 @@ reprogram rpg1(
 	.write(rpg_write),
 	.xorc(rpg_xorc)
 );
-assign RPG_TX = 1'b1;
 
 io_register iorgst(
 	.clk_mem(~clk_50mhz),
+	.clk_uart16(clk_uart16),
 	.addr(io_addr),
 	.data_in(io_data_in),
 	.data_out(io_data_out),
@@ -137,7 +141,9 @@ io_register iorgst(
 
 	.vgac_v_addr(vgac_v_addr),
 	.key_data(kbd_data),
-	.dispcnt(reg_dispcnt)
+	.dispcnt(reg_dispcnt),
+
+	.tx(RPG_TX)
 );
 
 keyboard kbd(

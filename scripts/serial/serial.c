@@ -5,7 +5,7 @@
 #include<termios.h>
 
 int main(int argc, char *argv[]){
-	assert(argc >= 3);
+	assert(argc >= 2);
 	int fd = open(argv[1], O_RDWR | O_NOCTTY | O_NDELAY);
 	assert(fd != -1);
 
@@ -32,13 +32,23 @@ int main(int argc, char *argv[]){
 
 	unsigned char checksum = 0, checkxor = 0;
 
-	FILE *f = fopen(argv[2], "r");
-	while(!feof(f)){
-		unsigned char v;
-		fread(&v, sizeof(unsigned char), 1, f);
-		write(fd, &v, 1);
-		checksum += v;
-		checkxor ^= v;
+
+	if(argc >= 3){
+		FILE *f = fopen(argv[2], "r");
+		while(!feof(f)){
+			unsigned char v;
+			fread(&v, sizeof(unsigned char), 1, f);
+			write(fd, &v, 1);
+			checksum += v;
+			checkxor ^= v;
+		}
+	}else{
+		printf("listening...\n");
+		char c;
+		while(1){
+			read(fd, &c, 1);
+			putchar(c);
+		}
 	}
 
 	int cs = checksum,
