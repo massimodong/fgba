@@ -14,6 +14,17 @@ void _putc(char c){
 	ioram[0x401] ^= 1;
 }
 
+void _puthex(int v){
+	if(v < 10) _putc(v + '0');
+	else _putc(v - 10 + 'a');
+}
+
+void _puts(const char *str){
+	for(int i=0;str[i]!='\0';++i){
+		_putc(str[i]);
+	}
+}
+
 void setcolor(int x,int y,int r,int g,int b){
 	short color = r + (g<<5) + (b<<10);
 
