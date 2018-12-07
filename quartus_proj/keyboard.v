@@ -15,9 +15,11 @@ endmodule
 module dispose_keyboard(
 	input clk, ready,
 	input [7:0] data_kbd,
-	output reg [7:0] en = 8'hff
+	output reg [9:0]en
 );
-	
+	initial begin
+		en = 10'h3ff;
+	end
 	reg [1:0] state = 1'b0;
 	reg [3:0] data_num = 4'ha;
 	
