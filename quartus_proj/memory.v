@@ -40,6 +40,7 @@ wire [3:0]select = addr[27:24];
 reg [31:0]raw_out;
 
 wire rw_rom = select == 4'h0;
+wire rw_ext = select == 4'h2;
 wire rw_int = select == 4'h3;
 wire rw_io = select == 4'h4;
 wire rw_pal = select == 4'h5;
@@ -56,7 +57,7 @@ wire rw_v = select == 4'h6;
 //io_register handles unalignenment by itself, so we treat it as always aligned
 reg unaligned_waiting = 1'b0;
 reg unaligned_write_enable = 1'b0;
-wire unaligned = (rw_int | rw_pak) & (width != 2'h2);
+wire unaligned = (rw_int | rw_pak | rw_ext) & (width != 2'h2);
 wire unaligned_write = unaligned & write;
 wire [4:0]sr32 = {addr[1:0], 3'h0};
 reg [31:0]mask;
@@ -82,11 +83,20 @@ wire [31:0]aligned_data = unaligned ? unaligned_write_data : data;
 
 wire [31:0]bios_out;
 wire [31:0]pak_out;
+wire [31:0]ext_out;
 wire [31:0]int_out;
 bios_rom bios_rom1(
 	.address(addr[13:2]),
 	.clock(clk),
 	.q(bios_out)
+);
+
+external_ram external_ram1(
+	.address(addr[17:2]),
+	.clock(clk),
+	.data(aligned_data),
+	.wren(rw_ext && aligned_write),
+	.q(ext_out)
 );
 
 internal_ram internal_ram1(
