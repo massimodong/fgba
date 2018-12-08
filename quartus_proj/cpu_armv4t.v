@@ -50,6 +50,7 @@ parameter s_if = 3'h1;
 parameter s_id = 3'h2;
 parameter s_ex = 3'h3;
 parameter s_lsm = 3'h4; //load store multiple
+parameter s_mul = 3'h5; //multiple instructions
 
 parameter msr_UnallocMask = 32'h0fffff00;
 parameter msr_UserMask = 32'hf0000000;
@@ -96,6 +97,8 @@ reg [15:0]lsm_rgs;
 reg lsm_L;
 reg [3:0]lsm_rd;
 
+reg [4:0]mul_wait;
+
 //base controls
 reg [2:0]c_next_state;
 reg [31:0]c_saved_instr;
@@ -112,6 +115,8 @@ reg [15:0]c_lsm_rgs;
 reg c_lsm_L;
 reg [3:0]c_lsm_rd;
 always @(*) priority_encoder16_4(c_lsm_rgs, c_lsm_rd);
+
+reg [4:0]c_mul_wait;
 
 always @(posedge clk) begin
 	cpu_state <= c_next_state;
@@ -136,6 +141,8 @@ always @(posedge clk) begin
 	lsm_rgs <= c_lsm_rgs;
 	lsm_L <= c_lsm_L;
 	lsm_rd <= c_lsm_rd;
+
+	mul_wait <= c_mul_wait;
 end
 
 //wires
@@ -333,6 +340,18 @@ wire mode4_L = instr[20];
 assign mode4_ST = mode4_L & instr[15]; // When S == 1, S_type is 1 means CPSR loaded from SPSR, 0 means use Ri_usr.
 //decode addressing mode 4 finish
 
+//arm multiplication instructions
+//caution that `rn` and `rd` are swapped
+//{rdhi, rdlo} = rm * rs + {adhi, adlo}
+wire mode_mul =  (~f_t) & ({instr[27:24], instr[7:4]} == 8'b00001001);
+wire [3:0]mode_mul_rd = instr[19:16];
+wire [3:0]mode_mul_rn = instr[15:12];
+wire [3:0]mode_mul_rm = instr[3:0];
+wire [3:0]mode_mul_rs = instr[11:8];
+wire [31:0]mode_mul_adhi = (instr[23] & instr[21]) ? r[mode_mul_rd] : 32'h0;
+wire [31:0]mode_mul_adlo = instr[21] ? r[mode_mul_rn] : 32'h0;
+//arm multiplication instructions end
+
 //decode thumb
 reg [3:0]t_rd;
 reg [31:0]t_src1;
@@ -355,6 +374,7 @@ reg ti_b; //some branches
 reg ti_lsm; //load store multiple
 reg ti_push_pop;
 reg ti_bx;
+reg t_mul;
 always @(*) begin
 	t_rd = 4'h0;
 	t_src1 = 32'h0;
@@ -378,6 +398,7 @@ always @(*) begin
 	ti_push_pop = 1'b0;
 	ti_bx = 1'b0;
 
+	t_mul = 1'b0;
 	if(instr[15:11] == 5'b00011) begin //Add/substract register/immediate
 		t_rd = {1'b0, instr[2:0]};
 		t_src1 = r[{1'b0, instr[5:3]}];
@@ -414,7 +435,7 @@ always @(*) begin
 			end
 			4'b1101: begin //mul
 				t_alu = 1'b0;
-				//TODO
+				t_mul = 1'b1;
 			end
 			4'b0010: begin //lsl
 				t_alu = 1'b0;
@@ -532,11 +553,35 @@ wire [1:0]ls_len = admode23 ? mode23_len : tm_ls_len;
 wire [3:0]ls_rd = admode23 ? rd : t_rd;
 //load store end
 
+//multiply
+wire multiply = mode_mul | (t_mul && f_t);
+wire [3:0]mul_rd = mode_mul ? mode_mul_rd : {1'b0, instr[2:0]};
+wire [3:0]mul_rn = mode_mul ? mode_mul_rn : 4'd15;
+wire [3:0]mul_rm = mode_mul ? mode_mul_rm : {1'b0, instr[5:3]};
+wire [3:0]mul_rs = mode_mul ? mode_mul_rs : mul_rd;
+wire [31:0]mul_adhi = mode_mul ? mode_mul_adhi : 32'h0;
+wire [31:0]mul_adlo = mode_mul ? mode_mul_adlo : 32'h0;
+
+wire [63:0]mul_unsigned;
+mult_add multadd1(
+	.result(mul_unsigned),
+	.dataa_0(r[mul_rm]),
+	.datab_0(r[mul_rs]),
+	.chainin({mul_adhi, mul_adlo})
+);
+wire [63:0]mul_signed;
+smult_add multadd2(
+	.result(mul_signed),
+	.dataa_0(r[mul_rm]),
+	.datab_0(r[mul_rs]),
+	.chainin({mul_adhi, mul_adlo})
+);
+//multiply end
 
 wire i_b = (~f_t) && itype == 3'b101;
 wire i_bx = (~f_t) && instr[27:4] == 24'h12fff1; //bx seems to be in addressing mode 1
 wire i_mrs = (~f_t) && instr[27:23] == 5'b00010 && instr[21:20] == 2'b0;
-wire i_msr = (~f_t) && admode1 && (instr[24:23] == 2'b10) && (instr[21] == 1'b1) && ~i_bx; //msr is special
+wire i_msr = (~f_t) && admode1 && (instr[24:23] == 2'b10) && (instr[21:20] == 2'b10) && ~i_bx; //msr is special
 
 wire [31:0]alu_out;
 wire alu_out_n, alu_out_z, alu_out_c, alu_out_v, alu_wrd;
@@ -574,6 +619,8 @@ always @(*) begin
 	cr_spsrd = 32'h0;
 	
 	c_cpsr = cpsr;
+
+	c_mul_wait = mul_wait;
 
 	case (cpu_state)
 		s_init: begin
@@ -623,6 +670,9 @@ always @(*) begin
 					c_next_state = s_lsm;
 					cr_regw[13] = 1'b1;
 					cr_regd[13] = c_lsm_address;
+				end else if(multiply) begin
+					c_next_state = s_mul;
+					c_mul_wait = 5'd30; //TODO: How many cycles should I wait?
 				end
 			end else begin
 				cr_regw[15] = 1'b1;
@@ -789,6 +839,53 @@ always @(*) begin
 				c_lsm_rgs = lsm_rgs;
 				c_lsm_rgs[lsm_rd] = 1'b1;
 				c_next_state = s_lsm;
+			end
+		end
+		s_mul: begin
+			if(mul_wait == 5'h0) begin
+				cr_regw[15] = 1'b1;
+				cr_regd[15] = seq_pc;
+				c_next_state = s_if;
+
+				if(mode_mul) begin
+					case(instr[23:22])
+						2'b00: begin
+							cr_regw[mul_rd] = 1'b1;
+							cr_regd[mul_rd] = mul_unsigned[31:0];
+						end
+						2'b10: begin
+							cr_regw[mul_rd] = 1'b1;
+							cr_regd[mul_rd] = mul_unsigned[63:32];
+							cr_regw[mul_rn] = 1'b1;
+							cr_regd[mul_rn] = mul_unsigned[31:0];
+						end
+						2'b11: begin
+							cr_regw[mul_rd] = 1'b1;
+							cr_regd[mul_rd] = mul_signed[63:32];
+							cr_regw[mul_rn] = 1'b1;
+							cr_regd[mul_rn] = mul_signed[31:0];
+						end
+						default: begin
+						end
+					endcase
+					if(instr[20]) begin
+						if(instr[23]) begin
+							c_cpsr[NFb] = cr_regd[mul_rn][31];
+							c_cpsr[ZFb] = {cr_regd[mul_rd], cr_regd[mul_rn]} == 64'h0;
+						end else begin
+							c_cpsr[NFb] = cr_regd[mul_rd][31];
+							c_cpsr[ZFb] = cr_regd[rd] == 32'h0;
+						end
+					end
+				end else begin
+					cr_regw[mul_rd] = 1'b1;
+					cr_regd[mul_rd] = mul_unsigned[31:0];
+					c_cpsr[NFb] = mul_unsigned[31];
+					c_cpsr[ZFb] = mul_unsigned[31:0] == 32'h0 ? 1'b1 : 1'b0;
+				end
+			end else begin
+				c_next_state = s_mul;
+				c_mul_wait = mul_wait - 5'h1;
 			end
 		end
 		default: begin

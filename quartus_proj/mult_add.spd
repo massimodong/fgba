@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file path="mult_add_sim/mult_add.v" type="VERILOG" />
+ <topLevel name="mult_add" />
+ <deviceFamily name="cyclonev" />
+</simPackage>

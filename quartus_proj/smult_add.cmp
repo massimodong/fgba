@@ -1,0 +1,9 @@
+	component smult_add is
+		port (
+			result  : out std_logic_vector(63 downto 0);                    -- result
+			dataa_0 : in  std_logic_vector(31 downto 0) := (others => 'X'); -- dataa_0
+			datab_0 : in  std_logic_vector(31 downto 0) := (others => 'X'); -- datab_0
+			chainin : in  std_logic_vector(63 downto 0) := (others => 'X')  -- chainin
+		);
+	end component smult_add;
+

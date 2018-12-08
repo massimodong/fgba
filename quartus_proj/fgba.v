@@ -117,7 +117,7 @@ graphic grp(
 	.vga_sync_n(vga_sync_n)
 );
 
-//assign LED[7:0] = rpg_xorc;
+assign LED[7:0] = rpg_xorc;
 reprogram rpg1(
 	.clk_50mhz(clk_50mhz),
 	.clk_uart16(clk_uart16),
@@ -146,7 +146,7 @@ io_register iorgst(
 	.tx(RPG_TX)
 );
 
-assign LED = kbd_data;
+//assign LED = kbd_data;
 keyboard kbd(
 	.clk(clk_50mhz),
 	.ps2_clk(PS2_CLK),
@@ -154,5 +154,5 @@ keyboard kbd(
 	.en(kbd_data)
 );
 
-//assign LED[9:8] = 2'b0;
+assign LED[9:8] = 2'b0;
 endmodule
