@@ -96,6 +96,7 @@ reg [31:0]lsm_address;
 reg [15:0]lsm_rgs;
 reg lsm_L;
 reg [3:0]lsm_rd;
+reg [31:0]lsm_rb[15:0];
 
 reg [4:0]mul_wait;
 
@@ -115,6 +116,7 @@ reg [15:0]c_lsm_rgs;
 reg c_lsm_L;
 reg [3:0]c_lsm_rd;
 always @(*) priority_encoder16_4(c_lsm_rgs, c_lsm_rd);
+reg [31:0]c_lsm_rb[15:0];
 
 reg [4:0]c_mul_wait;
 
@@ -141,6 +143,7 @@ always @(posedge clk) begin
 	lsm_rgs <= c_lsm_rgs;
 	lsm_L <= c_lsm_L;
 	lsm_rd <= c_lsm_rd;
+	for(i=0;i<16;i=i+1) lsm_rb[i] <= c_lsm_rb[i];
 
 	mul_wait <= c_mul_wait;
 end
@@ -612,6 +615,10 @@ always @(*) begin
 	c_lsm_L = lsm_L;
 
 	for(i=0;i<16;i=i+1) begin
+		c_lsm_rb[i] = lsm_rb[i];
+	end
+
+	for(i=0;i<16;i=i+1) begin
 		cr_regw[i] = 1'b0;
 		cr_regd[i] = 32'h0;
 	end
@@ -673,6 +680,10 @@ always @(*) begin
 				end else if(multiply) begin
 					c_next_state = s_mul;
 					c_mul_wait = 5'd30; //TODO: How many cycles should I wait?
+				end
+
+				if(c_next_state == s_lsm) begin
+					for(i=0;i<16;i=i+1) c_lsm_rb[i] = r[i];
 				end
 			end else begin
 				cr_regw[15] = 1'b1;
@@ -817,7 +828,7 @@ always @(*) begin
 				cr_regd[lsm_rd] = mem_data;
 			end else begin
 				mem_write = 1'b1;
-				data_load = r[lsm_rd];
+				data_load = lsm_rb[lsm_rd];
 			end
 
 			c_lsm_address = lsm_address + 32'h4;
