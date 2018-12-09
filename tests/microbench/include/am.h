@@ -8,7 +8,7 @@
 typedef struct _Area {
   void *start, *end;
 } _Area;
-static _Area _heap = {(void*)0x02000000, (void*)0x0203FFFF};
+static _Area _heap = {(void*)0x02000000, (void*)0x02040000};
 
 volatile unsigned static char * const ioram = (unsigned char *)0x04000000;
 volatile unsigned static short * const vram = (unsigned short *)0x06000000;
@@ -177,10 +177,39 @@ static inline int _snprintf(char *out, size_t n, const char *fmt, ...) {
 }
 
 static inline int uptime(){
-	return 0;
+	unsigned long long v = ioram[0x105];
+	v<<=8;
+	v|=ioram[0x104];
+	v<<=8;
+	v|=ioram[0x101];
+	v<<=8;
+	v|=ioram[0x100];
+
+	v = v * 3072 / 50000;
+	return v;
 }
 
 static inline void _ioe_init(){
+	char *p = _heap.start;
+	while(p!=_heap.end){
+		*p = 0;
+		++p;
+	}
+	ioram[0x100] = 0;
+	ioram[0x101] = 0;
+	ioram[0x102] = 0x83;
+
+	ioram[0x104] = 0;
+	ioram[0x105] = 0;
+	ioram[0x106] = 0x84;
+
+	ioram[0x108] = 0;
+	ioram[0x109] = 0;
+	ioram[0x10a] = 0x84;
+
+	ioram[0x10c] = 0;
+	ioram[0x10d] = 0;
+	ioram[0x10e] = 0x84;
 }
 
 #endif

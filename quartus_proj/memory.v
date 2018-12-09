@@ -145,6 +145,7 @@ always @(*) begin
 	case(1'b1)
 		rw_rom: raw_out = bios_out;
 		rw_pak: raw_out = pak_out;
+		rw_ext: raw_out = ext_out;
 		rw_int: raw_out = int_out;
 		rw_io: raw_out = io_data_out;
 		//rw_cart: out = {24'h0, cart_ram[addr[15:0]]};
