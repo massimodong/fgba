@@ -152,7 +152,18 @@ always @(*) begin
 		default: raw_out = 32'h0;
 	endcase
 end
-wire [31:0]out = unaligned ? (raw_out >> sr32) : raw_out;
+
+reg [31:0]out;
+always @(*) begin
+	if(unaligned || width == 2'h2) begin
+		case(addr[1:0])
+			2'b00: out = raw_out;
+			2'b01: out = {raw_out[7:0], raw_out[31:8]};
+			2'b10: out = {raw_out[15:0], raw_out[31:16]};
+			2'b11: out = {raw_out[23:0], raw_out[31:24]};
+		endcase
+	end else out = raw_out;
+end
 
 assign mem_data = read ? out : 32'bz;
 

@@ -58,7 +58,7 @@ wire [15:0]reg_dispcnt;
 wire [9:0]kbd_data;
 
 memory mem(
-	.clk(~clk_50mhz),
+	.clk(~clk_25mhz),
 	.clk_25mhz(clk_25mhz),
 	.mem_addr(cpu_mem_addr),
 	.mem_data(cpu_mem_data),
@@ -87,7 +87,7 @@ memory mem(
 );
 
 cpu_armv4t cpu(
-	.clk(clk_50mhz),
+	.clk(clk_25mhz),
 	.rstn(rstn),
 	.mem_addr(cpu_mem_addr),
 	.mem_data(cpu_mem_data),
@@ -119,7 +119,7 @@ graphic grp(
 
 assign LED[7:0] = rpg_xorc;
 reprogram rpg1(
-	.clk_50mhz(clk_50mhz),
+	.clk_50mhz(clk_25mhz),
 	.clk_uart16(clk_uart16),
 	.rstn(rstn),
 	.rx(RPG_RX),
@@ -130,7 +130,7 @@ reprogram rpg1(
 );
 
 io_register iorgst(
-	.clk_mem(~clk_50mhz),
+	.clk_mem(~clk_25mhz),
 	.clk_uart16(clk_uart16),
 	.addr(io_addr),
 	.data_in(io_data_in),

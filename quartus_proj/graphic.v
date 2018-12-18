@@ -31,7 +31,7 @@ always @(*) begin
 	if(inframe) begin
 		case (1'b1)
 			mode3: vram_addr = {row_addr[7:0], 8'b0} - {row_addr, 4'b0} + col_addr;
-			mode4: vram_addr = {row_addr, 7'b0} - {row_addr, 3'b0} + col_addr[9:1] + (dispcnt[4] ? 16'ha000: 16'b0);
+			mode4: vram_addr = {row_addr, 7'b0} - {row_addr, 3'b0} + col_addr[9:1] + (dispcnt[4] ? 16'h5000: 16'b0);
 			default: vram_addr = 16'h0;
 		endcase
 	end else vram_addr = 16'h0;
