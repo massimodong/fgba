@@ -57,7 +57,7 @@ vgac vga1(
 assign R[2:0] = 3'h0;
 assign G[2:0] = 3'h0;
 assign B[2:0] = 3'h0;
-assign vga_clk = clk;
+assign vga_clk = ~clk;
 assign vga_black_n = 1'b1;
 assign vga_sync_n = 1'b1;
 assign v_addr = row_addr < 8'd227 ? row_addr[7:0] : 8'd227;
