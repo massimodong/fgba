@@ -45,6 +45,8 @@ int main(){
 	paletteMem[1]=0x7dad;
 
 	for(int i=0;i<160;++i) for(int j=0;j<240;++j) setcolor(j, i, 0);
+	Flip();
+	for(int i=0;i<160;++i) for(int j=0;j<240;++j) setcolor(j, i, 0);
 
 	int x=0,y=0,dx=1,dy=1;
 	for(int i=0;i<10;++i) for(int j=0;j<10;++j) setcolor(j, i, 1);

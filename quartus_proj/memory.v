@@ -85,6 +85,7 @@ wire [31:0]bios_out;
 wire [31:0]pak_out;
 wire [31:0]ext_out;
 wire [31:0]int_out;
+wire [15:0]v_out;
 bios_rom bios_rom1(
 	.address(addr[13:2]),
 	.clock(clk),
@@ -126,13 +127,16 @@ palette_ram pal_ram1(
 );
 
 vram v_ram(
-	.data(data[15:0]),
-	.rdaddress(vgac_addr),
-	.rdclock(clk_25mhz),
-	.wraddress({addr[16], addr[16]?1'b0:addr[15], addr[14:1]}),
-	.wrclock(clk),
-	.wren(rw_v & write),
-	.q(vgac_data)
+	.address_a({addr[16], addr[16]?1'b0:addr[15], addr[14:1]}),
+	.address_b(vgac_addr),
+	.clock_a(clk),
+	.clock_b(clk_25mhz),
+	.data_a(data[15:0]),
+	.data_b(16'h0),
+	.wren_a(rw_v & write),
+	.wren_b(1'b0),
+	.q_a(v_out),
+	.q_b(vgac_data)
 );
 
 assign io_addr = addr[23:0];
@@ -148,6 +152,7 @@ always @(*) begin
 		rw_ext: raw_out = ext_out;
 		rw_int: raw_out = int_out;
 		rw_io: raw_out = io_data_out;
+		rw_v: raw_out = {16'h0, v_out};
 		//rw_cart: out = {24'h0, cart_ram[addr[15:0]]};
 		default: raw_out = 32'h0;
 	endcase
