@@ -7,7 +7,8 @@ module cpu_armv4t(
 	output reg [1:0]mem_width,
 	output reg mem_read,
 	output reg mem_write,
-	input mem_ok
+	input mem_ok,
+	input interrupt
 );
 
 task rotate;
@@ -172,7 +173,7 @@ wire mode4_ST;
 
 wire m_user = f_m == 5'b10000 || (admode4 == 1'b1 && mode4_S == 1'b1 && mode4_ST == 1'b0);
 wire m_fiq = f_m == 5'b10001 && ~m_user;
-wire m_irq = f_m == 5'b10010 && ~m_user;
+wire m_irq = (f_m == 5'b10010 && ~m_user) || (cpu_state == s_if && interrupt);
 wire m_supv = f_m == 5'b10011 && ~m_user;
 wire m_abort = f_m == 5'b10111 && ~m_user;
 wire m_undf = f_m == 5'b11011 && ~m_user;
@@ -640,6 +641,17 @@ always @(*) begin
 		end
 		
 		s_if: begin
+			if (interrupt) begin //Interrupt
+				cr_regd[14] = next_pc + 32'h4;
+				cr_regw[14] = 1'b1;
+				cr_spsrd = cpsr;
+				cr_spsrw = 1'b1;
+				c_cpsr[4:0] = 5'b10010;
+				c_cpsr[8:7] = 2'b11;
+				cr_regd[15] = 32'h00000018;
+				cr_regw[15] = 1'b1;
+			end
+			
 			addr_load = reg_pc;
 			mem_read = 1'b1;
 			mem_width = f_t ? 2'h1 : 2'h2;
