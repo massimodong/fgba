@@ -56,10 +56,10 @@ int main(){
 
 	int last=0;
 	while(1){
-		if(last == (ioram[0x101] & 0xfc)){
+		if(last == (ioram[0x101] & 0xfe)){
 			continue;
 		}
-		last = (ioram[0x101] & 0xfc);
+		last = (ioram[0x101] & 0xfe);
 
 		x+=dx;
 		y+=dy;

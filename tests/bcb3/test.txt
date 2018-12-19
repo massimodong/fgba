@@ -253,7 +253,7 @@ Disassembly of section .data:
  498:	e58d100c 	str	r1, [sp, #12]
  49c:	e5d23101 	ldrb	r3, [r2, #257]	; 0x101
  4a0:	e59d1004 	ldr	r1, [sp, #4]
- 4a4:	e20330fc 	and	r3, r3, #252	; 0xfc
+ 4a4:	e20330fe 	and	r3, r3, #254	; 0xfe
  4a8:	e1530001 	cmp	r3, r1
  4ac:	0afffffa 	beq	0x49c
  4b0:	e59d100c 	ldr	r1, [sp, #12]
@@ -264,7 +264,7 @@ Disassembly of section .data:
  4c4:	03833001 	orreq	r3, r3, #1
  4c8:	e5d22101 	ldrb	r2, [r2, #257]	; 0x101
  4cc:	e3530000 	cmp	r3, #0
- 4d0:	e20230fc 	and	r3, r2, #252	; 0xfc
+ 4d0:	e20230fe 	and	r3, r2, #254	; 0xfe
  4d4:	e58d3004 	str	r3, [sp, #4]
  4d8:	e59d2008 	ldr	r2, [sp, #8]
  4dc:	e59d3000 	ldr	r3, [sp]

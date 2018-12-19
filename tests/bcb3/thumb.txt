@@ -457,7 +457,7 @@ Disassembly of section .data:
  49e:	e5d2      	b.n	0x46
  4a0:	1004      	asrs	r4, r0, #32
  4a2:	e59d      	b.n	0xffffffe0
- 4a4:	30fc      	adds	r0, #252	; 0xfc
+ 4a4:	30fe      	adds	r0, #254	; 0xfe
  4a6:	e203      	b.n	0x8b0
  4a8:	0001      	movs	r1, r0
  4aa:	e153      	b.n	0x754
@@ -478,7 +478,7 @@ Disassembly of section .data:
  4ca:	e5d2      	b.n	0x72
  4cc:	0000      	movs	r0, r0
  4ce:	e353      	b.n	0xb78
- 4d0:	30fc      	adds	r0, #252	; 0xfc
+ 4d0:	30fe      	adds	r0, #254	; 0xfe
  4d2:	e202      	b.n	0x8da
  4d4:	3004      	adds	r0, #4
  4d6:	e58d      	b.n	0xfffffff4
