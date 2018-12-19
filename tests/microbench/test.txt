@@ -1083,7 +1083,7 @@ Disassembly of section .data:
     1190:	03000154 	tsteq	r0, #84, 2
     1194:	03000020 	tsteq	r0, #32
     1198:	04000100 	streq	r0, [r0], #-256	; 0xffffff00
-    119c:	02faf080 	rscseq	pc, sl, #128	; 0x80
+    119c:	0000c350 	andeq	ip, r0, r0, asr r3
     11a0:	e2520000 	subs	r0, r2, #0
     11a4:	012fff1e 	bxeq	lr
     11a8:	e59f3024 	ldr	r3, [pc, #36]	; 0x11d4

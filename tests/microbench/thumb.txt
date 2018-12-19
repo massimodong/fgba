@@ -2038,7 +2038,8 @@ Disassembly of section .data:
     1196:	0300      	lsls	r0, r0, #12
     1198:	0100      	lsls	r0, r0, #4
     119a:	0400      	lsls	r0, r0, #16
-    119c:	f080 02fa 	eor.w	r2, r0, #250	; 0xfa
+    119c:	c350      	stmia	r3!, {r4, r6}
+    119e:	0000      	movs	r0, r0
     11a0:	0000      	movs	r0, r0
     11a2:	e252      	b.n	0x164a
     11a4:	ff1e 012f 	vrhadd.u16	d0, d14, d31
