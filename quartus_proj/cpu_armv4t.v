@@ -157,7 +157,7 @@ always @(posedge clk) begin
 end
 
 //wires
-wire [31:0]instr = saved_instr;
+wire [31:0]instr = reg_pc[1] ? {16'h0, saved_instr[31:16]} : saved_instr;
 
 wire [31:0]cpsr = reg_cpsr;
 wire f_n = cpsr[31];
@@ -650,9 +650,9 @@ always @(*) begin
 		end
 		
 		s_if: begin
-			addr_load = reg_pc;
+			addr_load = {reg_pc[31:2], 2'h0};
 			mem_read = 1'b1;
-			mem_width = f_t ? 2'h1 : 2'h2;
+			mem_width = 2'h2;
 			if(mem_ok) begin
 				c_next_state = s_id;
 				c_saved_instr = mem_data;
@@ -665,9 +665,9 @@ always @(*) begin
 			c_next_state = s_ex;
 
 			//prefetch
-			addr_load = seq_pc;
+			addr_load = {seq_pc[31:2], 2'h0};
 			mem_read = 1'b1;
-			mem_width = f_t ? 2'h1 : 2'h2;
+			mem_width = 2'h2;
 			if(mem_ok) begin
 				c_prefetch = mem_data;
 			end else begin
@@ -928,7 +928,7 @@ always @(*) begin
 	endcase
 
 	//if prefetch valid
-	if((c_next_state == s_if) && (cr_regd[15] == seq_pc) && (c_cpsr[5] == f_t)) begin
+	if((c_next_state == s_if) && (cr_regd[15] == seq_pc)) begin
 		if(cpu_state == s_id) begin
 			c_next_state = s_id;
 			c_saved_instr = mem_data;
