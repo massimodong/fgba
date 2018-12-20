@@ -11,9 +11,14 @@ module io_register(
 	input [7:0]vgac_v_addr,
 	input [9:0]key_data,
 	output reg [15:0]dispcnt,
+	output reg [4:0]mult_wait_time,
 
 	output tx
 );
+
+initial begin
+	mult_wait_time = 5'd10;
+end
 
 integer i;
 // vga register start
@@ -97,6 +102,7 @@ assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
 assign register[12'h10c >> 2] = {tmcnt[3], tmd[3]};
 assign register[12'h130 >> 2] = {keycnt, keyinput};
 assign register[12'h400 >> 2] = {22'h0, uart2pc_remote_st, uart2pc_local_st, uart2pc_data};
+assign register[12'h404 >> 2] = {27'h0, mult_wait_time};
 wire [31:0]reg_out = register[addr[11:2]];
 assign data_out = reg_out >> shift_amount;
 //prepare data_out finish
@@ -142,6 +148,7 @@ always @(posedge clk_mem) begin
 				time_count[3] <= 10'h0;
 			end
 			12'h400: {uart2pc_local_st, uart2pc_data} <= newval[8:0];
+			12'h404: mult_wait_time <= newval[4:0];
 			default: begin
 			end
 		endcase

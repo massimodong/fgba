@@ -7,7 +7,9 @@ module cpu_armv4t(
 	output reg [1:0]mem_width,
 	output reg mem_read,
 	output reg mem_write,
-	input mem_ok
+	input mem_ok,
+
+	input [4:0]mult_wait_time
 );
 
 task rotate;
@@ -98,6 +100,8 @@ reg lsm_L;
 reg [3:0]lsm_rd;
 reg [31:0]lsm_rb[15:0];
 
+reg [31:0]prefetch;
+
 reg [4:0]mul_wait;
 
 //base controls
@@ -117,6 +121,8 @@ reg c_lsm_L;
 reg [3:0]c_lsm_rd;
 always @(*) priority_encoder16_4(c_lsm_rgs, c_lsm_rd);
 reg [31:0]c_lsm_rb[15:0];
+
+reg [31:0]c_prefetch;
 
 reg [4:0]c_mul_wait;
 
@@ -144,6 +150,8 @@ always @(posedge clk) begin
 	lsm_L <= c_lsm_L;
 	lsm_rd <= c_lsm_rd;
 	for(i=0;i<16;i=i+1) lsm_rb[i] <= c_lsm_rb[i];
+
+	prefetch <= c_prefetch;
 
 	mul_wait <= c_mul_wait;
 end
@@ -627,6 +635,8 @@ always @(*) begin
 	
 	c_cpsr = cpsr;
 
+	c_prefetch = prefetch;
+
 	c_mul_wait = mul_wait;
 
 	case (cpu_state)
@@ -653,6 +663,17 @@ always @(*) begin
 		
 		s_id: begin
 			c_next_state = s_ex;
+
+			//prefetch
+			addr_load = seq_pc;
+			mem_read = 1'b1;
+			mem_width = f_t ? 2'h1 : 2'h2;
+			if(mem_ok) begin
+				c_prefetch = mem_data;
+			end else begin
+				c_next_state = s_id;
+			end
+			//prefetch finish
 			if(f_t || cond_pass) begin
 				if(admode4) begin
 					c_lsm_L = mode4_L;
@@ -679,7 +700,7 @@ always @(*) begin
 					cr_regd[13] = instr[11] ? c_lsm_address + {lsm_cnt, 2'h0} : c_lsm_address;
 				end else if(multiply) begin
 					c_next_state = s_mul;
-					c_mul_wait = 5'd30; //TODO: How many cycles should I wait?
+					c_mul_wait = mult_wait_time; //We decide how many cycles to wait
 				end
 
 				if(c_next_state == s_lsm) begin
@@ -905,6 +926,17 @@ always @(*) begin
 			c_next_state = s_init;
 		end
 	endcase
+
+	//if prefetch valid
+	if((c_next_state == s_if) && (cr_regd[15] == seq_pc) && (c_cpsr[5] == f_t)) begin
+		if(cpu_state == s_id) begin
+			c_next_state = s_id;
+			c_saved_instr = mem_data;
+		end else begin
+			c_next_state = s_id;
+			c_saved_instr = prefetch;
+		end
+	end
 	
 	if(!rstn) c_next_state = s_init;
 end

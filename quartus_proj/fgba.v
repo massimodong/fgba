@@ -57,6 +57,8 @@ wire [15:0]reg_dispcnt;
 
 wire [9:0]kbd_data;
 
+wire [4:0]mult_wait_time;
+
 memory mem(
 	.clk(~clk_25mhz),
 	.clk_25mhz(clk_25mhz),
@@ -94,7 +96,8 @@ cpu_armv4t cpu(
 	.mem_width(cpu_mem_width),
 	.mem_read(cpu_mem_read),
 	.mem_write(cpu_mem_write),
-	.mem_ok(cpu_mem_ok)
+	.mem_ok(cpu_mem_ok),
+	.mult_wait_time(mult_wait_time)
 );
 
 graphic grp(
@@ -142,6 +145,7 @@ io_register iorgst(
 	.vgac_v_addr(vgac_v_addr),
 	.key_data(kbd_data),
 	.dispcnt(reg_dispcnt),
+	.mult_wait_time(mult_wait_time),
 
 	.tx(RPG_TX)
 );

@@ -39,9 +39,17 @@ end
 
 assign palette_addr = col_addr[0] ? vram_data[15:8] : vram_data[7:0]; //color[vram[row * 120 + col / 2][15:8 or 7:0]]
 
+reg [3:0]delay = 4'h0;
+always @(posedge clk) begin
+	delay <= {delay[2:0], inframe};
+end
+
+wire showColor = mode3 ? delay[1] : delay[3];
+wire [14:0]color = showColor ? (mode3 ? vram_data[14:0] : palette_data[14:0]) : 15'b110111101111011;
+
 vgac vga1(
 	//.d_in(inframe ? last_data : 15'b110111101111011), //grey if out of frame
-	.d_in(mode4 ? palette_data[14:0] : vram_data[14:0]),
+	.d_in(color),
 	.vga_clk(clk),
 	.clrn(1'b1),
 	.row_addr(row_addr),
