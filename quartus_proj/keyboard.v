@@ -27,8 +27,8 @@ module dispose_keyboard(
 		case (data_kbd)
 			8'h3b: data_num = 4'h0; // A_button: key 'J'
 			8'h42: data_num = 4'h1; // B_button: key 'K'
-			8'h31: data_num = 4'h2; // Select: key 'N'
-			8'h3a: data_num = 4'h3; // Start: key 'M'
+			8'h31, 8'h66: data_num = 4'h2; // Select: key 'N' or 'BACKSPACE'
+			8'h3a, 8'h5a: data_num = 4'h3; // Start: key 'M' or 'ENTER'
 			8'h23: data_num = 4'h4; // Right: key 'D'
 			8'h1c: data_num = 4'h5; // Left: key 'A'
 			8'h1d: data_num = 4'h6; // Up: key 'W'
