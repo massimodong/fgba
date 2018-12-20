@@ -12,9 +12,7 @@ module io_register(
 	input [9:0]key_data,
 	output reg [15:0]dispcnt,
 
-	output tx,
-	
-	output interrupt
+	output tx
 );
 
 integer i;
@@ -74,15 +72,6 @@ always @(*) begin
 end
 //key finist
 
-//interrupt start
-reg [15:0] ime = 16'b0, ien = 16'b0, ifl = 16'b0;
-assign interrupt = ime[0] && (|(ien[13:0] & ifl[13:0]));
-always @(*) begin
-	if(keycnt[14] && (keycnt[15] ? (&(keycnt[9:0] & ~keyinput[9:0])) : (|(keycnt[9:0] & ~keyinput[9:0])))) // key interrupt
-		ifl[12] = 1'b1;
-end
-//interrupt finish
-
 //uart send to pc (0x400)
 reg [7:0]uart2pc_data = 8'b0;
 reg uart2pc_local_st = 1'b0;
@@ -107,8 +96,6 @@ assign register[12'h104 >> 2] = {tmcnt[1], tmd[1]};
 assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
 assign register[12'h10c >> 2] = {tmcnt[3], tmd[3]};
 assign register[12'h130 >> 2] = {keycnt, keyinput};
-assign register[12'h200 >> 2] = {ifl, ien};
-assign register[12'h208 >> 2] = {16'b0, ime};
 assign register[12'h400 >> 2] = {22'h0, uart2pc_remote_st, uart2pc_local_st, uart2pc_data};
 wire [31:0]reg_out = register[addr[11:2]];
 assign data_out = reg_out >> shift_amount;
@@ -154,12 +141,6 @@ always @(posedge clk_mem) begin
 				{tmcnt[3], tmd[3]} <= newval;
 				time_count[3] <= 10'h0;
 			end
-			12'h130: keycnt <= newval[31:16];
-			12'h200: begin
-				ien <= newval[15:0];
-				ifl <= (addr == 12'h202 && data_in) ? 16'b0 : ifl;
-			end
-			12'h208: ime <= newval[15:0];
 			12'h400: {uart2pc_local_st, uart2pc_data} <= newval[8:0];
 			default: begin
 			end

@@ -54,7 +54,6 @@ wire io_read, io_write;
 wire [1:0]io_width;
 
 wire [15:0]reg_dispcnt;
-wire interrupt;
 
 wire [9:0]kbd_data;
 
@@ -95,8 +94,7 @@ cpu_armv4t cpu(
 	.mem_width(cpu_mem_width),
 	.mem_read(cpu_mem_read),
 	.mem_write(cpu_mem_write),
-	.mem_ok(cpu_mem_ok),
-	.interrupt(interrupt)
+	.mem_ok(cpu_mem_ok)
 );
 
 graphic grp(
@@ -145,9 +143,7 @@ io_register iorgst(
 	.key_data(kbd_data),
 	.dispcnt(reg_dispcnt),
 
-	.tx(RPG_TX),
-	
-	.interrupt(interrupt)
+	.tx(RPG_TX)
 );
 
 //assign LED = kbd_data;
