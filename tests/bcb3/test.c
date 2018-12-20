@@ -2,12 +2,13 @@
 typedef uint16_t u16;
 volatile unsigned char *ioram = (unsigned char *)0x04000000;
 volatile u16* ScanlineCounter = (volatile u16*)0x4000006;
-
 static u16* const paletteMem = (u16*)0x5000000;//PalMemory is 256 16 bit BGR values starting at 0x5000000
 static u16* const FrontBuffer = (u16*)0x6000000;
 static u16* const BackBuffer = (u16*)0x600A000;
 
 u16* videoBuffer = BackBuffer;
+
+volatile uint32_t * const intr_func = (uint32_t *)0x03007FFC;
 
 void Flip(){
 	if(videoBuffer == FrontBuffer){
@@ -37,18 +38,43 @@ void setcolor(int x,int y,int p){
 	}
 }
 
+
+int x=0,y=0,dx=1,dy=1;
+
+void intr(){
+	ioram[0x208] = 0; //IME
+	int st = ~ioram[0x130];
+
+	if(st & (1<<4)){ //Right
+		dx=1;
+	}else if(st & (1<<5)){ //Left
+		dx=-1;
+	}else if(st & (1<<6)){ //Up
+		dy=-1;
+	}else if(st & (1<<7)){ //Down
+		dy=1;
+	}
+
+	((uint16_t *)ioram)[0x202>>1] = 1<<12;
+	ioram[0x208] = 1; //IME
+}
+
 int main(){
 	ioram[0] = 4;
 	ioram[1] = 4;
+	ioram[0x208] = 1; //IME
+	((uint16_t *)ioram)[0x200>>1] = 1<<12; //IE
+	ioram[0x132] = 0xff;
+	ioram[0x133] = 0x43;
 	//setio(0, 0x403);
 	paletteMem[0]=0x7fff;
 	paletteMem[1]=0x7dad;
+	*intr_func = (uint32_t)intr;
 
 	for(int i=0;i<160;++i) for(int j=0;j<240;++j) setcolor(j, i, 0);
 	Flip();
 	for(int i=0;i<160;++i) for(int j=0;j<240;++j) setcolor(j, i, 0);
 
-	int x=0,y=0,dx=1,dy=1;
 	for(int i=0;i<10;++i) for(int j=0;j<10;++j) setcolor(j, i, 1);
 
 	ioram[0x102] = 0x83;
