@@ -76,8 +76,11 @@ end
 
 //interrupt start
 reg [15:0] ime = 16'b0, ien = 16'b0, ifl = 16'b0;
-wire key_intr = keycnt[14] && (keycnt[15] ? (&(keycnt[9:0] & ~keyinput[9:0])) : (|(keycnt[9:0] & ~keyinput[9:0])));
-assign interrupt = ime[0] && (ien[12] && key_intr);
+assign interrupt = ime[0] && (|(ien[13:0] & ifl[13:0]));
+always @(*) begin
+	if(keycnt[14] && (keycnt[15] ? (&(keycnt[9:0] & ~keyinput[9:0])) : (|(keycnt[9:0] & ~keyinput[9:0])))) // key interrupt
+		ifl[12] = 1'b1;
+end
 //interrupt finish
 
 //uart send to pc (0x400)
