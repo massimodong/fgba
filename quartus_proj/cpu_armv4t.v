@@ -510,8 +510,8 @@ always @(*) begin
 		t_rd = {1'b0, instr[2:0]};
 		tm_loadstore = 1'b1;
 		tm_ls_L = instr[11];
-		tm_ls_address = r[{1'b0, instr[5:3]}] + (instr[10:6] << tm_ls_len);
 		tm_ls_len = instr[15:13] == 3'b011 ? (instr[12] ? 2'b0 : 2'h2) : 2'h1;
+		tm_ls_address = r[{1'b0, instr[5:3]}] + (instr[10:6] << tm_ls_len);
 	end else if(instr[15:12] == 4'b1001) begin //Load/Store from stack
 		t_rd = {1'b0, instr[10:8]};
 		tm_loadstore = 1'b1;
@@ -684,11 +684,11 @@ always @(*) begin
 					cr_regd[t_rd] = r[t_rd] + {lsm_cnt, 2'b0};
 				end else if(f_t && ti_push_pop) begin
 					c_lsm_L = instr[11];
-					c_lsm_address = r[13] - {lsm_cnt, 2'h0};
+					c_lsm_address = instr[11] ? r[13] : r[13] - {lsm_cnt, 2'h0};
 					c_lsm_rgs = {1'b0, instr[8], 6'h0, instr[7:0]};
 					c_next_state = s_lsm;
 					cr_regw[13] = 1'b1;
-					cr_regd[13] = c_lsm_address;
+					cr_regd[13] = instr[11] ? c_lsm_address + {lsm_cnt, 2'h0} : c_lsm_address;
 				end else if(multiply) begin
 					c_next_state = s_mul;
 					c_mul_wait = 5'd30; //TODO: How many cycles should I wait?
@@ -778,9 +778,10 @@ always @(*) begin
 					end
 				end
 				t_alu: begin
-					cr_regw[t_rd] = 1'b1;
-					cr_regd[t_rd] = alu_out;
-					if(t_alu_update_cpsr) begin
+					if(alu_wrd) begin
+						cr_regw[t_rd] = 1'b1;
+						cr_regd[t_rd] = alu_out;
+					end if(t_alu_update_cpsr) begin
 						c_cpsr[NFb] = alu_out_n;
 						c_cpsr[ZFb] = alu_out_z;
 						c_cpsr[CFb] = alu_out_c;
