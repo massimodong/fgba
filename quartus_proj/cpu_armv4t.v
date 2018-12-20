@@ -641,7 +641,7 @@ always @(*) begin
 		end
 		
 		s_if: begin
-			if (interrupt) begin //Interrupt
+			if (interrupt && 1'b0) begin //Interrupt
 				cr_regd[14] = next_pc + 32'h4;
 				cr_regw[14] = 1'b1;
 				cr_spsrd = cpsr;
