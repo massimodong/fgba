@@ -124,25 +124,25 @@ Disassembly of section .data:
  1ca:	0200      	lsls	r0, r0, #8
  1cc:	0000      	movs	r0, r0
  1ce:	0200      	lsls	r0, r0, #8
- 1d0:	0c58      	lsrs	r0, r3, #17
+ 1d0:	0c88      	lsrs	r0, r1, #18
  1d2:	0800      	lsrs	r0, r0, #32
  1d4:	00e8      	lsls	r0, r5, #3
  1d6:	0300      	lsls	r0, r0, #12
  1d8:	0330      	lsls	r0, r6, #12
  1da:	0300      	lsls	r0, r0, #12
- 1dc:	0c58      	lsrs	r0, r3, #17
+ 1dc:	0c88      	lsrs	r0, r1, #18
  1de:	0800      	lsrs	r0, r0, #32
  1e0:	0000      	movs	r0, r0
  1e2:	0300      	lsls	r0, r0, #12
  1e4:	0000      	movs	r0, r0
  1e6:	0300      	lsls	r0, r0, #12
- 1e8:	0ea0      	lsrs	r0, r4, #26
+ 1e8:	0ed0      	lsrs	r0, r2, #27
  1ea:	0800      	lsrs	r0, r0, #32
- 1ec:	0ea0      	lsrs	r0, r4, #26
+ 1ec:	0ed0      	lsrs	r0, r2, #27
  1ee:	0800      	lsrs	r0, r0, #32
  1f0:	0330      	lsls	r0, r6, #12
  1f2:	0300      	lsls	r0, r0, #12
- 1f4:	0ea0      	lsrs	r0, r4, #26
+ 1f4:	0ed0      	lsrs	r0, r2, #27
  1f6:	0800      	lsrs	r0, r0, #32
  1f8:	0000      	movs	r0, r0
  1fa:	0200      	lsls	r0, r0, #8
@@ -152,7 +152,7 @@ Disassembly of section .data:
  202:	0300      	lsls	r0, r0, #12
  204:	0000      	movs	r0, r0
  206:	0204      	lsls	r4, r0, #8
- 208:	0bc9      	lsrs	r1, r1, #15
+ 208:	0bdd      	lsrs	r5, r3, #15
  20a:	0800      	lsrs	r0, r0, #32
  20c:	0b61      	lsrs	r1, r4, #13
  20e:	0800      	lsrs	r0, r0, #32
@@ -194,7 +194,7 @@ Disassembly of section .data:
  256:	4698      	mov	r8, r3
  258:	210a      	movs	r1, #10
  25a:	0038      	movs	r0, r7
- 25c:	f000 fce2 	bl	0xc24
+ 25c:	f000 fcec 	bl	0xc38
  260:	464b      	mov	r3, r9
  262:	4642      	mov	r2, r8
  264:	3130      	adds	r1, #48	; 0x30
@@ -203,7 +203,7 @@ Disassembly of section .data:
  26a:	549c      	strb	r4, [r3, r2]
  26c:	210a      	movs	r1, #10
  26e:	0038      	movs	r0, r7
- 270:	f000 fce0 	bl	0xc34
+ 270:	f000 fcde 	bl	0xc30
  274:	2f09      	cmp	r7, #9
  276:	d8eb      	bhi.n	0x250
  278:	2d00      	cmp	r5, #0
@@ -259,7 +259,7 @@ Disassembly of section .data:
  2dc:	4699      	mov	r9, r3
  2de:	4640      	mov	r0, r8
  2e0:	210a      	movs	r1, #10
- 2e2:	f000 fca3 	bl	0xc2c
+ 2e2:	f000 fcb3 	bl	0xc4c
  2e6:	4653      	mov	r3, sl
  2e8:	464a      	mov	r2, r9
  2ea:	3130      	adds	r1, #48	; 0x30
@@ -268,7 +268,7 @@ Disassembly of section .data:
  2f0:	549c      	strb	r4, [r3, r2]
  2f2:	4640      	mov	r0, r8
  2f4:	210a      	movs	r1, #10
- 2f6:	f000 fca1 	bl	0xc3c
+ 2f6:	f000 fcad 	bl	0xc54
  2fa:	464b      	mov	r3, r9
  2fc:	4680      	mov	r8, r0
  2fe:	18f2      	adds	r2, r6, r3
@@ -1051,7 +1051,7 @@ Disassembly of section .data:
  92a:	e350      	b.n	0xfce
  92c:	0000      	movs	r0, r0
  92e:	13e0      	asrs	r0, r4, #15
- 930:	00b8      	lsls	r0, r7, #2
+ 930:	00c2      	lsls	r2, r0, #3
  932:	ea00 0000 	and.w	r0, r0, r0
  936:	e351      	b.n	0xfdc
  938:	fff8 0aff 			; <UNDEFINED> instruction: 0xfff80aff
@@ -1205,7 +1205,7 @@ Disassembly of section .data:
  a7a:	c3e0      	stmia	r3!, {r5, r6, r7}
  a7c:	0102      	lsls	r2, r0, #4
  a7e:	b3a0      	cbz	r0, 0xaea
- a80:	0064      	lsls	r4, r4, #1
+ a80:	006e      	lsls	r6, r5, #1
  a82:	ea00 0000 	and.w	r0, r0, r0
  a86:	e351      	b.n	0x112c
  a88:	fff7 0aff 			; <UNDEFINED> instruction: 0xfff70aff
@@ -1286,7 +1286,7 @@ Disassembly of section .data:
  b2e:	0300      	lsls	r0, r0, #12
  b30:	0000      	movs	r0, r0
  b32:	0000      	movs	r0, r0
- b34:	0c54      	lsrs	r4, r2, #17
+ b34:	0c84      	lsrs	r4, r0, #18
  b36:	0800      	lsrs	r0, r0, #32
  b38:	4b06      	ldr	r3, [pc, #24]	; (0xb54)
  b3a:	b510      	push	{r4, lr}
@@ -1305,325 +1305,345 @@ Disassembly of section .data:
  b56:	0000      	movs	r0, r0
  b58:	0004      	movs	r4, r0
  b5a:	0300      	lsls	r0, r0, #12
- b5c:	0c54      	lsrs	r4, r2, #17
+ b5c:	0c84      	lsrs	r4, r0, #18
  b5e:	0800      	lsrs	r0, r0, #32
- b60:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- b62:	4b16      	ldr	r3, [pc, #88]	; (0xbbc)
- b64:	46de      	mov	lr, fp
- b66:	469b      	mov	fp, r3
- b68:	4b15      	ldr	r3, [pc, #84]	; (0xbc0)
- b6a:	464e      	mov	r6, r9
- b6c:	4699      	mov	r9, r3
- b6e:	2340      	movs	r3, #64	; 0x40
- b70:	4657      	mov	r7, sl
- b72:	4645      	mov	r5, r8
- b74:	445b      	add	r3, fp
- b76:	46da      	mov	sl, fp
- b78:	4698      	mov	r8, r3
- b7a:	b5e0      	push	{r5, r6, r7, lr}
- b7c:	4653      	mov	r3, sl
- b7e:	464c      	mov	r4, r9
- b80:	465d      	mov	r5, fp
- b82:	681e      	ldr	r6, [r3, #0]
- b84:	685f      	ldr	r7, [r3, #4]
- b86:	cd0c      	ldmia	r5!, {r2, r3}
- b88:	1992      	adds	r2, r2, r6
- b8a:	417b      	adcs	r3, r7
- b8c:	6861      	ldr	r1, [r4, #4]
- b8e:	6820      	ldr	r0, [r4, #0]
- b90:	404b      	eors	r3, r1
- b92:	4050      	eors	r0, r2
- b94:	4318      	orrs	r0, r3
- b96:	4243      	negs	r3, r0
- b98:	4158      	adcs	r0, r3
- b9a:	f7ff fe3f 	bl	0x81c
- b9e:	3408      	adds	r4, #8
- ba0:	45a8      	cmp	r8, r5
- ba2:	d1f0      	bne.n	0xb86
- ba4:	2308      	movs	r3, #8
- ba6:	469c      	mov	ip, r3
- ba8:	3338      	adds	r3, #56	; 0x38
- baa:	44e2      	add	sl, ip
- bac:	469c      	mov	ip, r3
- bae:	4b05      	ldr	r3, [pc, #20]	; (0xbc4)
- bb0:	44e1      	add	r9, ip
- bb2:	4599      	cmp	r9, r3
- bb4:	d1e2      	bne.n	0xb7c
- bb6:	2000      	movs	r0, #0
- bb8:	f7ff fc28 	bl	0x40c
- bbc:	00e8      	lsls	r0, r5, #3
- bbe:	0300      	lsls	r0, r0, #12
- bc0:	0128      	lsls	r0, r5, #4
- bc2:	0300      	lsls	r0, r0, #12
- bc4:	0328      	lsls	r0, r5, #12
- bc6:	0300      	lsls	r0, r0, #12
- bc8:	b570      	push	{r4, r5, r6, lr}
- bca:	4d0e      	ldr	r5, [pc, #56]	; (0xc04)
- bcc:	4e0e      	ldr	r6, [pc, #56]	; (0xc08)
- bce:	1b76      	subs	r6, r6, r5
- bd0:	10b6      	asrs	r6, r6, #2
- bd2:	d006      	beq.n	0xbe2
- bd4:	2400      	movs	r4, #0
- bd6:	cd08      	ldmia	r5!, {r3}
- bd8:	3401      	adds	r4, #1
- bda:	f000 f81b 	bl	0xc14
- bde:	42a6      	cmp	r6, r4
- be0:	d1f9      	bne.n	0xbd6
- be2:	f7ff fb15 	bl	0x210
- be6:	4d09      	ldr	r5, [pc, #36]	; (0xc0c)
- be8:	4e09      	ldr	r6, [pc, #36]	; (0xc10)
- bea:	1b76      	subs	r6, r6, r5
- bec:	10b6      	asrs	r6, r6, #2
- bee:	d006      	beq.n	0xbfe
- bf0:	2400      	movs	r4, #0
- bf2:	cd08      	ldmia	r5!, {r3}
- bf4:	3401      	adds	r4, #1
- bf6:	f000 f80d 	bl	0xc14
- bfa:	42a6      	cmp	r6, r4
- bfc:	d1f9      	bne.n	0xbf2
- bfe:	bc70      	pop	{r4, r5, r6}
- c00:	bc01      	pop	{r0}
- c02:	4700      	bx	r0
- c04:	0328      	lsls	r0, r5, #12
- c06:	0300      	lsls	r0, r0, #12
- c08:	0328      	lsls	r0, r5, #12
- c0a:	0300      	lsls	r0, r0, #12
- c0c:	0328      	lsls	r0, r5, #12
- c0e:	0300      	lsls	r0, r0, #12
- c10:	032c      	lsls	r4, r5, #12
- c12:	0300      	lsls	r0, r0, #12
- c14:	4718      	bx	r3
- c16:	46c0      	nop			; (mov r8, r8)
- c18:	c000      	stmia	r0!, {}
- c1a:	e59f      	b.n	0x75c
- c1c:	ff1c e12f 	vrhadd.u16	d14, d12, d31
- c20:	0aa5      	lsrs	r5, r4, #10
- c22:	0800      	lsrs	r0, r0, #32
- c24:	4778      	bx	pc
- c26:	46c0      	nop			; (mov r8, r8)
- c28:	ff41 eaff 	vpmin.u8	q15, <illegal reg q8.5>, <illegal reg q15.5>
- c2c:	4778      	bx	pc
- c2e:	46c0      	nop			; (mov r8, r8)
- c30:	ff93 eaff 			; <UNDEFINED> instruction: 0xff93eaff
- c34:	4778      	bx	pc
- c36:	46c0      	nop			; (mov r8, r8)
- c38:	fefe eaff 			; <UNDEFINED> instruction: 0xfefeeaff
- c3c:	4778      	bx	pc
- c3e:	46c0      	nop			; (mov r8, r8)
- c40:	ff43 eaff 	vpmin.u8	q15, <illegal reg q9.5>, <illegal reg q15.5>
- c44:	0000      	movs	r0, r0
- c46:	0000      	movs	r0, r0
- c48:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- c4a:	46c0      	nop			; (mov r8, r8)
- c4c:	bcf8      	pop	{r3, r4, r5, r6, r7}
- c4e:	bc08      	pop	{r3}
- c50:	469e      	mov	lr, r3
- c52:	4770      	bx	lr
+ b60:	b5f0      	push	{r4, r5, r6, r7, lr}
+ b62:	46d6      	mov	lr, sl
+ b64:	464f      	mov	r7, r9
+ b66:	4646      	mov	r6, r8
+ b68:	4817      	ldr	r0, [pc, #92]	; (0xbc8)
+ b6a:	b5c0      	push	{r6, r7, lr}
+ b6c:	f7ff fc62 	bl	0x434
+ b70:	4b16      	ldr	r3, [pc, #88]	; (0xbcc)
+ b72:	4699      	mov	r9, r3
+ b74:	4b16      	ldr	r3, [pc, #88]	; (0xbd0)
+ b76:	469a      	mov	sl, r3
+ b78:	2340      	movs	r3, #64	; 0x40
+ b7a:	4453      	add	r3, sl
+ b7c:	4698      	mov	r8, r3
+ b7e:	4656      	mov	r6, sl
+ b80:	4f14      	ldr	r7, [pc, #80]	; (0xbd4)
+ b82:	464c      	mov	r4, r9
+ b84:	4655      	mov	r5, sl
+ b86:	0038      	movs	r0, r7
+ b88:	f7ff fc54 	bl	0x434
+ b8c:	6830      	ldr	r0, [r6, #0]
+ b8e:	6871      	ldr	r1, [r6, #4]
+ b90:	cd0c      	ldmia	r5!, {r2, r3}
+ b92:	1812      	adds	r2, r2, r0
+ b94:	414b      	adcs	r3, r1
+ b96:	6861      	ldr	r1, [r4, #4]
+ b98:	6820      	ldr	r0, [r4, #0]
+ b9a:	404b      	eors	r3, r1
+ b9c:	4050      	eors	r0, r2
+ b9e:	4318      	orrs	r0, r3
+ ba0:	4243      	negs	r3, r0
+ ba2:	4158      	adcs	r0, r3
+ ba4:	f7ff fe3a 	bl	0x81c
+ ba8:	3408      	adds	r4, #8
+ baa:	4545      	cmp	r5, r8
+ bac:	d1eb      	bne.n	0xb86
+ bae:	2340      	movs	r3, #64	; 0x40
+ bb0:	469c      	mov	ip, r3
+ bb2:	3608      	adds	r6, #8
+ bb4:	44e1      	add	r9, ip
+ bb6:	42ae      	cmp	r6, r5
+ bb8:	d1e3      	bne.n	0xb82
+ bba:	4807      	ldr	r0, [pc, #28]	; (0xbd8)
+ bbc:	f7ff fc3a 	bl	0x434
+ bc0:	2000      	movs	r0, #0
+ bc2:	f7ff fc23 	bl	0x40c
+ bc6:	46c0      	nop			; (mov r8, r8)
+ bc8:	0c6c      	lsrs	r4, r5, #17
+ bca:	0800      	lsrs	r0, r0, #32
+ bcc:	0128      	lsls	r0, r5, #4
+ bce:	0300      	lsls	r0, r0, #12
+ bd0:	00e8      	lsls	r0, r5, #3
+ bd2:	0300      	lsls	r0, r0, #12
+ bd4:	0c74      	lsrs	r4, r6, #17
+ bd6:	0800      	lsrs	r0, r0, #32
+ bd8:	0c78      	lsrs	r0, r7, #17
+ bda:	0800      	lsrs	r0, r0, #32
+ bdc:	b570      	push	{r4, r5, r6, lr}
+ bde:	4d0e      	ldr	r5, [pc, #56]	; (0xc18)
+ be0:	4e0e      	ldr	r6, [pc, #56]	; (0xc1c)
+ be2:	1b76      	subs	r6, r6, r5
+ be4:	10b6      	asrs	r6, r6, #2
+ be6:	d006      	beq.n	0xbf6
+ be8:	2400      	movs	r4, #0
+ bea:	cd08      	ldmia	r5!, {r3}
+ bec:	3401      	adds	r4, #1
+ bee:	f000 f81b 	bl	0xc28
+ bf2:	42a6      	cmp	r6, r4
+ bf4:	d1f9      	bne.n	0xbea
+ bf6:	f7ff fb0b 	bl	0x210
+ bfa:	4d09      	ldr	r5, [pc, #36]	; (0xc20)
+ bfc:	4e09      	ldr	r6, [pc, #36]	; (0xc24)
+ bfe:	1b76      	subs	r6, r6, r5
+ c00:	10b6      	asrs	r6, r6, #2
+ c02:	d006      	beq.n	0xc12
+ c04:	2400      	movs	r4, #0
+ c06:	cd08      	ldmia	r5!, {r3}
+ c08:	3401      	adds	r4, #1
+ c0a:	f000 f80d 	bl	0xc28
+ c0e:	42a6      	cmp	r6, r4
+ c10:	d1f9      	bne.n	0xc06
+ c12:	bc70      	pop	{r4, r5, r6}
+ c14:	bc01      	pop	{r0}
+ c16:	4700      	bx	r0
+ c18:	0328      	lsls	r0, r5, #12
+ c1a:	0300      	lsls	r0, r0, #12
+ c1c:	0328      	lsls	r0, r5, #12
+ c1e:	0300      	lsls	r0, r0, #12
+ c20:	0328      	lsls	r0, r5, #12
+ c22:	0300      	lsls	r0, r0, #12
+ c24:	032c      	lsls	r4, r5, #12
+ c26:	0300      	lsls	r0, r0, #12
+ c28:	4718      	bx	r3
+ c2a:	46c0      	nop			; (mov r8, r8)
+ c2c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ c30:	4778      	bx	pc
+ c32:	46c0      	nop			; (mov r8, r8)
+ c34:	feff eaff 			; <UNDEFINED> instruction: 0xfeffeaff
+ c38:	4778      	bx	pc
+ c3a:	46c0      	nop			; (mov r8, r8)
+ c3c:	ff3c eaff 	vpmin.u<illegal width 64>	q7, q14, <illegal reg q15.5>
+ c40:	c000      	stmia	r0!, {}
+ c42:	e59f      	b.n	0x784
+ c44:	ff1c e12f 	vrhadd.u16	d14, d12, d31
+ c48:	0aa5      	lsrs	r5, r4, #10
+ c4a:	0800      	lsrs	r0, r0, #32
+ c4c:	4778      	bx	pc
+ c4e:	46c0      	nop			; (mov r8, r8)
+ c50:	ff8b eaff 			; <UNDEFINED> instruction: 0xff8beaff
+ c54:	4778      	bx	pc
+ c56:	46c0      	nop			; (mov r8, r8)
+ c58:	ff3d eaff 	vpmin.u<illegal width 64>	q7, <illegal reg q14.5>, <illegal reg q15.5>
+ c5c:	0000      	movs	r0, r0
+ c5e:	0000      	movs	r0, r0
+ c60:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ c62:	46c0      	nop			; (mov r8, r8)
+ c64:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ c66:	bc08      	pop	{r3}
+ c68:	469e      	mov	lr, r3
+ c6a:	4770      	bx	lr
+ c6c:	2121      	movs	r1, #33	; 0x21
+ c6e:	0a21      	lsrs	r1, r4, #8
+ c70:	0000      	movs	r0, r0
+ c72:	0000      	movs	r0, r0
+ c74:	0a31      	lsrs	r1, r6, #8
+ c76:	0000      	movs	r0, r0
+ c78:	6f47      	ldr	r7, [r0, #116]	; 0x74
+ c7a:	646f      	str	r7, [r5, #68]	; 0x44
+ c7c:	5420      	strb	r0, [r4, r0]
+ c7e:	6172      	str	r2, [r6, #20]
+ c80:	0a70      	lsrs	r0, r6, #9
 	...
- c60:	0001      	movs	r1, r0
- c62:	0000      	movs	r0, r0
- c64:	0000      	movs	r0, r0
- c66:	0000      	movs	r0, r0
- c68:	0002      	movs	r2, r0
- c6a:	0000      	movs	r0, r0
- c6c:	0000      	movs	r0, r0
- c6e:	0000      	movs	r0, r0
- c70:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- c74:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- c78:	0000      	movs	r0, r0
- c7a:	0000      	movs	r0, r0
- c7c:	0000      	movs	r0, r0
- c7e:	8000      	strh	r0, [r0, #0]
- c80:	0001      	movs	r1, r0
- c82:	0000      	movs	r0, r0
- c84:	0000      	movs	r0, r0
- c86:	8000      	strh	r0, [r0, #0]
- c88:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
- c8c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- c90:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- c94:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
-	...
- ca0:	0001      	movs	r1, r0
- ca2:	0000      	movs	r0, r0
- ca4:	0000      	movs	r0, r0
- ca6:	0000      	movs	r0, r0
- ca8:	0002      	movs	r2, r0
+ c8e:	0000      	movs	r0, r0
+ c90:	0001      	movs	r1, r0
+ c92:	0000      	movs	r0, r0
+ c94:	0000      	movs	r0, r0
+ c96:	0000      	movs	r0, r0
+ c98:	0002      	movs	r2, r0
+ c9a:	0000      	movs	r0, r0
+ c9c:	0000      	movs	r0, r0
+ c9e:	0000      	movs	r0, r0
+ ca0:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ ca4:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ ca8:	0000      	movs	r0, r0
  caa:	0000      	movs	r0, r0
  cac:	0000      	movs	r0, r0
- cae:	0000      	movs	r0, r0
- cb0:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- cb4:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- cb8:	0000      	movs	r0, r0
- cba:	0000      	movs	r0, r0
- cbc:	0000      	movs	r0, r0
- cbe:	8000      	strh	r0, [r0, #0]
- cc0:	0001      	movs	r1, r0
- cc2:	0000      	movs	r0, r0
- cc4:	0000      	movs	r0, r0
- cc6:	8000      	strh	r0, [r0, #0]
- cc8:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
- ccc:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- cd0:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- cd4:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- cd8:	0001      	movs	r1, r0
+ cae:	8000      	strh	r0, [r0, #0]
+ cb0:	0001      	movs	r1, r0
+ cb2:	0000      	movs	r0, r0
+ cb4:	0000      	movs	r0, r0
+ cb6:	8000      	strh	r0, [r0, #0]
+ cb8:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ cbc:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ cc0:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ cc4:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+	...
+ cd0:	0001      	movs	r1, r0
+ cd2:	0000      	movs	r0, r0
+ cd4:	0000      	movs	r0, r0
+ cd6:	0000      	movs	r0, r0
+ cd8:	0002      	movs	r2, r0
  cda:	0000      	movs	r0, r0
  cdc:	0000      	movs	r0, r0
  cde:	0000      	movs	r0, r0
- ce0:	0002      	movs	r2, r0
- ce2:	0000      	movs	r0, r0
- ce4:	0000      	movs	r0, r0
- ce6:	0000      	movs	r0, r0
- ce8:	0003      	movs	r3, r0
-	...
+ ce0:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ ce4:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ ce8:	0000      	movs	r0, r0
+ cea:	0000      	movs	r0, r0
+ cec:	0000      	movs	r0, r0
+ cee:	8000      	strh	r0, [r0, #0]
+ cf0:	0001      	movs	r1, r0
+ cf2:	0000      	movs	r0, r0
+ cf4:	0000      	movs	r0, r0
  cf6:	8000      	strh	r0, [r0, #0]
- cf8:	0001      	movs	r1, r0
- cfa:	0000      	movs	r0, r0
- cfc:	0000      	movs	r0, r0
- cfe:	8000      	strh	r0, [r0, #0]
- d00:	0002      	movs	r2, r0
- d02:	0000      	movs	r0, r0
- d04:	0000      	movs	r0, r0
- d06:	8000      	strh	r0, [r0, #0]
- d08:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- d0c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ cf8:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ cfc:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ d00:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ d04:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ d08:	0001      	movs	r1, r0
+ d0a:	0000      	movs	r0, r0
+ d0c:	0000      	movs	r0, r0
+ d0e:	0000      	movs	r0, r0
+ d10:	0002      	movs	r2, r0
+ d12:	0000      	movs	r0, r0
+ d14:	0000      	movs	r0, r0
+ d16:	0000      	movs	r0, r0
+ d18:	0003      	movs	r3, r0
 	...
- d18:	0002      	movs	r2, r0
- d1a:	0000      	movs	r0, r0
- d1c:	0000      	movs	r0, r0
- d1e:	0000      	movs	r0, r0
- d20:	0003      	movs	r3, r0
- d22:	0000      	movs	r0, r0
- d24:	0000      	movs	r0, r0
- d26:	0000      	movs	r0, r0
- d28:	0004      	movs	r4, r0
+ d26:	8000      	strh	r0, [r0, #0]
+ d28:	0001      	movs	r1, r0
  d2a:	0000      	movs	r0, r0
  d2c:	0000      	movs	r0, r0
- d2e:	0000      	movs	r0, r0
- d30:	0001      	movs	r1, r0
+ d2e:	8000      	strh	r0, [r0, #0]
+ d30:	0002      	movs	r2, r0
  d32:	0000      	movs	r0, r0
  d34:	0000      	movs	r0, r0
  d36:	8000      	strh	r0, [r0, #0]
- d38:	0002      	movs	r2, r0
- d3a:	0000      	movs	r0, r0
- d3c:	0000      	movs	r0, r0
- d3e:	8000      	strh	r0, [r0, #0]
- d40:	0003      	movs	r3, r0
- d42:	0000      	movs	r0, r0
- d44:	0000      	movs	r0, r0
- d46:	8000      	strh	r0, [r0, #0]
+ d38:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ d3c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
 	...
- d50:	0001      	movs	r1, r0
+ d48:	0002      	movs	r2, r0
+ d4a:	0000      	movs	r0, r0
+ d4c:	0000      	movs	r0, r0
+ d4e:	0000      	movs	r0, r0
+ d50:	0003      	movs	r3, r0
  d52:	0000      	movs	r0, r0
  d54:	0000      	movs	r0, r0
  d56:	0000      	movs	r0, r0
- d58:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- d5c:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- d60:	0000      	movs	r0, r0
+ d58:	0004      	movs	r4, r0
+ d5a:	0000      	movs	r0, r0
+ d5c:	0000      	movs	r0, r0
+ d5e:	0000      	movs	r0, r0
+ d60:	0001      	movs	r1, r0
  d62:	0000      	movs	r0, r0
  d64:	0000      	movs	r0, r0
  d66:	8000      	strh	r0, [r0, #0]
- d68:	0001      	movs	r1, r0
+ d68:	0002      	movs	r2, r0
  d6a:	0000      	movs	r0, r0
  d6c:	0000      	movs	r0, r0
  d6e:	8000      	strh	r0, [r0, #0]
- d70:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
- d74:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- d78:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- d7c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ d70:	0003      	movs	r3, r0
+ d72:	0000      	movs	r0, r0
+ d74:	0000      	movs	r0, r0
+ d76:	8000      	strh	r0, [r0, #0]
 	...
- d88:	fffd ffff 			; <UNDEFINED> instruction: 0xfffdffff
+ d80:	0001      	movs	r1, r0
+ d82:	0000      	movs	r0, r0
+ d84:	0000      	movs	r0, r0
+ d86:	0000      	movs	r0, r0
+ d88:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
  d8c:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- d90:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
- d94:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- d98:	0000      	movs	r0, r0
+ d90:	0000      	movs	r0, r0
+ d92:	0000      	movs	r0, r0
+ d94:	0000      	movs	r0, r0
+ d96:	8000      	strh	r0, [r0, #0]
+ d98:	0001      	movs	r1, r0
  d9a:	0000      	movs	r0, r0
  d9c:	0000      	movs	r0, r0
  d9e:	8000      	strh	r0, [r0, #0]
- da0:	0001      	movs	r1, r0
- da2:	0000      	movs	r0, r0
- da4:	0000      	movs	r0, r0
- da6:	8000      	strh	r0, [r0, #0]
- da8:	0002      	movs	r2, r0
- daa:	0000      	movs	r0, r0
- dac:	0000      	movs	r0, r0
- dae:	8000      	strh	r0, [r0, #0]
- db0:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- db4:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ da0:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ da4:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ da8:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ dac:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
 	...
- dc0:	0001      	movs	r1, r0
- dc2:	0000      	movs	r0, r0
- dc4:	0000      	movs	r0, r0
- dc6:	0000      	movs	r0, r0
- dc8:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
- dcc:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- dd0:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- dd4:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- dd8:	0001      	movs	r1, r0
+ db8:	fffd ffff 			; <UNDEFINED> instruction: 0xfffdffff
+ dbc:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ dc0:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ dc4:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ dc8:	0000      	movs	r0, r0
+ dca:	0000      	movs	r0, r0
+ dcc:	0000      	movs	r0, r0
+ dce:	8000      	strh	r0, [r0, #0]
+ dd0:	0001      	movs	r1, r0
+ dd2:	0000      	movs	r0, r0
+ dd4:	0000      	movs	r0, r0
+ dd6:	8000      	strh	r0, [r0, #0]
+ dd8:	0002      	movs	r2, r0
  dda:	0000      	movs	r0, r0
  ddc:	0000      	movs	r0, r0
  dde:	8000      	strh	r0, [r0, #0]
- de0:	0002      	movs	r2, r0
- de2:	0000      	movs	r0, r0
- de4:	0000      	movs	r0, r0
- de6:	8000      	strh	r0, [r0, #0]
- de8:	0003      	movs	r3, r0
- dea:	0000      	movs	r0, r0
- dec:	0000      	movs	r0, r0
- dee:	8000      	strh	r0, [r0, #0]
+ de0:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ de4:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
 	...
- df8:	0001      	movs	r1, r0
- dfa:	0000      	movs	r0, r0
- dfc:	0000      	movs	r0, r0
- dfe:	0000      	movs	r0, r0
- e00:	0002      	movs	r2, r0
- e02:	0000      	movs	r0, r0
- e04:	0000      	movs	r0, r0
- e06:	0000      	movs	r0, r0
- e08:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e0c:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- e10:	0000      	movs	r0, r0
+ df0:	0001      	movs	r1, r0
+ df2:	0000      	movs	r0, r0
+ df4:	0000      	movs	r0, r0
+ df6:	0000      	movs	r0, r0
+ df8:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ dfc:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ e00:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ e04:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ e08:	0001      	movs	r1, r0
+ e0a:	0000      	movs	r0, r0
+ e0c:	0000      	movs	r0, r0
+ e0e:	8000      	strh	r0, [r0, #0]
+ e10:	0002      	movs	r2, r0
  e12:	0000      	movs	r0, r0
  e14:	0000      	movs	r0, r0
  e16:	8000      	strh	r0, [r0, #0]
- e18:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
- e1c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e20:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e24:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ e18:	0003      	movs	r3, r0
+ e1a:	0000      	movs	r0, r0
+ e1c:	0000      	movs	r0, r0
+ e1e:	8000      	strh	r0, [r0, #0]
 	...
- e30:	fffd ffff 			; <UNDEFINED> instruction: 0xfffdffff
- e34:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- e38:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ e28:	0001      	movs	r1, r0
+ e2a:	0000      	movs	r0, r0
+ e2c:	0000      	movs	r0, r0
+ e2e:	0000      	movs	r0, r0
+ e30:	0002      	movs	r2, r0
+ e32:	0000      	movs	r0, r0
+ e34:	0000      	movs	r0, r0
+ e36:	0000      	movs	r0, r0
+ e38:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
  e3c:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- e40:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e44:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- e48:	fffc ffff 			; <UNDEFINED> instruction: 0xfffcffff
+ e40:	0000      	movs	r0, r0
+ e42:	0000      	movs	r0, r0
+ e44:	0000      	movs	r0, r0
+ e46:	8000      	strh	r0, [r0, #0]
+ e48:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
  e4c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e50:	fffd ffff 			; <UNDEFINED> instruction: 0xfffdffff
+ e50:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
  e54:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e58:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e5c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
 	...
- e68:	0001      	movs	r1, r0
- e6a:	0000      	movs	r0, r0
- e6c:	0000      	movs	r0, r0
- e6e:	0000      	movs	r0, r0
- e70:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ e60:	fffd ffff 			; <UNDEFINED> instruction: 0xfffdffff
+ e64:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ e68:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ e6c:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ e70:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
  e74:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- e78:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e7c:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
- e80:	0000      	movs	r0, r0
- e82:	0000      	movs	r0, r0
- e84:	0000      	movs	r0, r0
- e86:	8000      	strh	r0, [r0, #0]
- e88:	fffd ffff 			; <UNDEFINED> instruction: 0xfffdffff
+ e78:	fffc ffff 			; <UNDEFINED> instruction: 0xfffcffff
+ e7c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ e80:	fffd ffff 			; <UNDEFINED> instruction: 0xfffdffff
+ e84:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ e88:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
  e8c:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e90:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
- e94:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
- e98:	0b39      	lsrs	r1, r7, #12
- e9a:	0800      	lsrs	r0, r0, #32
- e9c:	0b09      	lsrs	r1, r1, #12
- e9e:	0800      	lsrs	r0, r0, #32
- ea0:	6b64      	ldr	r4, [r4, #52]	; 0x34
- ea2:	5241      	strh	r1, [r0, r1]
- ea4:	004d      	lsls	r5, r1, #1
+	...
+ e98:	0001      	movs	r1, r0
+ e9a:	0000      	movs	r0, r0
+ e9c:	0000      	movs	r0, r0
+ e9e:	0000      	movs	r0, r0
+ ea0:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ ea4:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ ea8:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ eac:	ffff 7fff 			; <UNDEFINED> instruction: 0xffff7fff
+ eb0:	0000      	movs	r0, r0
+ eb2:	0000      	movs	r0, r0
+ eb4:	0000      	movs	r0, r0
+ eb6:	8000      	strh	r0, [r0, #0]
+ eb8:	fffd ffff 			; <UNDEFINED> instruction: 0xfffdffff
+ ebc:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ ec0:	fffe ffff 			; <UNDEFINED> instruction: 0xfffeffff
+ ec4:	ffff ffff 			; <UNDEFINED> instruction: 0xffffffff
+ ec8:	0b39      	lsrs	r1, r7, #12
+ eca:	0800      	lsrs	r0, r0, #32
+ ecc:	0b09      	lsrs	r1, r1, #12
+ ece:	0800      	lsrs	r0, r0, #32
+ ed0:	6b64      	ldr	r4, [r4, #52]	; 0x34
+ ed2:	5241      	strh	r1, [r0, r1]
+ ed4:	004d      	lsls	r5, r1, #1
 	...

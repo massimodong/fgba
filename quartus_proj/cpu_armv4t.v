@@ -505,7 +505,7 @@ always @(*) begin
 			tm_ls_S = 1'b1;
 		end
 		tm_ls_address = r[{1'b0, instr[8:6]}] + r[{1'b0, instr[5:3]}]; //rm + rn
-	end else if(instr[15:13] == 3'b011 || instr[15:14] == 4'b1000) begin //Load/store halfword/word/byte immediate offset
+	end else if(instr[15:13] == 3'b011 || instr[15:12] == 4'b1000) begin //Load/store halfword/word/byte immediate offset
 		t_rd = {1'b0, instr[2:0]};
 		tm_loadstore = 1'b1;
 		tm_ls_L = instr[11];

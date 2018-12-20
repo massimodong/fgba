@@ -30,8 +30,8 @@ reg [15:0]tmd[3:0]; //time value
 reg [15:0]tmcnt[3:0]; //time controller
 
 task update_timer;
-	if(time_tick == 2'h2) begin //(50Mhz / 3) = 16.67MHz ~ 16.78MHz
-		time_tick <= 2'h0;
+	if(time_tick == 2'h2 || time_tick == 2'h1) begin //(25Mhz * (2/3)) = 16.67MHz ~ 16.78MHz
+		time_tick <= time_tick - 1'h1;
 		for(i=0;i<4;i=i+1) begin
 			if(tmcnt[i][7]) begin // timer enabled
 				if(i>0 && tmcnt[i][2]) begin //Count-up Timing
@@ -61,7 +61,7 @@ task update_timer;
 				end
 			end
 		end
-	end else time_tick <= time_tick + 2'h1;
+	end else time_tick <= 2'h2;
 endtask
 //timer finish
 

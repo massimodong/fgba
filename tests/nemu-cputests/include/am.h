@@ -34,19 +34,6 @@ void setcolor(int x,int y,int r,int g,int b){
 	vram[(y<<8) - (y<<4) + x] = color;
 }
 
-void _halt(int cond){
-	ioram[0] = 0x03;
-	ioram[1] = 0x04;
-
-	if(cond){
-		vram[0] = 0x001F; //C = 000000000011111 = R
-	}else{
-		vram[0] = 0x03E0; //C = 000001111100000 = G
-	}
-
-	while(1);
-}
-
 static void uint2str(char *s, unsigned int d){
   size_t p=0;
 
@@ -235,3 +222,19 @@ int _memcmp(const void* s1, const void* s2, size_t n){
   }
   return 0;
 }
+
+void _halt(int cond){
+	ioram[0] = 0x03;
+	ioram[1] = 0x04;
+
+	if(cond){
+		_printf("Hit Bad Trap\n");
+		vram[0] = 0x001F; //C = 000000000011111 = R
+	}else{
+		_printf("Hit Good Trap\n");
+		vram[0] = 0x03E0; //C = 000001111100000 = G
+	}
+
+	while(1);
+}
+

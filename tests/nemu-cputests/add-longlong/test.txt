@@ -72,21 +72,21 @@ Disassembly of section .data:
  1c4:	030000e8 	tsteq	r0, #232	; 0xe8
  1c8:	02000000 	andeq	r0, r0, #0
  1cc:	02000000 	andeq	r0, r0, #0
- 1d0:	08000c58 	stmdaeq	r0, {r3, r4, r6, sl, fp}
+ 1d0:	08000c88 	stmdaeq	r0, {r3, r7, sl, fp}
  1d4:	030000e8 	tsteq	r0, #232	; 0xe8
  1d8:	03000330 	tsteq	r0, #48, 6	; 0xc0000000
- 1dc:	08000c58 	stmdaeq	r0, {r3, r4, r6, sl, fp}
+ 1dc:	08000c88 	stmdaeq	r0, {r3, r7, sl, fp}
  1e0:	03000000 	tsteq	r0, #0
  1e4:	03000000 	tsteq	r0, #0
- 1e8:	08000ea0 	stmdaeq	r0, {r5, r7, r9, sl, fp}
- 1ec:	08000ea0 	stmdaeq	r0, {r5, r7, r9, sl, fp}
+ 1e8:	08000ed0 	stmdaeq	r0, {r4, r6, r7, r9, sl, fp}
+ 1ec:	08000ed0 	stmdaeq	r0, {r4, r6, r7, r9, sl, fp}
  1f0:	03000330 	tsteq	r0, #48, 6	; 0xc0000000
- 1f4:	08000ea0 	stmdaeq	r0, {r5, r7, r9, sl, fp}
+ 1f4:	08000ed0 	stmdaeq	r0, {r4, r6, r7, r9, sl, fp}
  1f8:	02000000 	andeq	r0, r0, #0
  1fc:	02000000 	andeq	r0, r0, #0
  200:	030000e4 	tsteq	r0, #228	; 0xe4
  204:	02040000 	andeq	r0, r4, #0
- 208:	08000bc9 	stmdaeq	r0, {r0, r3, r6, r7, r8, r9, fp}
+ 208:	08000bdd 	stmdaeq	r0, {r0, r2, r3, r4, r6, r7, r8, r9, fp}
  20c:	08000b61 	stmdaeq	r0, {r0, r5, r6, r8, r9, fp}
  210:	46c0b5f8 			; <UNDEFINED> instruction: 0x46c0b5f8
  214:	bc08bcf8 	stclt	12, cr11, [r8], {248}	; 0xf8
@@ -107,12 +107,12 @@ Disassembly of section .data:
  250:	00074645 	andeq	r4, r7, r5, asr #12
  254:	46981c6b 	ldrmi	r1, [r8], fp, ror #24
  258:	0038210a 	eorseq	r2, r8, sl, lsl #2
- 25c:	fce2f000 			; <UNDEFINED> instruction: 0xfce2f000
+ 25c:	fcecf000 			; <UNDEFINED> instruction: 0xfcecf000
  260:	4642464b 	strbmi	r4, [r2], -fp, asr #12
  264:	060c3130 			; <UNDEFINED> instruction: 0x060c3130
  268:	549c0e24 	ldrpl	r0, [ip], #3620	; 0xe24
  26c:	0038210a 	eorseq	r2, r8, sl, lsl #2
- 270:	fce0f000 			; <UNDEFINED> instruction: 0xfce0f000
+ 270:	fcdef000 			; <UNDEFINED> instruction: 0xfcdef000
  274:	d8eb2f09 	stmiale	fp!, {r0, r3, r8, r9, sl, fp, sp}^
  278:	d00a2d00 	andle	r2, sl, r0, lsl #26
  27c:	e0002300 	and	r2, r0, r0, lsl #6
@@ -141,12 +141,12 @@ Disassembly of section .data:
  2d8:	1c6b464d 	stclne	6, cr4, [fp], #-308	; 0xfffffecc
  2dc:	46404699 			; <UNDEFINED> instruction: 0x46404699
  2e0:	f000210a 			; <UNDEFINED> instruction: 0xf000210a
- 2e4:	4653fca3 	ldrbmi	pc, [r3], -r3, lsr #25	; <UNPREDICTABLE>
+ 2e4:	4653fcb3 			; <UNDEFINED> instruction: 0x4653fcb3
  2e8:	3130464a 	teqcc	r0, sl, asr #12
  2ec:	0e24060c 	cdpeq	6, 2, cr0, cr4, cr12, {0}
  2f0:	4640549c 			; <UNDEFINED> instruction: 0x4640549c
  2f4:	f000210a 			; <UNDEFINED> instruction: 0xf000210a
- 2f8:	464bfca1 	strbmi	pc, [fp], -r1, lsr #25	; <UNPREDICTABLE>
+ 2f8:	464bfcad 	strbmi	pc, [fp], -sp, lsr #25	; <UNPREDICTABLE>
  2fc:	18f24680 	ldmne	r2!, {r7, r9, sl, lr}^
  300:	d1e92800 	mvnle	r2, r0, lsl #16
  304:	d30142af 	tstle	r1, #-268435446	; 0xf000000a
@@ -544,7 +544,7 @@ Disassembly of section .data:
  924:	e1a00000 	nop			; (mov r0, r0)
  928:	e3500000 	cmp	r0, #0
  92c:	13e00000 	mvnne	r0, #0
- 930:	ea0000b8 	b	0xc18
+ 930:	ea0000c2 	b	0xc40
  934:	e3510000 	cmp	r1, #0
  938:	0afffff8 	beq	0x920
  93c:	e92d4003 	push	{r0, r1, lr}
@@ -628,7 +628,7 @@ Disassembly of section .data:
  a74:	e3500000 	cmp	r0, #0
  a78:	c3e00102 	mvngt	r0, #-2147483648	; 0x80000000
  a7c:	b3a00102 	movlt	r0, #-2147483648	; 0x80000000
- a80:	ea000064 	b	0xc18
+ a80:	ea00006e 	b	0xc40
  a84:	e3510000 	cmp	r1, #0
  a88:	0afffff7 	beq	0xa6c
  a8c:	e92d4003 	push	{r0, r1, lr}
@@ -673,7 +673,7 @@ Disassembly of section .data:
  b28:	4700bc01 	strmi	fp, [r0, -r1, lsl #24]
  b2c:	03000000 	tsteq	r0, #0
  b30:	00000000 	andeq	r0, r0, r0
- b34:	08000c54 	stmdaeq	r0, {r2, r4, r6, sl, fp}
+ b34:	08000c84 	stmdaeq	r0, {r2, r7, sl, fp}
  b38:	b5104b06 	ldrlt	r4, [r0, #-2822]	; 0xfffff4fa
  b3c:	d0032b00 	andle	r2, r3, r0, lsl #22
  b40:	48064905 	stmdami	r6, {r0, r2, r8, fp, lr}
@@ -683,203 +683,215 @@ Disassembly of section .data:
  b50:	46c04700 	strbmi	r4, [r0], r0, lsl #14
  b54:	00000000 	andeq	r0, r0, r0
  b58:	03000004 	tsteq	r0, #4
- b5c:	08000c54 	stmdaeq	r0, {r2, r4, r6, sl, fp}
- b60:	4b16b5f8 	blmi	0x5ae348
- b64:	469b46de 			; <UNDEFINED> instruction: 0x469b46de
- b68:	464e4b15 			; <UNDEFINED> instruction: 0x464e4b15
- b6c:	23404699 	cmpcs	r0, #160432128	; 0x9900000
- b70:	46454657 			; <UNDEFINED> instruction: 0x46454657
- b74:	46da445b 			; <UNDEFINED> instruction: 0x46da445b
- b78:	b5e04698 	strblt	r4, [r0, #1688]!	; 0x698
- b7c:	464c4653 			; <UNDEFINED> instruction: 0x464c4653
- b80:	681e465d 	ldmdavs	lr, {r0, r2, r3, r4, r6, r9, sl, lr}
- b84:	cd0c685f 	stcgt	8, cr6, [ip, #-380]	; 0xfffffe84
- b88:	417b1992 			; <UNDEFINED> instruction: 0x417b1992
- b8c:	68206861 	stmdavs	r0!, {r0, r5, r6, fp, sp, lr}
- b90:	4050404b 	subsmi	r4, r0, fp, asr #32
- b94:	42434318 	submi	r4, r3, #24, 6	; 0x60000000
- b98:	f7ff4158 			; <UNDEFINED> instruction: 0xf7ff4158
- b9c:	3408fe3f 	strcc	pc, [r8], #-3647	; 0xfffff1c1
- ba0:	d1f045a8 	mvnsle	r4, r8, lsr #11
- ba4:	469c2308 	ldrmi	r2, [ip], r8, lsl #6
- ba8:	44e23338 	strbtmi	r3, [r2], #824	; 0x338
- bac:	4b05469c 	blmi	0x152624
- bb0:	459944e1 	ldrmi	r4, [r9, #1249]	; 0x4e1
- bb4:	2000d1e2 	andcs	sp, r0, r2, ror #3
- bb8:	fc28f7ff 			; <UNDEFINED> instruction: 0xfc28f7ff
- bbc:	030000e8 	tsteq	r0, #232	; 0xe8
- bc0:	03000128 	tsteq	r0, #40, 2
- bc4:	03000328 	tsteq	r0, #40, 6	; 0xa0000000
- bc8:	4d0eb570 	stcmi	5, cr11, [lr, #-448]	; 0xfffffe40
- bcc:	1b764e0e 	blne	0x1d9440c
- bd0:	d00610b6 	strhle	r1, [r6], -r6
- bd4:	cd082400 	stcgt	4, cr2, [r8, #-0]
- bd8:	f0003401 			; <UNDEFINED> instruction: 0xf0003401
- bdc:	42a6f81b 	adcmi	pc, r6, #1769472	; 0x1b0000
- be0:	f7ffd1f9 			; <UNDEFINED> instruction: 0xf7ffd1f9
- be4:	4d09fb15 			; <UNDEFINED> instruction: 0x4d09fb15
- be8:	1b764e09 	blne	0x1d94414
- bec:	d00610b6 	strhle	r1, [r6], -r6
- bf0:	cd082400 	stcgt	4, cr2, [r8, #-0]
- bf4:	f0003401 			; <UNDEFINED> instruction: 0xf0003401
- bf8:	42a6f80d 	adcmi	pc, r6, #851968	; 0xd0000
- bfc:	bc70d1f9 	ldfltp	f5, [r0], #-996	; 0xfffffc1c
- c00:	4700bc01 	strmi	fp, [r0, -r1, lsl #24]
- c04:	03000328 	tsteq	r0, #40, 6	; 0xa0000000
- c08:	03000328 	tsteq	r0, #40, 6	; 0xa0000000
- c0c:	03000328 	tsteq	r0, #40, 6	; 0xa0000000
- c10:	0300032c 	tsteq	r0, #44, 6	; 0xb0000000
- c14:	46c04718 			; <UNDEFINED> instruction: 0x46c04718
- c18:	e59fc000 	ldr	ip, [pc]	; 0xc20
- c1c:	e12fff1c 	bx	ip
- c20:	08000aa5 	stmdaeq	r0, {r0, r2, r5, r7, r9, fp}
- c24:	46c04778 			; <UNDEFINED> instruction: 0x46c04778
- c28:	eaffff41 	b	0x934
- c2c:	46c04778 			; <UNDEFINED> instruction: 0x46c04778
- c30:	eaffff93 	b	0xa84
- c34:	46c04778 			; <UNDEFINED> instruction: 0x46c04778
- c38:	eafffefe 	b	0x838
- c3c:	46c04778 			; <UNDEFINED> instruction: 0x46c04778
- c40:	eaffff43 	b	0x954
- c44:	00000000 	andeq	r0, r0, r0
- c48:	46c0b5f8 			; <UNDEFINED> instruction: 0x46c0b5f8
- c4c:	bc08bcf8 	stclt	12, cr11, [r8], {248}	; 0xf8
- c50:	4770469e 			; <UNDEFINED> instruction: 0x4770469e
+ b5c:	08000c84 	stmdaeq	r0, {r2, r7, sl, fp}
+ b60:	46d6b5f0 			; <UNDEFINED> instruction: 0x46d6b5f0
+ b64:	4646464f 	strbmi	r4, [r6], -pc, asr #12
+ b68:	b5c04817 	strblt	r4, [r0, #2071]	; 0x817
+ b6c:	fc62f7ff 			; <UNDEFINED> instruction: 0xfc62f7ff
+ b70:	46994b16 			; <UNDEFINED> instruction: 0x46994b16
+ b74:	469a4b16 			; <UNDEFINED> instruction: 0x469a4b16
+ b78:	44532340 	ldrbmi	r2, [r3], #-832	; 0xfffffcc0
+ b7c:	46564698 			; <UNDEFINED> instruction: 0x46564698
+ b80:	464c4f14 			; <UNDEFINED> instruction: 0x464c4f14
+ b84:	00384655 	eorseq	r4, r8, r5, asr r6
+ b88:	fc54f7ff 			; <UNDEFINED> instruction: 0xfc54f7ff
+ b8c:	68716830 	ldmdavs	r1!, {r4, r5, fp, sp, lr}^
+ b90:	1812cd0c 	ldmdane	r2, {r2, r3, r8, sl, fp, lr, pc}
+ b94:	6861414b 	stmdavs	r1!, {r0, r1, r3, r6, r8, lr}^
+ b98:	404b6820 	submi	r6, fp, r0, lsr #16
+ b9c:	43184050 	tstmi	r8, #80	; 0x50
+ ba0:	41584243 	cmpmi	r8, r3, asr #4
+ ba4:	fe3af7ff 			; <UNDEFINED> instruction: 0xfe3af7ff
+ ba8:	45453408 	strbmi	r3, [r5, #-1032]	; 0xfffffbf8
+ bac:	2340d1eb 	cmpcs	r0, #-1073741766	; 0xc000003a
+ bb0:	3608469c 			; <UNDEFINED> instruction: 0x3608469c
+ bb4:	42ae44e1 	adcmi	r4, lr, #-520093696	; 0xe1000000
+ bb8:	4807d1e3 	stmdami	r7, {r0, r1, r5, r6, r7, r8, ip, lr, pc}
+ bbc:	fc3af7ff 			; <UNDEFINED> instruction: 0xfc3af7ff
+ bc0:	f7ff2000 			; <UNDEFINED> instruction: 0xf7ff2000
+ bc4:	46c0fc23 	strbmi	pc, [r0], r3, lsr #24	; <UNPREDICTABLE>
+ bc8:	08000c6c 	stmdaeq	r0, {r2, r3, r5, r6, sl, fp}
+ bcc:	03000128 	tsteq	r0, #40, 2
+ bd0:	030000e8 	tsteq	r0, #232	; 0xe8
+ bd4:	08000c74 	stmdaeq	r0, {r2, r4, r5, r6, sl, fp}
+ bd8:	08000c78 	stmdaeq	r0, {r3, r4, r5, r6, sl, fp}
+ bdc:	4d0eb570 	stcmi	5, cr11, [lr, #-448]	; 0xfffffe40
+ be0:	1b764e0e 	blne	0x1d94420
+ be4:	d00610b6 	strhle	r1, [r6], -r6
+ be8:	cd082400 	stcgt	4, cr2, [r8, #-0]
+ bec:	f0003401 			; <UNDEFINED> instruction: 0xf0003401
+ bf0:	42a6f81b 	adcmi	pc, r6, #1769472	; 0x1b0000
+ bf4:	f7ffd1f9 			; <UNDEFINED> instruction: 0xf7ffd1f9
+ bf8:	4d09fb0b 			; <UNDEFINED> instruction: 0x4d09fb0b
+ bfc:	1b764e09 	blne	0x1d94428
+ c00:	d00610b6 	strhle	r1, [r6], -r6
+ c04:	cd082400 	stcgt	4, cr2, [r8, #-0]
+ c08:	f0003401 			; <UNDEFINED> instruction: 0xf0003401
+ c0c:	42a6f80d 	adcmi	pc, r6, #851968	; 0xd0000
+ c10:	bc70d1f9 	ldfltp	f5, [r0], #-996	; 0xfffffc1c
+ c14:	4700bc01 	strmi	fp, [r0, -r1, lsl #24]
+ c18:	03000328 	tsteq	r0, #40, 6	; 0xa0000000
+ c1c:	03000328 	tsteq	r0, #40, 6	; 0xa0000000
+ c20:	03000328 	tsteq	r0, #40, 6	; 0xa0000000
+ c24:	0300032c 	tsteq	r0, #44, 6	; 0xb0000000
+ c28:	46c04718 			; <UNDEFINED> instruction: 0x46c04718
+ c2c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ c30:	46c04778 			; <UNDEFINED> instruction: 0x46c04778
+ c34:	eafffeff 	b	0x838
+ c38:	46c04778 			; <UNDEFINED> instruction: 0x46c04778
+ c3c:	eaffff3c 	b	0x934
+ c40:	e59fc000 	ldr	ip, [pc]	; 0xc48
+ c44:	e12fff1c 	bx	ip
+ c48:	08000aa5 	stmdaeq	r0, {r0, r2, r5, r7, r9, fp}
+ c4c:	46c04778 			; <UNDEFINED> instruction: 0x46c04778
+ c50:	eaffff8b 	b	0xa84
+ c54:	46c04778 			; <UNDEFINED> instruction: 0x46c04778
+ c58:	eaffff3d 	b	0x954
+ c5c:	00000000 	andeq	r0, r0, r0
+ c60:	46c0b5f8 			; <UNDEFINED> instruction: 0x46c0b5f8
+ c64:	bc08bcf8 	stclt	12, cr11, [r8], {248}	; 0xf8
+ c68:	4770469e 			; <UNDEFINED> instruction: 0x4770469e
+ c6c:	0a212121 	beq	0x8490f8
+ c70:	00000000 	andeq	r0, r0, r0
+ c74:	00000a31 	andeq	r0, r0, r1, lsr sl
+ c78:	646f6f47 	strbtvs	r6, [pc], #-3911	; 0xc80
+ c7c:	61725420 	cmnvs	r2, r0, lsr #8
+ c80:	00000a70 	andeq	r0, r0, r0, ror sl
 	...
- c60:	00000001 	andeq	r0, r0, r1
- c64:	00000000 	andeq	r0, r0, r0
- c68:	00000002 	andeq	r0, r0, r2
- c6c:	00000000 	andeq	r0, r0, r0
- c70:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- c74:	7fffffff 	svcvc	0x00ffffff
- c78:	00000000 	andeq	r0, r0, r0
- c7c:	80000000 	andhi	r0, r0, r0
- c80:	00000001 	andeq	r0, r0, r1
- c84:	80000000 	andhi	r0, r0, r0
- c88:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
- c8c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- c90:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- c94:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ c90:	00000001 	andeq	r0, r0, r1
+ c94:	00000000 	andeq	r0, r0, r0
+ c98:	00000002 	andeq	r0, r0, r2
+ c9c:	00000000 	andeq	r0, r0, r0
+ ca0:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ ca4:	7fffffff 	svcvc	0x00ffffff
+ ca8:	00000000 	andeq	r0, r0, r0
+ cac:	80000000 	andhi	r0, r0, r0
+ cb0:	00000001 	andeq	r0, r0, r1
+ cb4:	80000000 	andhi	r0, r0, r0
+ cb8:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ cbc:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ cc0:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ cc4:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
 	...
- ca0:	00000001 	andeq	r0, r0, r1
- ca4:	00000000 	andeq	r0, r0, r0
- ca8:	00000002 	andeq	r0, r0, r2
- cac:	00000000 	andeq	r0, r0, r0
- cb0:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- cb4:	7fffffff 	svcvc	0x00ffffff
- cb8:	00000000 	andeq	r0, r0, r0
- cbc:	80000000 	andhi	r0, r0, r0
- cc0:	00000001 	andeq	r0, r0, r1
- cc4:	80000000 	andhi	r0, r0, r0
- cc8:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
- ccc:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- cd0:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- cd4:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- cd8:	00000001 	andeq	r0, r0, r1
+ cd0:	00000001 	andeq	r0, r0, r1
+ cd4:	00000000 	andeq	r0, r0, r0
+ cd8:	00000002 	andeq	r0, r0, r2
  cdc:	00000000 	andeq	r0, r0, r0
- ce0:	00000002 	andeq	r0, r0, r2
- ce4:	00000000 	andeq	r0, r0, r0
- ce8:	00000003 	andeq	r0, r0, r3
-	...
+ ce0:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ ce4:	7fffffff 	svcvc	0x00ffffff
+ ce8:	00000000 	andeq	r0, r0, r0
+ cec:	80000000 	andhi	r0, r0, r0
+ cf0:	00000001 	andeq	r0, r0, r1
  cf4:	80000000 	andhi	r0, r0, r0
- cf8:	00000001 	andeq	r0, r0, r1
- cfc:	80000000 	andhi	r0, r0, r0
- d00:	00000002 	andeq	r0, r0, r2
- d04:	80000000 	andhi	r0, r0, r0
- d08:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- d0c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ cf8:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ cfc:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ d00:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ d04:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ d08:	00000001 	andeq	r0, r0, r1
+ d0c:	00000000 	andeq	r0, r0, r0
+ d10:	00000002 	andeq	r0, r0, r2
+ d14:	00000000 	andeq	r0, r0, r0
+ d18:	00000003 	andeq	r0, r0, r3
 	...
- d18:	00000002 	andeq	r0, r0, r2
- d1c:	00000000 	andeq	r0, r0, r0
- d20:	00000003 	andeq	r0, r0, r3
- d24:	00000000 	andeq	r0, r0, r0
- d28:	00000004 	andeq	r0, r0, r4
- d2c:	00000000 	andeq	r0, r0, r0
- d30:	00000001 	andeq	r0, r0, r1
+ d24:	80000000 	andhi	r0, r0, r0
+ d28:	00000001 	andeq	r0, r0, r1
+ d2c:	80000000 	andhi	r0, r0, r0
+ d30:	00000002 	andeq	r0, r0, r2
  d34:	80000000 	andhi	r0, r0, r0
- d38:	00000002 	andeq	r0, r0, r2
- d3c:	80000000 	andhi	r0, r0, r0
- d40:	00000003 	andeq	r0, r0, r3
- d44:	80000000 	andhi	r0, r0, r0
+ d38:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ d3c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
 	...
- d50:	00000001 	andeq	r0, r0, r1
+ d48:	00000002 	andeq	r0, r0, r2
+ d4c:	00000000 	andeq	r0, r0, r0
+ d50:	00000003 	andeq	r0, r0, r3
  d54:	00000000 	andeq	r0, r0, r0
- d58:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- d5c:	7fffffff 	svcvc	0x00ffffff
- d60:	00000000 	andeq	r0, r0, r0
+ d58:	00000004 	andeq	r0, r0, r4
+ d5c:	00000000 	andeq	r0, r0, r0
+ d60:	00000001 	andeq	r0, r0, r1
  d64:	80000000 	andhi	r0, r0, r0
- d68:	00000001 	andeq	r0, r0, r1
+ d68:	00000002 	andeq	r0, r0, r2
  d6c:	80000000 	andhi	r0, r0, r0
- d70:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
- d74:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- d78:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- d7c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ d70:	00000003 	andeq	r0, r0, r3
+ d74:	80000000 	andhi	r0, r0, r0
 	...
- d88:	fffffffd 			; <UNDEFINED> instruction: 0xfffffffd
+ d80:	00000001 	andeq	r0, r0, r1
+ d84:	00000000 	andeq	r0, r0, r0
+ d88:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
  d8c:	7fffffff 	svcvc	0x00ffffff
- d90:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
- d94:	7fffffff 	svcvc	0x00ffffff
- d98:	00000000 	andeq	r0, r0, r0
+ d90:	00000000 	andeq	r0, r0, r0
+ d94:	80000000 	andhi	r0, r0, r0
+ d98:	00000001 	andeq	r0, r0, r1
  d9c:	80000000 	andhi	r0, r0, r0
- da0:	00000001 	andeq	r0, r0, r1
- da4:	80000000 	andhi	r0, r0, r0
- da8:	00000002 	andeq	r0, r0, r2
- dac:	80000000 	andhi	r0, r0, r0
- db0:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- db4:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ da0:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ da4:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ da8:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ dac:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
 	...
- dc0:	00000001 	andeq	r0, r0, r1
- dc4:	00000000 	andeq	r0, r0, r0
- dc8:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
- dcc:	7fffffff 	svcvc	0x00ffffff
- dd0:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- dd4:	7fffffff 	svcvc	0x00ffffff
- dd8:	00000001 	andeq	r0, r0, r1
+ db8:	fffffffd 			; <UNDEFINED> instruction: 0xfffffffd
+ dbc:	7fffffff 	svcvc	0x00ffffff
+ dc0:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ dc4:	7fffffff 	svcvc	0x00ffffff
+ dc8:	00000000 	andeq	r0, r0, r0
+ dcc:	80000000 	andhi	r0, r0, r0
+ dd0:	00000001 	andeq	r0, r0, r1
+ dd4:	80000000 	andhi	r0, r0, r0
+ dd8:	00000002 	andeq	r0, r0, r2
  ddc:	80000000 	andhi	r0, r0, r0
- de0:	00000002 	andeq	r0, r0, r2
- de4:	80000000 	andhi	r0, r0, r0
- de8:	00000003 	andeq	r0, r0, r3
- dec:	80000000 	andhi	r0, r0, r0
+ de0:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ de4:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
 	...
- df8:	00000001 	andeq	r0, r0, r1
- dfc:	00000000 	andeq	r0, r0, r0
- e00:	00000002 	andeq	r0, r0, r2
- e04:	00000000 	andeq	r0, r0, r0
- e08:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e0c:	7fffffff 	svcvc	0x00ffffff
- e10:	00000000 	andeq	r0, r0, r0
+ df0:	00000001 	andeq	r0, r0, r1
+ df4:	00000000 	andeq	r0, r0, r0
+ df8:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ dfc:	7fffffff 	svcvc	0x00ffffff
+ e00:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ e04:	7fffffff 	svcvc	0x00ffffff
+ e08:	00000001 	andeq	r0, r0, r1
+ e0c:	80000000 	andhi	r0, r0, r0
+ e10:	00000002 	andeq	r0, r0, r2
  e14:	80000000 	andhi	r0, r0, r0
- e18:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
- e1c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e20:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e24:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ e18:	00000003 	andeq	r0, r0, r3
+ e1c:	80000000 	andhi	r0, r0, r0
 	...
- e30:	fffffffd 			; <UNDEFINED> instruction: 0xfffffffd
- e34:	7fffffff 	svcvc	0x00ffffff
- e38:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ e28:	00000001 	andeq	r0, r0, r1
+ e2c:	00000000 	andeq	r0, r0, r0
+ e30:	00000002 	andeq	r0, r0, r2
+ e34:	00000000 	andeq	r0, r0, r0
+ e38:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
  e3c:	7fffffff 	svcvc	0x00ffffff
- e40:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e44:	7fffffff 	svcvc	0x00ffffff
- e48:	fffffffc 			; <UNDEFINED> instruction: 0xfffffffc
+ e40:	00000000 	andeq	r0, r0, r0
+ e44:	80000000 	andhi	r0, r0, r0
+ e48:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
  e4c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e50:	fffffffd 			; <UNDEFINED> instruction: 0xfffffffd
+ e50:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
  e54:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e58:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e5c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
 	...
- e68:	00000001 	andeq	r0, r0, r1
- e6c:	00000000 	andeq	r0, r0, r0
- e70:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ e60:	fffffffd 			; <UNDEFINED> instruction: 0xfffffffd
+ e64:	7fffffff 	svcvc	0x00ffffff
+ e68:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ e6c:	7fffffff 	svcvc	0x00ffffff
+ e70:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
  e74:	7fffffff 	svcvc	0x00ffffff
- e78:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e7c:	7fffffff 	svcvc	0x00ffffff
- e80:	00000000 	andeq	r0, r0, r0
- e84:	80000000 	andhi	r0, r0, r0
- e88:	fffffffd 			; <UNDEFINED> instruction: 0xfffffffd
+ e78:	fffffffc 			; <UNDEFINED> instruction: 0xfffffffc
+ e7c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ e80:	fffffffd 			; <UNDEFINED> instruction: 0xfffffffd
+ e84:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ e88:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
  e8c:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e90:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
- e94:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
- e98:	08000b39 	stmdaeq	r0, {r0, r3, r4, r5, r8, r9, fp}
- e9c:	08000b09 	stmdaeq	r0, {r0, r3, r8, r9, fp}
- ea0:	52416b64 	subpl	r6, r1, #100, 22	; 0x19000
- ea4:	0000004d 	andeq	r0, r0, sp, asr #32
+	...
+ e98:	00000001 	andeq	r0, r0, r1
+ e9c:	00000000 	andeq	r0, r0, r0
+ ea0:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ ea4:	7fffffff 	svcvc	0x00ffffff
+ ea8:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ eac:	7fffffff 	svcvc	0x00ffffff
+ eb0:	00000000 	andeq	r0, r0, r0
+ eb4:	80000000 	andhi	r0, r0, r0
+ eb8:	fffffffd 			; <UNDEFINED> instruction: 0xfffffffd
+ ebc:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ ec0:	fffffffe 			; <UNDEFINED> instruction: 0xfffffffe
+ ec4:	ffffffff 			; <UNDEFINED> instruction: 0xffffffff
+ ec8:	08000b39 	stmdaeq	r0, {r0, r3, r4, r5, r8, r9, fp}
+ ecc:	08000b09 	stmdaeq	r0, {r0, r3, r8, r9, fp}
+ ed0:	52416b64 	subpl	r6, r1, #100, 22	; 0x19000
+ ed4:	0000004d 	andeq	r0, r0, sp, asr #32

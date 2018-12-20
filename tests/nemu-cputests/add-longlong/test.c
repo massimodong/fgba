@@ -1,5 +1,7 @@
 #include "trap.h"
 
+int _printf(const char *fmt, ...);
+
 long long add(long long a, long long b) {
 	long long c = a + b;
 	return c;
@@ -11,13 +13,16 @@ long long ans[] = {0LL, 0x1LL, 0x2LL, 0x7fffffffffffffffLL, 0x8000000000000000LL
 #define NR_DATA (sizeof(test_data) / sizeof(test_data[0]))
 
 int main() {
+	_printf("!!!\n");
 	int i, j, ans_idx = 0;
 	for(i = 0; i < NR_DATA; i ++) {
 		for(j = 0; j < NR_DATA; j ++) {
+			_printf("1\n");
 			nemu_assert(add(test_data[i], test_data[j]) == ans[ans_idx ++]);
 		}
 	}
 
+	_printf("Good Trap\n");
 	_halt(0);
 	return 0;
 }
