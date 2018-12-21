@@ -4,14 +4,20 @@ module reprogram(
 	input rstn,
 	input rx,
 	
-	output reg [22:0]addr = 23'h7fffff,
-	output reg [31:0]data = 32'h0,
+	output reg [22:0]addr,
+	output reg [31:0]data,
 	output write,
 	
 	output reg [7:0]xorc = 8'h0 //xor of all received bytes
 );
 
 parameter INIT_ADDR = 23'h7fffff;
+
+initial begin
+	addr = INIT_ADDR;
+	data = 32'h0;
+	cnt = 2'h0;
+end
 
 assign write = addr != INIT_ADDR;
 
