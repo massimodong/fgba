@@ -176,8 +176,12 @@ static inline int _snprintf(char *out, size_t n, const char *fmt, ...) {
   return 0;
 }
 
-static inline int uptime(){
-	unsigned long long v = ioram[0x105];
+static inline unsigned int uptime(){
+	unsigned long long v = ioram[0x109];
+	v<<=8;
+	v|=ioram[0x108];
+	v<<=8;
+	v|=ioram[0x105];
 	v<<=8;
 	v|=ioram[0x104];
 	v<<=8;
@@ -185,8 +189,8 @@ static inline int uptime(){
 	v<<=8;
 	v|=ioram[0x100];
 
-	v = v * 3072 / 50000;
-	v/=1000;
+	v = v*768;
+	v = v/12500;
 	return v;
 }
 
