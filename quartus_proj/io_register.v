@@ -17,7 +17,7 @@ module io_register(
 );
 
 initial begin
-	mult_wait_time = 5'd10;
+	mult_wait_time = 5'd0;
 end
 
 integer i;
