@@ -664,16 +664,6 @@ always @(*) begin
 		s_id: begin
 			c_next_state = s_ex;
 
-			//prefetch
-			addr_load = {seq_pc[31:2], 2'h0};
-			mem_read = 1'b1;
-			mem_width = 2'h2;
-			if(mem_ok) begin
-				c_prefetch = mem_data;
-			end else begin
-				c_next_state = s_id;
-			end
-			//prefetch finish
 			if(f_t || cond_pass) begin
 				if(admode4) begin
 					c_lsm_L = mode4_L;
@@ -711,6 +701,17 @@ always @(*) begin
 				cr_regd[15] = seq_pc;
 				c_next_state = s_if;
 			end
+
+			//prefetch
+			addr_load = {seq_pc[31:2], 2'h0};
+			mem_read = 1'b1;
+			mem_width = 2'h2;
+			if(mem_ok) begin
+				c_prefetch = mem_data;
+			end else begin
+				c_next_state = s_id;
+			end
+			//prefetch finish
 		end
 		
 		s_ex: begin
@@ -832,7 +833,7 @@ always @(*) begin
 				// TODO: should raise interrupt
 				end
 			endcase
-			
+
 			if((!loadstore) || mem_ok) begin
 				c_next_state = s_if;
 			end else begin //wait for memory

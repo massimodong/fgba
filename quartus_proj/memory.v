@@ -57,7 +57,7 @@ wire rw_v = select == 4'h6;
 //io_register handles unalignenment by itself, so we treat it as always aligned
 reg unaligned_waiting = 1'b0;
 reg unaligned_write_enable = 1'b0;
-wire unaligned = (rw_int | rw_pak | rw_ext) & (width != 2'h2);
+wire unaligned = ((rw_int | rw_pak | rw_ext) & (width != 2'h2)) | (rw_v & (width != 2'h1));
 wire unaligned_write = unaligned & write;
 wire [4:0]sr32 = {addr[1:0], 3'h0};
 reg [31:0]mask;
@@ -127,11 +127,11 @@ palette_ram pal_ram1(
 );
 
 vram v_ram(
-	.address_a({addr[16], addr[16]?1'b0:addr[15], addr[14:1]}),
+	.address_a({addr[16], addr[16]?1'b0:addr[15], addr[14:1]} + (unaligned_write_enable ? 1'b1 : 1'b0)),
 	.address_b(vgac_addr),
 	.clock_a(clk),
 	.clock_b(clk_25mhz),
-	.data_a(data[15:0]),
+	.data_a(unaligned_write_enable ? data[31:16] : data[15:0]),
 	.data_b(16'h0),
 	.wren_a(rw_v & write),
 	.wren_b(1'b0),

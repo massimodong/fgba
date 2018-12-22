@@ -158,5 +158,5 @@ keyboard kbd(
 	.en(kbd_data)
 );
 
-assign LED[9:8] = 2'b0;
+assign LED[9:8] = {locked, RPG_RX};
 endmodule
