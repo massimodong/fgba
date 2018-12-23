@@ -1,10 +1,20 @@
+#ifndef AM_INCLUDED
+#define AM_INCLUDED 1
+
+#include <stdio.h>
 #include <stdarg.h>
 #include <stddef.h>
+
+typedef struct _Area {
+  void *start, *end;
+} _Area;
+static _Area _heap = {(void*)0x02000000, (void*)0x02040000};
 
 volatile unsigned static char * const ioram = (unsigned char *)0x04000000;
 volatile unsigned static short * const vram = (unsigned short *)0x06000000;
 
-typedef unsigned uint32_t;
+//typedef unsigned uint32_t;
+//typedef int int32_t;
 
 static inline void _putc(char c){
 	while(1){ // wait for serial port to be ready
@@ -47,6 +57,11 @@ static inline void _halt(int cond){
 	}
 
 	while(1);
+}
+
+__attribute__((noinline))
+static void nemu_assert(int cond) {
+  if (!cond) _halt(1);
 }
 
 static void uint2str(char *s, unsigned int d){
@@ -160,3 +175,49 @@ static inline int _sprintf(char *out, const char *fmt, ...) {
 static inline int _snprintf(char *out, size_t n, const char *fmt, ...) {
   return 0;
 }
+
+static inline unsigned int uptime(){
+	unsigned long long v = ioram[0x109];
+	v<<=8;
+	v|=ioram[0x108];
+	v<<=8;
+	v|=ioram[0x105];
+	v<<=8;
+	v|=ioram[0x104];
+	v<<=8;
+	v|=ioram[0x101];
+	v<<=8;
+	v|=ioram[0x100];
+
+	v = v*768;
+	v = v/12500;
+
+	v/=1000;
+	return v;
+}
+
+static inline void _ioe_init(){
+	char *p = _heap.start;
+	while(p!=_heap.end){
+		*p = 0;
+		++p;
+	}
+	ioram[0x100] = 0;
+	ioram[0x101] = 0;
+	ioram[0x102] = 0x83;
+
+	ioram[0x104] = 0;
+	ioram[0x105] = 0;
+	ioram[0x106] = 0x84;
+
+	ioram[0x108] = 0;
+	ioram[0x109] = 0;
+	ioram[0x10a] = 0x84;
+
+	ioram[0x10c] = 0;
+	ioram[0x10d] = 0;
+	ioram[0x10e] = 0x84;
+}
+
+#endif
+

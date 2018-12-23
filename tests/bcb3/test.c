@@ -82,10 +82,10 @@ int main(){
 
 	int last=0;
 	while(1){
-		if(last == (ioram[0x101] & 0xfe)){
+		if(last == (ioram[0x101] & 0xff)){
 			continue;
 		}
-		last = (ioram[0x101] & 0xfe);
+		last = (ioram[0x101] & 0xff);
 
 		x+=dx;
 		y+=dy;
