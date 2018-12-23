@@ -1011,7 +1011,7 @@ Disassembly of section .data:
     1074:	03002bbc 	tsteq	r0, #188, 22	; 0x2f000
     1078:	0007a120 	andeq	sl, r7, r0, lsr #2
     107c:	08001678 	stmdaeq	r0, {r3, r4, r5, r6, r9, sl, ip}
-    1080:	00bebc20 	adcseq	fp, lr, r0, lsr #24
+    1080:	000030d4 			; <UNDEFINED> instruction: 0x000030d4
     1084:	03000494 	tsteq	r0, #148, 8	; 0x94000000
     1088:	03002c88 	tsteq	r0, #136, 24	; 0x8800
     108c:	03002bb4 	tsteq	r0, #180, 22	; 0x2d000

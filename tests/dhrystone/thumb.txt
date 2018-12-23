@@ -1909,8 +1909,8 @@ Disassembly of section .data:
     107a:	0007      	movs	r7, r0
     107c:	1678      	asrs	r0, r7, #25
     107e:	0800      	lsrs	r0, r0, #32
-    1080:	bc20      	pop	{r5}
-    1082:	00be      	lsls	r6, r7, #2
+    1080:	30d4      	adds	r0, #212	; 0xd4
+    1082:	0000      	movs	r0, r0
     1084:	0494      	lsls	r4, r2, #18
     1086:	0300      	lsls	r0, r0, #12
     1088:	2c88      	cmp	r4, #136	; 0x88

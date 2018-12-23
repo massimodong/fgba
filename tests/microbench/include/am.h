@@ -192,7 +192,6 @@ static inline unsigned int uptime(){
 	v = v*768;
 	v = v/12500;
 
-	v/=1000;
 	return v;
 }
 

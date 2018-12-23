@@ -21,54 +21,51 @@ initial begin
 end
 
 integer i;
-// vga register start
+
+//timer start
+reg [1:0] clk_count = 2'b0;
+reg [15:0] tmctrl[3:0];
+reg [15:0] tmd[3:0];
+reg [9:0] tmcnt[3:0];
+
+reg [15:0] c_tmd[3:0];
+reg [9:0] c_tmcnt[3:0];
+
+task update_timer;
+	if (clk_count < 2) begin
+		clk_count <= clk_count + 1'b1;
+		for (i = 0; i < 4; i = i + 1) begin
+			tmd[i] <= c_tmd[i];
+			tmcnt[i] <= c_tmcnt[i];
+		end
+	end else clk_count <= 2'b0;
+endtask
+
+always @(*) begin
+	for (i = 0; i < 4; i = i + 1) begin
+		c_tmd[i] = tmd[i];
+		c_tmcnt[i] = tmcnt[i];
+		if (tmctrl[i][7]) begin
+			if (i && tmctrl[i][2]) begin
+				if (tmd[i - 1] == 16'hffff && c_tmd[i - 1] == 16'b0)
+					c_tmd[i] = tmd[i] + 1'b1;
+			end else begin
+				c_tmcnt[i] = tmcnt[i] + 1'b1;
+				if (c_tmcnt[i] == (tmctrl[i][1:0] == 2'b00 ? 10'b1 : tmctrl[i][1:0] == 2'b01 ? 10'd64 : tmctrl[i][1:0] == 2'b10 ? 10'd256 : 10'b0)) begin
+					c_tmcnt[i] = 10'b0;
+					c_tmd[i] = tmd[i] + 1'b1;
+				end
+			end
+		end
+	end
+end
+//timer end
+
+//vga register start
 //reg [15:0] dispcnt;
 wire [15:0] vcount = {8'b0, vgac_v_addr};
 reg [15:0] dispstat = 16'b0; //not complete
 // vga register end
-
-// timer start
-reg [1:0]time_tick = 2'h0;
-reg [9:0]time_count[3:0];
-
-reg [15:0]tmd[3:0]; //time value
-reg [15:0]tmcnt[3:0]; //time controller
-
-task update_timer;
-	if(time_tick == 2'h2 || time_tick == 2'h1) begin //(25Mhz * (2/3)) = 16.67MHz ~ 16.78MHz
-		time_tick <= time_tick - 1'h1;
-		for(i=0;i<4;i=i+1) begin
-			if(tmcnt[i][7]) begin // timer enabled
-				if(i>0 && tmcnt[i][2]) begin //Count-up Timing
-					if(tmd[i-1] == 16'hffff) tmd[i] <= tmd[i] + 16'h1;
-				end else begin
-					case(tmcnt[i][1:0])
-						2'b00: begin
-							tmd[i] <= tmd[i] + 16'h1;
-						end
-						2'b01: begin
-							if(time_count[i] == 10'd63) begin
-								tmd[i] <= tmd[i] + 16'h1;
-								time_count[i] <= 10'h0;
-							end else time_count[i] <= time_count[i] + 10'h1;
-						end
-						2'b10: begin
-							if(time_count[i] == 10'd255) begin
-								tmd[i] <= tmd[i] + 16'h1;
-								time_count[i] <= 10'h0;
-							end else time_count[i] <= time_count[i] + 10'h1;
-						end
-						2'b11: begin
-							if(time_count[i] == 10'd1023) tmd[i] <= tmd[i] + 16'h1;
-							time_count[i] <= time_count[i] + 10'h1; //overflow to 0
-						end
-					endcase
-				end
-			end
-		end
-	end else time_tick <= 2'h2;
-endtask
-//timer finish
 
 //key start
 reg [15:0] keyinput = 16'b0, keycnt = 16'b0;
@@ -96,10 +93,10 @@ wire [4:0]shift_amount = {addr[1:0], 3'h0};
 wire [31:0]register[1023:0];
 assign register[12'h000 >> 2] = {16'b0, dispcnt};
 assign register[12'h004 >> 2] = {vcount, dispstat};
-assign register[12'h100 >> 2] = {tmcnt[0], tmd[0]};
-assign register[12'h104 >> 2] = {tmcnt[1], tmd[1]};
-assign register[12'h108 >> 2] = {tmcnt[2], tmd[2]};
-assign register[12'h10c >> 2] = {tmcnt[3], tmd[3]};
+assign register[12'h100 >> 2] = {tmctrl[0], tmd[0]};
+assign register[12'h104 >> 2] = {tmctrl[1], tmd[1]};
+assign register[12'h108 >> 2] = {tmctrl[2], tmd[2]};
+assign register[12'h10c >> 2] = {tmctrl[3], tmd[3]};
 assign register[12'h130 >> 2] = {keycnt, keyinput};
 assign register[12'h400 >> 2] = {22'h0, uart2pc_remote_st, uart2pc_local_st, uart2pc_data};
 assign register[12'h404 >> 2] = {27'h0, mult_wait_time};
@@ -132,20 +129,20 @@ always @(posedge clk_mem) begin
 			12'h000: dispcnt <= newval[15:0];
 			12'h004: dispstat <= newval[15:0];
 			12'h100: begin
-				{tmcnt[0], tmd[0]} <= newval;
-				time_count[0] <= 10'h0;
+				{tmctrl[0], tmd[0]} <= newval;
+				tmcnt[0] <= 10'h0;
 			end
 			12'h104: begin
-				{tmcnt[1], tmd[1]} <= newval;
-				time_count[1] <= 10'h0;
+				{tmctrl[1], tmd[1]} <= newval;
+				tmcnt[1] <= 10'h0;
 			end
 			12'h108: begin
-				{tmcnt[2], tmd[2]} <= newval;
-				time_count[2] <= 10'h0;
+				{tmctrl[2], tmd[2]} <= newval;
+				tmcnt[2] <= 10'h0;
 			end
 			12'h10c: begin
-				{tmcnt[3], tmd[3]} <= newval;
-				time_count[3] <= 10'h0;
+				{tmctrl[3], tmd[3]} <= newval;
+				tmcnt[3] <= 10'h0;
 			end
 			12'h400: {uart2pc_local_st, uart2pc_data} <= newval[8:0];
 			12'h404: mult_wait_time <= newval[4:0];

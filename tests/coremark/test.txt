@@ -1109,7 +1109,7 @@ Disassembly of section .data:
     11f8:	04000104 	streq	r0, [r0], #-260	; 0xfffffefc
     11fc:	04000101 	streq	r0, [r0], #-257	; 0xfffffeff
     1200:	04000100 	streq	r0, [r0], #-256	; 0xffffff00
-    1204:	00bebc20 	adcseq	fp, lr, r0, lsr #24
+    1204:	000030d4 			; <UNDEFINED> instruction: 0x000030d4
     1208:	03000860 	tsteq	r0, #96, 16	; 0x600000
     120c:	4b1ab570 	blmi	0x6ae7d4
     1210:	781b4a1a 	ldmdavc	fp, {r1, r3, r4, r9, fp, lr}
@@ -1144,7 +1144,7 @@ Disassembly of section .data:
     1284:	04000104 	streq	r0, [r0], #-260	; 0xfffffefc
     1288:	04000101 	streq	r0, [r0], #-257	; 0xfffffeff
     128c:	04000100 	streq	r0, [r0], #-256	; 0xffffff00
-    1290:	00bebc20 	adcseq	fp, lr, r0, lsr #24
+    1290:	000030d4 			; <UNDEFINED> instruction: 0x000030d4
     1294:	03000864 	tsteq	r0, #100, 16	; 0x640000
     1298:	68184b02 	ldmdavs	r8, {r1, r8, r9, fp, lr}
     129c:	681b4b02 	ldmdavs	fp, {r1, r8, r9, fp, lr}
@@ -2376,7 +2376,7 @@ Disassembly of section .data:
     25d0:	25203a20 	strcs	r3, [r0, #-2592]!	; 0xfffff5e0
     25d4:	00000a64 	andeq	r0, r0, r4, ror #20
     25d8:	38434347 	stmdacc	r3, {r0, r1, r2, r6, r8, r9, lr}^
-    25dc:	302e312e 	eorcc	r3, lr, lr, lsr #2
+    25dc:	302e322e 	eorcc	r3, lr, lr, lsr #4
     25e0:	00000000 	andeq	r0, r0, r0
     25e4:	706d6f43 	rsbvc	r6, sp, r3, asr #30
     25e8:	72656c69 	rsbvc	r6, r5, #26880	; 0x6900

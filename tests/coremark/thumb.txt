@@ -2156,8 +2156,8 @@ Disassembly of section .data:
     11fe:	0400      	lsls	r0, r0, #16
     1200:	0100      	lsls	r0, r0, #4
     1202:	0400      	lsls	r0, r0, #16
-    1204:	bc20      	pop	{r5}
-    1206:	00be      	lsls	r6, r7, #2
+    1204:	30d4      	adds	r0, #212	; 0xd4
+    1206:	0000      	movs	r0, r0
     1208:	0860      	lsrs	r0, r4, #1
     120a:	0300      	lsls	r0, r0, #12
     120c:	b570      	push	{r4, r5, r6, lr}
@@ -2225,8 +2225,8 @@ Disassembly of section .data:
     128a:	0400      	lsls	r0, r0, #16
     128c:	0100      	lsls	r0, r0, #4
     128e:	0400      	lsls	r0, r0, #16
-    1290:	bc20      	pop	{r5}
-    1292:	00be      	lsls	r6, r7, #2
+    1290:	30d4      	adds	r0, #212	; 0xd4
+    1292:	0000      	movs	r0, r0
     1294:	0864      	lsrs	r4, r4, #1
     1296:	0300      	lsls	r0, r0, #12
     1298:	4b02      	ldr	r3, [pc, #8]	; (0x12a4)
@@ -4565,7 +4565,7 @@ Disassembly of section .data:
     25d6:	0000      	movs	r0, r0
     25d8:	4347      	muls	r7, r0
     25da:	3843      	subs	r0, #67	; 0x43
-    25dc:	312e      	adds	r1, #46	; 0x2e
+    25dc:	322e      	adds	r2, #46	; 0x2e
     25de:	302e      	adds	r0, #46	; 0x2e
     25e0:	0000      	movs	r0, r0
     25e2:	0000      	movs	r0, r0
