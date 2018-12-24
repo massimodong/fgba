@@ -72,7 +72,7 @@ end
 wire [31:0]unaligned_write_data = ((data << sr32) & mask) | (raw_out & (~mask));
 
 always @(posedge clk) begin
-	if(unaligned_write) unaligned_waiting <= unaligned_waiting ^ 1'b1; //`unaligned_waiting` becomes positive for exactly one cycle
+	if(unaligned_write || unaligned_waiting) unaligned_waiting <= unaligned_waiting ^ 1'b1; //`unaligned_waiting` becomes positive for exactly one cycle
 end
 always @(negedge clk) begin
 	unaligned_write_enable <= unaligned_waiting;
